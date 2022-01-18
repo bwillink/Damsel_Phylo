@@ -1,4 +1,8 @@
 data/
+
+# track raw data
+!data/raw/
+
 #data/processed/dispersal/
 #data/processed/biogeo/
 #data/processed/adm_map/
