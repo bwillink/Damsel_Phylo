@@ -1,7 +1,7 @@
 data/
 
 # track raw data
-!data/raw/
+!data/raw
 
 #data/processed/dispersal/
 #data/processed/biogeo/
