@@ -1,0 +1,139 @@
+
+# Code from: Magee, A. F., Höhna, S., Vasylyeva, T. I., Leaché, A. D., & Minin, V. N. (2020). Locally adaptive Bayesian birth-death model successfully detects slow and rapid rate shifts. PLoS computational biology, 16(10), e1007999.
+
+####################
+# Read in the data #
+####################
+
+#start with the observed tree
+T <- readTrees(tre_fl)
+taxa <- T[1].taxa()
+n_species <- T[1].ntips()
+
+NUM_INTERVALS = SP_INTERVALS
+NUM_BREAKS := NUM_INTERVALS - 1
+
+# move/monitor index
+moves = VectorMoves()
+monitors = VectorMonitors()
+
+#########################
+# diversification rates #
+#########################
+
+# the global scale parameter controls the overall variability from present to past in the diversification 
+speciation_global_scale ~ dnHalfCauchy(0,1)
+extinction_global_scale ~ dnHalfCauchy(0,1)
+
+#We start specifying rates from the present to the past as we will model rate changes backwards. For present rates we use a pretty wide uniform distribution to make sur we cover the true values
+log_speciation_at_present ~ dnUniform(-10.0,10.0)
+log_extinction_at_present ~ dnUniform(-10.0,10.0)
+
+log_speciation_at_present.setValue(0.0)
+log_extinction_at_present.setValue(-1.0)
+
+#and which have scaling movements mvScaleBactrian DOESNT WORK!!!!!
+moves.append( mvSlideBactrian(x=log_speciation_at_present, weight=5.0))
+moves.append( mvSlideBactrian(x=log_extinction_at_present, weight=5.0))
+
+
+#Next specify the speciation and extinction rates for previous intervals. Because we want to model them under Brownian motion, the prior should have a normal distribution centered around the previous rate
+for (i in 1:NUM_BREAKS) {
+  sigma_speciation[i] ~ dnHalfCauchy(0,1)
+  sigma_extinction[i] ~ dnHalfCauchy(0,1)
+
+  # Make sure values initialize to something reasonable
+  sigma_speciation[i].setValue(runif(1,0.005,0.1)[1])
+  sigma_extinction[i].setValue(runif(1,0.005,0.1)[1])
+
+  # non-centralized parameterization of horseshoe
+  delta_log_speciation[i] ~ dnNormal( mean=0, sd=sigma_speciation[i]*speciation_global_scale*speciation_global_scale_hyperprior )
+  delta_log_extinction[i] ~ dnNormal( mean=0, sd=sigma_extinction[i]*extinction_global_scale*extinction_global_scale_hyperprior )
+}
+
+#We assemble the overall rates. The delta parameters are differences in log-scale rates, and so we need to sum them then exponentiate. For example, speciation[2] := exp(log_speciation_at_present + delta_log_speciation[1]). The function fnassembleContinuousMRF() does all the summation and exponentiation efficiently for all speciation and extinction rates in all intervals and avoids making the DAG too big.
+
+speciation := fnassembleContinuousMRF(log_speciation_at_present,delta_log_speciation,initialValueIsLogScale=TRUE,order=1)
+extinction := fnassembleContinuousMRF(log_extinction_at_present,delta_log_extinction,initialValueIsLogScale=TRUE,order=1)
+
+#These moves require us to have the HSMRF model written out as above
+#  elliptical slice sampler that works on the log-changes
+moves.append( mvEllipticalSliceSamplingSimple(delta_log_speciation,weight=5,tune=FALSE) )
+moves.append( mvEllipticalSliceSamplingSimple(delta_log_extinction,weight=5,tune=FALSE) )
+
+#a Gibbs sampler for the global and local scales. Tutorial includes an argument propGlobalOnly not in the documentation
+moves.append( mvHSRFHyperpriorsGibbs(speciation_global_scale, sigma_speciation , delta_log_speciation , speciation_global_scale_hyperprior, weight=10) )
+moves.append( mvHSRFHyperpriorsGibbs(extinction_global_scale, sigma_extinction , delta_log_extinction , extinction_global_scale_hyperprior, weight=10) )
+
+#, and a recommended swap move (that works on both) to exchange adjacent delta,sigma pairs. THIS MOVE IS NOT AVAILABLE IN REVBAYES V 1.0.12
+#moves.append( mvHSRFIntervalSwap(delta_log_speciation ,sigma_speciation ,weight=5) )
+#moves.append( mvHSRFIntervalSwap(delta_log_extinction ,sigma_extinction ,weight=5) )
+
+
+#############
+# intervals #
+#############
+
+#we assume time points are evenly spaced
+interval_times <- abs(T[1].rootAge() * seq(1, NUM_BREAKS, 1)/NUM_INTERVALS)
+
+#######################
+# The missing species #
+#######################
+
+missing_species_per_clade = v(feather, argia, ridge, core)
+
+
+##################
+#   Root age     #
+##################
+
+#we take this from the bg dating model
+root_time <- T[1].rootAge()
+
+##################
+#   Time tree    #
+##################
+
+#Specify the full episodich birth-death model
+
+timetree ~ dnEpisodicBirthDeath(rootAge=root_time, lambdaRates=speciation, lambdaTimes=interval_times, muRates=extinction, muTimes=interval_times, rho=1.0, incompleteClades=missing_species_per_clade, samplingStrategy="uniform", condition="time", taxa=taxa)
+
+#clamp the data to the time tree model
+timetree.clamp(T[1])
+
+#create a workspace for the whole model
+mymodel = model(timetree)
+
+#########################
+#   Running the MCMC    #
+#########################
+
+#monitor for the states of model parameters
+monitors.append(mnModel(filename=bs_fp + "output/EBED/" +  base_fn  + SP_INTERVALS + EX_INTERVALS + "_EBD.log",printgen=10, separator = TAB))
+
+#monitors for vectors of speciation and extinction separately
+monitors.append(mnFile(filename= bs_fp + "output/EBED/" +  base_fn  + SP_INTERVALS + EX_INTERVALS + "_EBD_speciation_rates.log",printgen=10, separator = TAB, speciation))
+monitors.append(mnFile(filename= bs_fp + "output/EBED/" +  base_fn  + SP_INTERVALS + EX_INTERVALS + "_EBD_speciation_times.log",printgen=10, separator = TAB, interval_times))
+monitors.append(mnFile(filename= bs_fp + "output/EBED/" +  base_fn  + SP_INTERVALS + EX_INTERVALS + "_EBD_extinction_rates.log",printgen=10, separator = TAB, extinction))
+monitors.append(mnFile(filename=bs_fp + "output/EBED/" +  base_fn  + SP_INTERVALS + EX_INTERVALS + "_EBD_extinction_times.log",printgen=10, separator = TAB, interval_times))
+
+#monitors to report specified variables to the screen
+monitors.append(mnScreen(printgen=1000, log_speciation_at_present))
+
+#initialize the run
+mymcmc = mcmc(mymodel, monitors, moves)
+
+
+#################
+# Run the thing #
+#################
+#specify the pre-burnin
+mymcmc.burnin(generations=10000,tuningInterval=200)
+
+#run the MCMC
+mymcmc.run(generations=100000)
+
+#quit upon completion
+q()
+

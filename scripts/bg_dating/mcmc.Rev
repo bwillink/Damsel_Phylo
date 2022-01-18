@@ -1,0 +1,18 @@
+# monitors
+monitors.append(mnScreen(height_mol, height_bg, root_age, b_short, b_med, b_long, printgen=1))
+monitors.append(mnFile(filename=out_fp+out_str+".params.txt", height_mol, height_bg, root_age, b_short, b_med, b_long, printgen=1))
+monitors.append(mnModel(filename=out_fp+out_str+".model.txt",printgen=5))
+monitors.append(mnFile(tau,filename=out_fp+out_str+".trees",printgen=5))
+monitors.append(mnJointConditionalAncestralState(tree=tau, ctmc=m_bg, filename=out_fp+out_str+".states.txt", type="Standard", printgen=5, separator=TAB, append=false, withTips=true, withStartStates=true))
+
+# model
+mdl = model(tau)
+
+# mcmc
+my_mcmc = mcmc(mdl,monitors,moves,nruns=1)
+my_mcmc.burnin(10000,100)
+my_mcmc.initializeFromCheckpoint(out_fp+out_str+".model.state")
+my_mcmc.run(generations=30000, checkpointInterval=10, checkpointFile=out_fp+out_str+".model.state", tuningInterval=100, underPrior=false)
+
+# quit rb
+q()

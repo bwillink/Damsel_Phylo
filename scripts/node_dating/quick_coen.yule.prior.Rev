@@ -1,0 +1,28 @@
+# settings
+
+base_mol_fn     = "Coen.mol.nex"
+
+base_fp         = "../"
+
+
+in_fp           = base_fp + "data/processed/node_dating/"
+code_fp		= base_fp + "scripts/node_dating/"
+out_fp          = base_fp + "output/node_dating/"
+out_str         = base_str
+
+tree_fn         = in_fp + base_tree_fn
+mol_fn          = in_fp + base_mol_fn
+
+# move/monitor index
+moves = VectorMoves()
+monitors = VectorMonitors()
+
+# load tree module
+source(code_fp + "tree_module_yule.Rev")
+
+# load molecular module
+source(code_fp + "mol_module_fossil.Rev")
+
+# run mcmc
+source(code_fp + "mcmc_prior.Rev")
+

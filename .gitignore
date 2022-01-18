@@ -1,0 +1,16 @@
+data/
+#data/processed/dispersal/
+#data/processed/biogeo/
+#data/processed/adm_map/
+#data/processed/adm_map/merged.shp
+#!data/processed/adm_map/merged.dbf
+#!data/processed/adm_map/merged.prj
+#!data/processed/adm_map/merged.shx
+scripts/history.txt
+scripts/spellcheck.sh
+#output/bg_dating/
+#output/EBED/
+#output/HiSSE/
+#output/node_dating/
+#output/topology/
+output/

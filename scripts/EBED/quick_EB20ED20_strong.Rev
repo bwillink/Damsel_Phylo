@@ -1,0 +1,21 @@
+# settings 
+bs_fp = "../"
+
+strong = "G1_beta_strong.673464"
+
+SP_INTERVALS = 20
+EX_INTERVALS = 20
+
+#set the global scale hyperprior, which acts with the global scale parameter to set the prior on rate variability. 
+# This is based on the number of intervals and is computed in R following Magee et al. (2020)
+speciation_global_scale_hyperprior <- 0.016
+extinction_global_scale_hyperprior <- 0.016
+
+base_fn = "EBED.strong" 
+tre_fl = bs_fp + "output/bg_dating/" + strong + "_MAP.tree"
+
+# specify the fraction of missing taxa
+source (bs_fp + "scripts/Missing.Rev")
+
+# run the model
+source (bs_fp + "scripts/EBED.Rev")

@@ -1,0 +1,4419 @@
+---
+title: |
+  | "Code for:
+  **Tropical origin, global diversification and dispersal in the pond damselflies (Coenagrionoidea) revealed by a new molecular phylogeny**"
+author: "Beatriz Willink"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: united
+    highlight: tango
+    number_sections: false
+    toc: true
+    toc_float: true
+bibliography: Phylo_supporting.bib
+citation-style: GEB.csl
+link-citations: true
+---
+This documents describes the analyses conducted by Willink *et al.* to infer and date the phylogeny of pond damselflies and featherlegs (Coenagrionoidea), and to explore how diversification and dispersal dynamics have contributed to the current latitudinal diversity gradient in this group of insects.
+
+Load packages
+```{r load-packages, message=FALSE, results='hide', warning=FALSE}
+x <-
+  c(
+    "tidyr",
+    "ggplot2",
+    "wesanderson",
+    "coda",
+    "ape",
+    "phangorn",
+    "ggtree",
+    "gridExtra",
+    "treeio",
+    "phytools",
+    "plyr", 
+    "RevGadgets",
+    "rgeos",
+    "rgdal",
+    "maptools",
+    "reshape2", 
+    "kableExtra"
+  )
+
+lapply(x, function(y) {
+  # check if installed, if not install
+  if (!y %in% installed.packages()[, "Package"])
+    install.packages(y)
+  
+  # load package
+  try(require(y, character.only = T), silent = T)
+})
+```
+
+# Sequence aligment and data pre-processing
+
+We aligned the sequence data and prepared it for concatenation. Two protein-coding loci without indels were aligned using muscle under default settings.
+
+```{bash muscle-align, echo=TRUE, eval=FALSE}
+#!bin/bash/
+
+# COI
+# align
+time muscle -in ../data/raw/COI_allspp_unaligned.fst -out ../data/processed/mol/COI_allspp.fst
+
+# clip primer and longer seqs from NCBI
+# selectSite.pl script by Naoki Takebayashi (GPL) 
+perl ./perl/selectSite.pl -s '208-687' ../data/processed/mol/COI_allspp.fst > ../data/processed/mol/COI_allspp_trim.fst
+
+# remove identifier to concatenate
+cat ../data/processed/mol/COI_allspp_trim.fst | sed -E 's/_BEA[0-9]{3}//' \
+                                              | sed -E 's/_[A-Z]{2}[0-9]{6}.[0-9]//' \
+                                              | sed -E 's/_DIJ[0-9]*//' \
+                                              | sed -E 's/_RMNH.INS.[0-9]{6}//'> ../data/processed/mol/COI_spp.fst
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/COI_spp.fst > ../data/processed/mol/COI_spp_sorted.fst
+
+# H3
+# align
+time muscle -in ../data/raw/H3_allspp_unaligned.fst -out ../data/processed/mol/H3_allspp.fst
+
+# clip primer and longer seqs from NCBI
+# selectSite.pl script by Naoki Takebayashi (GPL) 
+perl ./perl/selectSite.pl -s '25-351' ../data/processed/mol/H3_allspp.fst > ../data/processed/mol/H3_allspp_trim.fst
+
+# remove identifier to concatenate
+cat ../data/processed/mol/H3_allspp_trim.fst | sed -E 's/_BEA[0-9]{3}//' \
+                                             | sed -E 's/_[A-Z]{2}[0-9]{6}.[0-9]//' \
+                                             | sed -E 's/_DIJ[0-9]*//' \
+                                             | sed -E 's/_RMNH.INS.[0-9]{6}//' > ../data/processed/mol/H3_spp.fst
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/H3_spp.fst > ../data/processed/mol/H3_spp_sorted.fst
+```
+
+Ribosomal DNA was first aligned with muscle and subsequently matched to the secondary structure of the ribosomal molecules to manually verify or correct the alignment of all hydrogen-bonded regions [@kjer1995use]. Sites within single-stranded regions that were ambiguously aligned due to multiple insertions and deletions and over-representation of A and T nucleotides were excluded.
+
+```{bash ribosomal-align, echo=TRUE, eval=FALSE}
+#!bin/bash/
+
+# D7
+# align
+time muscle -in ../data/raw/D7_allspp_unaligned.fst -out ../data/processed/mol/D7_allspp.fst
+
+# visual verification of secondary structure here
+# file saved to D7_allspp_corrected.fst
+
+# clip primer, high AT content and longer seqs from NCBI
+# selectSite.pl script by Naoki Takebayashi (GPL) 
+perl ./perl/selectSite.pl -s '2312-2507, 2576-2970' ../data/processed/mol/D7_allspp_corrected.fst > ../data/processed/mol/D7_allspp_trim.fst
+
+# remove identifier to concatenate
+cat ../data/processed/mol/D7_allspp_trim.fst | sed -E 's/_BEA[0-9]{3}//' \
+                                             | sed -E 's/_[A-Z]{2}[0-9]{6}.[0-9]//' \
+                                             | sed -E 's/_DIJ[0-9]*//' \
+                                             | sed -E 's/_RMNH.INS.[0-9]{6}//' > ../data/processed/mol/D7_spp.fst
+
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/D7_spp.fst > ../data/processed/mol/D7_spp_sorted.fst
+
+# 16S
+# align
+time muscle -in ../data/raw/16S_allspp_unaligned.fst -out ../data/processed/mol/16S_allspp.fst
+
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/16S_allspp.fst > ../data/processed/mol/16S_allspp_sorted.fst
+
+# visual verification of secondary structure here
+# file saved to 16S_allspp_corrected.fst
+
+# clip primer and longer seqs from NCBI
+# selectSite.pl script by Naoki Takebayashi (GPL) 
+perl ./perl/selectSite.pl -s '21-30,41-64,77-179, 198-265,329-440' ../data/processed/mol/16S_allspp_corrected.fst > ../data/processed/mol/16S_allspp_trim.fst
+
+# remove identifier to concatenate
+cat ../data/processed/mol/16S_allspp_trim.fst | sed -E 's/_BEA[0-9]{3}//' \
+                                              | sed -E 's/_[A-Z]{2}[0-9]{6}.[0-9]//' \
+                                              | sed -E 's/_DIJ[0-9]*//' \
+                                              | sed -E 's/_RMNH.INS.[0-9]{6}//' > ../data/processed/mol/16S_spp.fst
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/16S_spp.fst > ../data/processed/mol/16S_spp_sorted.fst
+```
+
+The last marker, PMTR, included both exonic and intronic regions and was aligned using PRANK.
+```{bash PMTR-align, echo=TRUE, eval=FALSE}
+#!bin/bash/
+
+# PMTR
+# align
+prank -d=PMTR_allspp.fst -o=PMTR_allspp -iterate=20 -scalebranches=2
+
+# clip primer and longer seqs from NCBI
+# selectSite.pl script by Naoki Takebayashi (GPL)
+# positions can be different in other PRANK alignments as ties are resolved randomly
+perl ./perl/selectSite.pl -s '250-999' ../data/processed/mol/PMTR_allspp.best.fas > ../data/processed/mol/PMTR_allspp_trim.fst
+
+# remove identifier to concatenate
+cat ../data/processed/mol/PMTR_allspp_trim.fst | sed -E 's/_BEA[0-9]{3}//' \
+                                               | sed -E 's/_[A-Z]{2}[0-9]{6}.[0-9]//' \
+                                               | sed -E 's/_DIJ[0-9]{3}//' \
+                                               | sed -E 's/_RMNH.INS.[0-9]{6}//' > ../data/processed/mol/PMTR_spp.fst
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/PMTR_spp.fst > ../data/processed/mol/PMTR_spp_sorted.fst
+
+# get exon only fasta for codon saturation
+perl ./perl/selectSite.pl -s '2-105,321-476,667-750' ../data/processed/mol/PMTR_spp.fst > ../data/processed/mol/PMTR_exon_pruned.fst
+```
+
+We visually assessed third codon saturation for the three coding loci, using correlation between corrected and uncorrected genetic distances between taxa (see Appendix 1).
+```{r codon-saturation, echo=TRUE, eval=TRUE}
+# Input data: a FASTA-format object 
+COI <- read.FASTA(file="../data/processed/mol/COI_spp.fst")
+H3 <- read.FASTA(file="../data/processed/mol/H3_spp.fst")
+PMTR <- read.FASTA(file="../data/processed/mol/PMTR_exon_pruned.fst")
+
+
+# Convert to genetic distances
+distCOI <- dist.dna(COI, model = "raw")
+dist.correctedCOI <- dist.dna(COI, model = "TN93", gamma = T)
+
+distH3 <- dist.dna(H3, model = "raw")
+dist.correctedH3 <- dist.dna(H3, model = "TN93", gamma = T)
+
+distPMTR <- dist.dna(PMTR, model = "raw")
+dist.correctedPMTR <- dist.dna(PMTR, model = "TN93", gamma = T)
+
+
+# Make plots
+par(mfrow=c(1,3))
+
+plot(
+  distCOI ~ dist.correctedCOI,
+  pch = 20,
+  cex = .5,
+  cex.lab = 1.5,
+  cex.axis = 1.5,
+  col = "grey",
+  xlab = "TN93 model distance",
+  ylab = "COI uncorrected genetic distance",
+  main = ""
+)
+abline(0, 1, lty = 2)
+abline(lm(distCOI ~ dist.correctedCOI),
+       lwd = 3,
+       col = "red")
+lm_coefCOI <- coef(lm(distCOI ~ dist.correctedCOI))
+
+plot(
+  distH3 ~ dist.correctedH3,
+  pch = 20,
+  cex = .5,
+  cex.lab = 1.5,
+  cex.axis = 1.5,
+  col = "grey",
+  xlab = "TN93 model distance",
+  ylab = "H3 uncorrected genetic distance",
+  main = ""
+)
+abline(0, 1, lty = 2)
+abline(lm(distH3 ~ dist.correctedH3), lwd = 3, col = "red")
+lm_coefH3 <- coef(lm(distH3 ~ dist.correctedH3))
+
+plot(
+  distPMTR ~ dist.correctedPMTR,
+  pch = 20,
+  cex = .5,
+  cex.lab = 1.5,
+  cex.axis = 1.5,
+  col = "grey",
+  xlab = "TN93 model distance",
+  ylab = "PMTR uncorrected genetic distance",
+  main = ""
+)
+abline(0, 1, lty = 2)
+abline(lm(distPMTR ~ dist.correctedPMTR),
+       lwd = 3,
+       col = "red")
+lm_coefPMTR <- coef(lm(distPMTR ~ dist.correctedPMTR))
+```
+
+Finally, the sequence data was converted to nexus and concatenated. In this step, we also updated taxon names to reflect nomenclature in Paulson and Schorr [-@PaulsonWorldOdonata].
+
+```{bash align-concat, eval=FALSE, echo=TRUE}
+#!/bin/bash
+
+# Align sequences
+bash ./align_concat/muscle_align.sh
+bash ./align_concat/ribosomal_align.sh
+bash ./align_concat/pmtr_align.sh
+
+# Make nexus
+perl ./perl/convertfasta2nex.pl ../data/processed/mol/COI_spp_sorted.fst > ../data/processed/mol/COI.nex
+perl ./perl/convertfasta2nex.pl ../data/processed/mol/H3_spp_sorted.fst > ../data/processed/mol/H3.nex
+perl ./perl/convertfasta2nex.pl ../data/processed/mol/PMTR_spp_sorted.fst > ../data/processed/mol/PMTR.nex
+perl ./perl/convertfasta2nex.pl ../data/processed/mol/16S_spp_sorted.fst > ../data/processed/mol/16S.nex
+perl ./perl/convertfasta2nex.pl ../data/processed/mol/D7_spp_sorted.fst > ../data/processed/mol/D7.nex
+
+# Concatenate
+python2.7 ./py/Concatenate.py
+
+# Update taxon names
+cat ../data/processed/mol/Coen.mol.nex | sed -E 's/Elattoneura_tropicalis/Elattoneura_cellularis/' | \
+                                         sed -E 's/Prodasineura_humeralis/Prodasineura_verticalis/' | \
+                                         sed -E 's/Copera_tokyoensis/Pseudocopera_rubripes/' | \
+                                         sed -E 's/Copera_annulata/Pseudocopera_annulata/' | \
+                                         sed -E 's/Chlorocnemis_marshalli/Allocnemis_marshalli/' | \
+                                         sed -E 's/Chlorocnemis_abbotti/Allocnemis_abbotti/' | \
+                                         sed -E 's/Teinobasis_filamentum/Teinobasis_filamenta/' | \
+                                         sed -E 's/Mecistogaster_asticta/Platystigma_astictum/' | \
+                                         sed -E 's/Mecistogaster_jocaste/Platystigma_jocaste/' | \
+                                         sed -E 's/Mecistogaster_martinezi/Platystigma_martinezi/' | \
+                                         sed -E 's/Metaleptobasis_mauritia/Metaleptobasis_bicornis/' | \
+                                         sed -E 's/Coenagriocnemis_insulare/Coenagriocnemis_insularis/' | \
+                                         sed -E 's/Aciagrion_tillyardi/Aciagrion_approximans/' | \
+                                         sed -E 's/Mesoleptobasis_centralli/Mesoleptobasis_cantralli/' > ../data/processed/mol/Coen.mol.final.nex
+```
+
+# Topology inference
+
+We used RevBayes v. 1.0.7 to infer the topology of the Coenagrionoidea tree. For model details, see Appendix S1. First, we estimated the marginal likelihood of alternative partition schemes using the stepping stone algorithm.
+
+Make alternative partition schemes
+```{bash make-partitions, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# Remove partition block
+cat ../data/processed/mol/Coen.mol.final.nex | head -677 > ../data/processed/nxs/Coen.mol.no_parts.nex
+
+# only genes and exon/intron as partitions
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M1.partitions.nex > ../data/processed/nxs/M1.mol.nex
+
+# codons 1/2, 3
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M2.partitions.nex > ../data/processed/nxs/M2.mol.nex 
+
+# codons 1,2,3 for COI; 1/2, 3 for H3 and PMTR
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M3.partitions.nex > ../data/processed/nxs/M3.mol.nex 
+
+# codons 1,2,3 for COI and H3; 1/2, 3 for PMTR
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M4.partitions.nex > ../data/processed/nxs/M4.mol.nex 
+
+# codons 1,2,3 for COI and PMTR; 1/2, 3 for H3
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M5.partitions.nex > ../data/processed/nxs/M5.mol.nex 
+
+# codons 1,2,3
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M6.partitions.nex > ../data/processed/nxs/M6.mol.nex 
+```
+
+Run marginal likelihood approximations:
+```{bash topology-ML, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load modules: compiler, open mpi and RevBayes
+ml load GCC/6.4.0-2.28 OpenMPI/2.1.1
+ml load RevBayes/23Nov2017_dev
+
+models=("M1" "M2" "M3" "M4" "M5" "M6")
+
+for i in ${models[@]};
+do
+  # construct the command string
+  rb_command="source(\"M$i.Partition.Rev\");"
+
+  # pipe the command into RevBayes
+  echo $rb_command | mpirun -bind-to core rb-mpi
+done
+```
+
+The .Partition.Rev scripts call a topology module (UniformGTRG.Rev), an outgroup module (Outgroup.Rev) that fixes the first node of the tree to the split between Coenagrionidae and Platycnemididae, and a ML module (ML.Rev) that computes the marginal likelihood for the model.
+
+The partition scheme with the lowest ML score (M3, see Appendix S2) was used in the subsequent topology inference (M3.Topology.Rev). This analysis combines the  topology and outgroup modules above (UniformGTRG.Rev, Outgroup.Rev) with a MCMC module for parameter estimation (Topology.MCMC.Rev).
+
+```{bash topology-inference, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load modules: compiler, open mpi and RevBayes
+ml load GCC/6.4.0-2.28 OpenMPI/2.1.1
+ml load RevBayes/23Nov2017_dev
+
+# construct the command string
+rb_command="source(\"M3.Topology.Rev\");"
+
+# pipe the command into RevBayes
+echo $rb_command | mpirun -bind-to core rb-mpi
+```
+
+The two chains were combined, and 60000 iterations were additionally burned-in before summarising the phylogenetic analysis using the Maximum *a posteriori* (MAP) tree.
+
+```{bash topology-MAP, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# extra burn in of 60000 iterations
+cat ../output/topology/M3.Uniform_run1.tre | tail -200 > ../output/topology/M3.Uniform_run1_postburn.tre
+cat ../output/topology/M3.Uniform_run2.tre | tail -200 > ../output/topology/M3.Uniform_run2_postburn.tre
+
+# concatenate both runs
+cat ../output/topology/M3.Uniform_run1_postburn.tre ../output/topology/M3.Uniform_run1_postburn.tre > ../output/topology/M3.Uniform_trace.tre
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# summarise trees
+rb_command="source(\"./topology/topology_MAP.Rev\");"
+echo $rb_command | rb
+```
+
+This MAP tree was transformed into an ultrametric tree to have a plausible starting value for the dating analyses.
+
+```{r make-map-ultra, echo=TRUE, eval=FALSE}
+# read MAP tree from topology inference
+tre <- read.nexus( "../output/topology/M3.Uniform.MAP.tree")
+
+# make ultrametric
+timetre <- chronos(tre)
+
+# save as start tree for dating analysis
+write.tree(timetre, "../data/processed/bg_dating/Coen.start.tre")
+```
+
+# Dating the Coenagrionoidea phylogeny
+
+We used the empirical paleogeographic model and statistical approach developed by Landis [-@landis2017biogeographic] (see Appendix S1). The model was run under three different root age priors.
+
+First, a strongly informed root age prior based on two recent phylogenomic studies [@suvorov2020deep; @kohli2020old]: *root_age ~ dnNormal(mean=120, sd=20, min=40, max=240)* 
+
+```{bash dating-paleogeo-strong, echo=TRUE, eval=FALSE} 
+#!bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/coen.g1.beta.Suvorov.strong.Rev\");"
+echo $rb_command | rb
+```
+
+Second, a weakly informed prior, bounding the root age of Coenagrionoidea between 240 and 40 mya: *root_age ~ dnUniform(min=40, max=240)* 
+
+```{bash dating-paleogeo-weak, echo=TRUE, eval=FALSE}
+#!bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/coen.g1.beta.weak.Rev\");"
+echo $rb_command | rb
+```
+
+Finally, a weakly informed prior, bounding the root age of Coenagrionoidea between 240 and 0 mya: *root_age ~ dnUniform(min=0, max=240)* and also ignoring the empirical paleogeographic model.
+
+```{bash dating-no-paleogeo-flat, echo=TRUE, eval=FALSE}
+#!bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/coen.g0.flat.Rev\");"
+echo $rb_command | rb
+```
+
+## Root age
+Here we summarise estimates of the age of the MRCA of pond damselflies and feather legs under the three models: 1) a strongly informed model, based on empirical paleogeography and an age prior from two independent phylogenomic studies, 2) a weakly informed model, based on empirical paleogeography and a very broad uniform prior (from 240-40 mya), and 3) an uninformed model without empirical paleogeography and with an even broader (from 240-0 mya) uniform prior. The latter analysis is only a check that model construction does not bias root age estimates.
+
+```{r root-age, echo=TRUE, eval=TRUE}
+# read RevBayes output
+output.folder <-"../output/bg_dating/" 
+
+G1.beta.strong <- read.table(file = paste0(output.folder, "Coen.g1.beta.calib.strong.673464.params.txt"), header = T)[,10]
+
+G1.beta.weak <- read.table(file = paste0(output.folder, "Coen.g1.beta.calib.weak.354635.params.txt"), header = T)[,10]
+
+G0.flat.none <- read.table(file = paste0(output.folder, "Coen.g0.flat.calib.433570.params.txt"), header = T)[,10]
+
+# a quick function to burn in and then obtain 500 posterior samples
+sample_post <- function(x, burnin = 0.2, N_age = 30000) {
+  start <- floor(length(x) * burnin) + 1
+  end <- length(x)
+  sample(x[start:end], floor((1-burnin)*N_age))
+}
+
+# combine results in a single data frame
+Root.df_wide <-
+  data.frame(cbind(
+    G1.beta.strong = sample_post(G1.beta.strong),
+    G1.beta.weak = sample_post(G1.beta.weak),
+    G0.flat.none = sample_post(G0.flat.none))
+  )
+
+# transform wide to long format
+Root.df <-gather(Root.df_wide, Model, value, G1.beta.strong:G0.flat.none, factor_key=TRUE)
+
+# plot posterior samples as histograms - this will be Fig 3
+origin_hist <-
+  ggplot(data = Root.df, aes(
+    x = value,
+    fill = Model,
+    colour = Model,
+    alpha = Model
+  )) +
+  geom_histogram(position = "identity",
+                 size = 0.5,
+                 bins = 60) +
+  theme_classic(base_size = 10) +
+  scale_fill_manual(
+    values =  c("grey5", "grey50", "white"),
+    labels = c(
+      "strongly informed + paleo",
+      "weakly informed + paleo",
+      "uninformed, no paleo"
+    )
+  ) +
+  scale_colour_manual(
+    values =  c("white", "white", "black"),
+    labels = c(
+      "strongly informed + paleo",
+      "weakly informed + paleo",
+      "uninformed, no paleo"
+    )
+  )  +
+  scale_alpha_manual(
+    values = c(0.5, 0.5, 0),
+    labels = c(
+      "strongly informed + paleo",
+      "weakly informed + paleo",
+      "uninformed, no paleo"
+    )
+  ) +
+  labs(x = "Root age (mya)", y = "Posterior frequency") + 
+  theme(legend.position = "right") +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  
+
+origin_hist
+```
+
+Put general results into  a table
+```{r age-results}
+Age_est <-
+  data.frame(
+    Age_prior = c("Strong", "Weak"),
+    PM = c (mean (G1.beta.strong), mean (G1.beta.weak)),
+    HPD_95_lwr = c(HPDinterval(mcmc(G1.beta.strong))[1],
+                   HPDinterval(mcmc(G1.beta.weak))[1]),
+    HPD_95_upr = c(HPDinterval(mcmc(G1.beta.strong))[2],
+                   HPDinterval(mcmc(G1.beta.weak))[2])
+  )
+
+Age_est %>%
+kbl(booktabs =T, linesep="") %>%
+kable_styling(latex_options ="striped")
+```
+
+## Comparison to dating under fossil constraints
+We conducted an additional dating analysis using fossil constraints instead of empirical paleogeography (see Appendix S1). First we ran the analysis under the prior.
+
+```{bash node-dating-prior, echo=TRUE, eval=FALSE}
+#!bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/coen.g0.fossil.flat.prior.Rev\");"
+echo $rb_command | rb
+```
+
+And verify we recover the specified prior as the posterior for the root age. 
+```{r yule-prior, echo=TRUE, eval=TRUE}
+yule.prior <- read.table("../output/node_dating/Coen.g0.fossil.calib.flat.prior.495364.params.txt", header = T)
+mean(yule.prior$root_age)
+sd(yule.prior$root_age)
+```
+
+Then we run the model with the molecular data and fossil constraints.
+```{bash node-dating, echo=TRUE, eval=FALSE}
+#!bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/coen.g0.fossil.flat.Rev\");"
+echo $rb_command | rb
+```
+
+## Maximum a posteriori tree
+The results of each dating analysis were summarised using the maximum *a posteriori* (MAP) tree.
+
+Biogeographic dating:
+```{bash bg-dating-MAP, echo=TRUE, eval=FALSE}
+#!bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/MAP.Rev\");"
+echo $rb_command | rb
+```
+
+Node dating:
+```{bash node-dating-MAP, echo=TRUE, eval=FALSE}
+#!bin/bash
+
+# run the dating analysis
+rb_command="source(\"./node_dating/node_MAP.Rev\");"
+echo $rb_command | ~/Applications/revbayes-development/projects/cmake/rb
+```
+
+## Divergence time comparisons
+
+In Table S6 we compare biogeographic divergence time estimates with previously dated phylogenies and the node-dating approach above. We identified comparable nodes in three large-scale studies [@waller2017body; @toussaint2019forest; @suvorov2020deep] and four genus-level studies [@swaegers2014ecological; @callahan2016multi; @beatty2017biogeography; @blow2021molecular]. I included here the age of the earliest known fossil in [fossilworks](http://fossilworks.org/bridge.pl?a=home) for each clade, whenever available.
+
+```{r time-comparisons, echo=TRUE, eval=TRUE}
+# read the map tress
+Map_strong <- read.beast("../output/bg_dating/G1_beta_strong.673464_MAP.tree")
+Map_weak <- read.beast("../output/bg_dating/G1_beta_weak.354635_MAP.tree")
+Map_fossil <- read.beast("../output/node_dating/G0_flat_yule.973180_MAP.tree")
+
+# how many comparable clades?
+n_clades <- 14 
+
+# make the data frame
+age_comp <-
+  data.frame (
+    Clade = c(
+      "Coenagrionoidea",
+      "Platycnemididae",
+      "Platycnemis",
+      "Coenagrionidae",
+      "Ridge-face",
+      "Mecistogaster + Megaloprepus",
+      "Nehalennia",
+      "Melanesobasis",
+      "Argia",
+      "Core",
+      "Coenagrion",
+      "Nesobasis",
+      "Enallagma",
+      "Ischnura"
+    ),
+    Strongly.informed = numeric(length = n_clades),
+    Weakly.informed = numeric(length = n_clades),
+    Fossil.constraints = numeric(length = n_clades),
+    Suvorov.et.al.2021 = numeric(length = n_clades),
+    Toussaint.et.al.2019 = numeric(length = n_clades),
+    Waller.Svensson.2017 = numeric(length = n_clades),
+    Genus.level.studies = character(length = n_clades),
+    Earliest.fossil = character(length = n_clades)
+  )
+
+# get vector with tips for each clade in MAP trees
+clades <-
+  list(
+    Coenagrionoidea = seq(1:669),
+    Feather = seq(557:669),
+    Platycnemis = grep(pattern = "latipes|pennipes|acutipennis|echigoana|foliacia", x = Map_strong@phylo$tip.label),
+    Coenagrionidae = seq(1:556),
+    Ridge = seq(291:556),
+    Helicopter = grep(pattern = "Mecistogaster|Megaloprepus", x = Map_strong@phylo$tip.label),
+    Nehalennia = grep(pattern = "Nehalennia", x = Map_strong@phylo$tip.label),
+    Melanesobasis = grep(pattern = "Melanesobasis", x = Map_strong@phylo$tip.label),
+    Argia = grep(pattern = "Argia", x = Map_strong@phylo$tip.label),
+    Core = seq(1:290),
+    Coenagrion = grep(pattern = "Coenagrion", x = Map_strong@phylo$tip.label),
+    Nesobasis = grep(pattern = "Nesobasis", x = Map_strong@phylo$tip.label),
+    Enallagma = grep(pattern = "Enallagma", x = Map_strong@phylo$tip.label),
+    Ischnura  = grep(pattern = "Ischnura", x = Map_strong@phylo$tip.label)
+  )
+
+# get node ages in MAP trees
+for (i in 1:length(clades)) {
+  age_comp$Strongly.informed[i] <-
+    round(
+      nodeheight(Map_strong@phylo, 669) - findMRCA(Map_strong@phylo, tips = clades[[i]], type = "height"),
+      1
+    )
+  age_comp$Weakly.informed[i] <-
+    round(
+      nodeheight(Map_weak@phylo, 669) - findMRCA(Map_weak@phylo, tips = clades[[i]], type = "height"),
+      1
+    )
+  age_comp$Fossil.constraints[i] <-
+    round(
+      nodeheight(Map_fossil@phylo, 669) - findMRCA(Map_fossil@phylo, tips = clades[[i]], type = "height"),
+      1
+    )
+}
+
+age_comp$Suvorov.et.al.2021 <- c(
+  round(mean(c(
+   117.4, 113.5, 113.0, 117.7, 117.5 
+  )), 1),
+  round(mean(c(
+    98.1, 98.2, 98.0, 98.5, 98.5
+  )), 1),
+  "",
+  round(mean(c(
+    91.3, 88.6, 89.1, 89.4, 91.3
+  )), 1),
+  round(mean(c(
+    66.9, 65.3, 64.3, 59.2, 66.9
+  )), 1),
+  round(mean(c(
+    23.8, 24.1, 24.8, 21.7, 21.7
+  )), 1),
+  "",
+  "",
+  "",
+  round(mean(c(
+    64.4, 62.5, 62.7, 59.8, 65.2
+  )), 1),
+  "",
+  "",
+  "",
+  round(mean(c(
+    27.3, 27.1, 26.7, 26.0, 26.0
+  )), 1)
+)
+
+age_comp$Toussaint.et.al.2019 <-
+  c(
+    "131.6",
+    "108.9",
+    "33.2",
+    "118.0",
+    "110.8",
+    "65.4",
+    "23.8",
+    "",
+    "34.6",
+    "100.6",
+    "",
+    "",
+    "9.0",
+    "29.7"
+  )
+
+age_comp$Waller.Svensson.2017 <-
+  c(
+    "72.7",
+    "",
+    "50.0",
+    "",
+    "",
+    "41.9",
+    "14.8",
+    "22.4",
+    "47.0",
+    "58.0",
+    "43.2",
+    "33.1",
+    "34.0",
+    "34.7"
+  )
+
+age_comp$Genus.level.studies <-
+  c("",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "8.5 (1)",
+    "",
+    "",
+    "~ 15 (2)",
+    "11.8 (1)",
+    "9.0 (3)",
+    "16.2 (4)")
+
+age_comp$Earliest.fossil <-
+  c(
+    "",
+    "99.6-93.5",
+    "38-33.9",
+    "",
+    "",
+    "",
+    "23.0-16.0",
+    "",
+    "23.0-16.0",
+    "",
+    "",
+    "",
+    "",
+    "20.4-13.6"
+  )
+
+that_cell <- c(F, F, T, F, F, T, T, T , T, F, T, T, T, T)
+
+age_comp %>%
+kbl(booktabs =T, linesep="", align = c("l", rep("r",7))) %>%
+  kable_styling(latex_options ="striped") %>%
+column_spec(1, italic = that_cell)
+```
+
+
+# Distribution of extant taxa
+
+In Fig. 2 we plot the biogeographic areas used for the dating analysis on a world map and on the Coenagrionoidea phylogeny. The code below produces the map with the biogeographic areas represented by different colours.
+
+Create world map
+```{r world-map, results='hide', warning=FALSE}
+all <-readOGR(
+    "../data/processed/adm_map/merged.shp",
+    dropNULLGeometries = T,
+    verbose = TRUE
+  )
+
+all@data$id = rownames(all@data)
+
+# fix intersection issues
+all <- gBuffer(all, byid=TRUE, width=0) 
+
+# join data and map
+area.dat = fortify(all, region="id")  # this takes a long time
+map.df = join(area.dat, all@data, by="id")
+
+# check that areas are read correctly
+levels(as.factor(map.df$AREA))
+```
+
+Plot biogeographic areas
+```{r plot-map, echo=TRUE, eval=TRUE}
+area_col <- c("lightgoldenrod1", # AfrE
+            "lightgoldenrodyellow", #AfrN
+            "gold1", #AfrS
+            "orange1", #AfrW
+            "sienna1", #AsC
+            "tomato1", #AsE
+            "brown2", #AsNE
+            "deeppink", #AsSe
+            "purple", #AusE
+            "mediumorchid3", #AusW
+            "sandybrown", #Eur
+            "peachpuff1", #Grn
+            "bisque2", #Ind
+            "goldenrod1", #Mdg
+            "plum3", #Mly
+            NA, #Missing
+            "deepskyblue2", #NamNE
+            "dodgerblue3", #NamNW 
+            "cyan1",#NamSE
+            "turquoise", #NamSW
+            "mediumpurple", #NZ
+            "chartreuse3", #SamE
+            "palegreen", #SamN
+            "olivedrab2" #SamS
+)
+
+area_alpha <- c(rep(1,15),0,rep(1,8))
+     
+area_plot <- ggplot(map.df) + 
+  aes(long,lat,group=group,fill=AREA, alpha=AREA)+ 
+  geom_polygon() +
+  #geom_path(color="gray88", size=0.05) +
+  theme(axis.title = element_blank()) +
+  theme(axis.text = element_blank())+
+  theme(axis.ticks = element_blank())+
+  theme(legend.position="none") +
+  theme(panel.grid.major.x = element_blank())+
+  theme(panel.grid.major.y  = element_blank())+
+  theme(panel.grid.minor.x = element_blank())+
+  theme(panel.grid.minor.y  = element_blank())+
+  #theme_bw() +
+  coord_equal() +
+  #labs(title = "(a)") +
+  theme(text = element_text(size=20/.pt)) +
+  theme(plot.title = element_text(face = "bold")) +
+  scale_fill_manual(values = area_col, name="Biogeographic areas")+
+  scale_alpha_manual(values = area_alpha, name="Biogeographic areas")+
+  guides(fill = "none", alpha = "none")
+  #guides(fill =(guide_legend(ncol=2,byrow=F)))
+
+area_plot
+```
+
+The summary tree is needed to plot the phylogeny in Fig. 2 and to get index data for computing dispersal rates. Read in the phylogeny and biogeographic data.
+```{r read-map-states, echo=TRUE, eval=TRUE}
+MAP <-
+  read.nexus("../output/bg_dating/G1_beta_strong.673464_MAP.tree")
+tipstates <-
+  read.csv(
+    "../data/raw/present_states.csv",
+    sep = ",",
+    header = T,
+  )
+
+# dd includes only the columns with states
+dd <- tipstates[, c(2:11)]
+
+# taxon column to row names
+rownames(dd) <- tipstates$taxon
+
+# empty cells to NA
+dd[dd == ""] <- NA
+```
+
+Set colours and names
+```{r colours-names, echo=TRUE, eval=TRUE}
+area_breaks <- c(
+  "0",
+  "2",
+  "1",
+  "D",
+  "K",
+  "E",
+  "F",
+  "G",
+  "J",
+  "8",
+  "9",
+  "C",
+  "A",
+  "B",
+  "N",
+  "H",
+  "I",
+  "O",
+  "3",
+  "4",
+  "6",
+  "5",
+  "unk"
+)
+
+areas <-
+  c(
+    "S America (N)" ,
+    "S America (S)",
+    "S America (E)",
+    "Africa (W)",
+    "Madagascar",
+    "Africa (S)",
+    "Africa (E)",
+    "Africa (N)",
+    "India",
+    "Europe",
+    "Asia (C)",
+    "Asia (NE)",
+    "Asia (E)",
+    "Asia (SE)",
+    "Malaysian Arch.",
+    "Australia W",
+    "Australia E",
+    "New Zealand",
+    "N America (NW)",
+    "N America (NE)" ,
+    "N America (SW)" ,
+    "N America (SE)",
+    "unk"
+  )
+
+area_col <- c(
+  "palegreen",  #SamN
+  "olivedrab2",  #SamS
+  "chartreuse3",  #SamE
+  "orange1",  #AfrW
+  "goldenrod1",  #Mdg
+  "gold1",  #AfrS
+  "lightgoldenrod1",   # AfrE
+  "lightgoldenrodyellow", #AfrN
+  "bisque2",  #Ind
+  "sandybrown",  #Eur
+  "sienna1",  #AsC
+  "brown2",  #AsNE
+  "tomato1",  #AsE
+  "deeppink",  #AsSe
+  "plum3",  #Mly
+  "mediumorchid3",  #AusW
+  "purple",  #AusE
+  "mediumpurple",  #NZ
+  "dodgerblue3",  #NamNW
+  "deepskyblue2", #NamNE
+  "turquoise",  #NamSW
+  "cyan1",  #NamSE 
+  "white"
+)
+```
+
+## Current geographic ranges
+An earlier version of this manuscript plotted only the extant states in Fig.1. This is the earlier version of that plot.
+```{r plot-extant, echo=TRUE, eval=TRUE, message=FALSE}
+# plot phylogeny
+p <- ggtree(MAP, layout = "circular", size=0.3) 
+
+# add states
+g <-
+  gheatmap(
+    p,
+    dd,
+    offset = 0,
+    width = 0.4,
+    font.size = 3,
+    colnames = F,
+    hjust = 0
+  ) +
+  labs(title = "b)") +
+  theme(plot.title = element_text(face = "bold")) +
+  scale_fill_manual(
+    values = area_col,
+    breaks = area_breaks,
+    labels = areas,
+    name = "Biogeographic areas",
+  na.value = "white") +
+  #guides(fill = F)
+  guides(fill = (guide_legend(ncol = 2, byrow = F)))
+
+g
+```
+
+# Ancestral biogeography
+Here we process a posterior sample of ancestral states for Fig. 2 and Fig S3-S9. The ancestral states posteriors will also be used for computing dispersal rates.
+
+## Prepare the data
+
+Read posterior trees and obtain a sample of 1000.
+```{r read-trees, echo=TRUE, eval=FALSE, message=FALSE}
+# read tree posterior
+allT <- read.tree(paste0(output.folder, "Coen.g1.beta.calib.strong.673464.trees"), keep.multi = T)
+
+# burn-in 20%
+burnin <- floor(length(allT)*0.20)
+
+# sample 1000 trees
+rsample <- sample(seq(from = burnin+1, to = length(allT)), size = 1000, replace = F)
+tres <- allT[rsample] 
+
+# force ultrametric (this is an annoying problem with rounding branch lengths)
+for (i in 1:length(tres)) {
+  temp <- nnls.tree(cophenetic(tres[[i]]), tres[[i]], rooted = TRUE)
+  tres[[i]] <- temp
+}
+
+# save these trees for later
+write.tree(phy = tres, file = "../data/processed/biogeo/G1.strong.1000.trees")
+```
+
+Read in the tree posterior and create useful variables.
+```{r read-map, echo=TRUE, eval=TRUE}
+tres <- read.tree(file = "../data/processed/biogeo/G1.strong.1000.trees", keep.multi = T)
+
+# useful variables
+Ntips <- Ntip(phy = tres[[1]])
+Intnode1 <- Ntips + 1
+Nnodes <- Nnode(phy = tres[[1]], internal.only = FALSE)
+```
+
+Get index data.
+```{r get-index, echo=TRUE, eval=FALSE}
+# create a data frame with index information for each posterior tree and arrange the data frames into a list
+dat = list()
+for (i in 1:length(tres)) {
+  assign(paste("gstats", i, sep = ""), MAP@data)
+  temp = eval(parse(text = paste("gstats", i, sep = "")))
+  dat[[i]] <-  temp
+}
+
+# clean workspace
+rm(list=ls(pattern="gstats*"))
+
+# just checking it's a list of data frames
+class(dat[[2]]) 
+```
+
+Get descendants for each internal node in each posterior tree.
+```{r get-descendants, echo=TRUE, eval=FALSE}
+# for each tree and each ancestral node get the two immediate descendants
+
+# get one descendant
+for (i in 1:length(tres)) {
+  temp <- list()
+  for (j in 1:Ntips) {
+    # extant taxa have no descendants
+    temp[j] <- "NA"
+  }
+  for (j in Intnode1:Nnodes) {
+    temp2 = eval(parse(text = paste("tres[[", i, "]]", sep = "")))
+    temp[j] <- getDescendants(temp2, j)[1]
+  }
+  assign(paste("D1.T", i, sep = ""), temp)
+}
+
+# get the other descendant
+for (i in 1:length(tres)) {
+  temp <- list()
+  for (j in 1:Ntips) {
+    # extant taxa have no descendants
+    temp[j] <- "NA"
+  }
+  for (j in Intnode1:Nnodes) {
+    temp2 = eval(parse(text = paste("tres[[", i, "]]", sep = "")))
+    temp[j] <- getDescendants(temp2, j)[2]
+  }
+  assign(paste("D2.T", i, sep = ""), temp)
+}
+
+# make a list for D1 across all trees, and unlist within each tree to get a vector of descendants per tree
+D1 <- list()
+for (i in 1:length(tres)){
+  temp = eval(parse(text=paste("D1.T", i,sep = "")))
+  D1[[i]] <-  unlist(temp)
+} 
+
+# for example D1 of the root in the first tree
+D1[[1]][Intnode1] 
+
+# clean workspace
+rm(list=ls(pattern="D1.T*"))
+
+# make a list for D2 across all trees, and unlist within each tree to get a vector of descendants per tree
+D2 = list()
+for (i in 1:length(tres)){
+  temp = eval(parse(text=paste("D2.T", i,sep = "")))
+  D2[[i]] <-  unlist(temp)
+} 
+
+# for example D2 of the root in the first tree
+D2[[1]][Intnode1] 
+
+# clean workspace
+rm(list=ls(pattern="D2.T*"))
+```
+
+Get node ages for each tree.
+```{r node-ages, echo=TRUE, eval=FALSE}
+# age for each internal node (end of a branch)
+for (i in 1:length(tres)) {
+  
+  # get the tree height here
+  rootAge <- nodeheight(tres[[i]], 1)
+  temp <- list()
+  for (j in 1:Nnodes) {
+    temp2 = eval(parse(text = paste("tres[[", i, "]]", sep = "")))
+    temp[j] <- rootAge - nodeheight(temp2, j)
+  }
+  assign(paste("Ages.T", i, sep = ""), temp)
+}
+
+# make a list of node ages across all trees (and unlist within each tree to get vectors of ages per tree)
+Age = list()
+for (i in 1:length(tres)){
+  temp = eval(parse(text=paste("Ages.T", i,sep = "")))
+  Age[[i]] <-  unlist(temp)
+} 
+
+Age[[1]][Intnode1] # for example D1 of the root in the first tree
+
+# clean workspace
+rm(list=ls(pattern="Ages.T*"))
+```
+
+Make data frame with data (age and node number) for each descendant.
+```{r make-df, echo=TRUE, eval=FALSE}
+# pre-allocate space
+ddf <- data.frame(
+  tree = numeric(length(tres) * Nnodes),
+  node = numeric(length(tres) * Nnodes),
+  D1 = numeric(length(tres) * Nnodes),
+  D2 = numeric(length(tres) * Nnodes),
+  age = numeric(length(tres) * Nnodes),
+  stringsAsFactors = TRUE
+)
+
+# populate data frame with each row being one node of one tree
+k=1
+for (i in 1:length(tres)) {
+  for (j in k:(k + Nnodes - 1)) {
+   
+     # make and index for nodes within each tree 
+    m <- j - Nnodes * (i - 1)
+    ddf$tree[j] <- i
+    ddf$node[j] <- m
+    ddf$D1[j] <- D1[[i]][m]
+    ddf$D2[j] <- D2[[i]][m]
+    ddf$age[j] <- Age[[i]][m]
+  }
+  k = i * Nnodes + 1
+}
+
+# check the root row for the second tree
+ddf[Intnode1+Nnodes,] 
+```
+
+Make data frame with RevBayes index for each node.
+```{r make-rb-df, echo=TRUE, eval=FALSE}
+sdf <- data.frame(
+  tree = numeric(length(tres) * Nnodes),
+  node = numeric(length(tres) * Nnodes),
+  index = numeric(length(tres) * Nnodes),
+  stringsAsFactors = TRUE
+)
+
+k = 1
+for (i in 1:length(tres)) {
+  for (j in k:(k + Nnodes - 1)) {
+    # make and index for nodes within each tree
+    m <- j - Nnodes * (i - 1)
+    sdf$tree[j] <- i
+    sdf$node[j] <- dat[[i]]$node[m]
+    sdf$index[j] <- dat[[i]]$index[m]
+    
+  }
+  k = i * Nnodes + 1
+}
+```
+
+Match node labels and RevBayes indices.
+```{r merge-dfs, echo=TRUE, eval=FALSE}
+# join into one data frame with descendants, age and index for each node in each tree
+DF <- join(ddf, sdf)
+
+# check root for sanity
+# tree 1
+DF[Intnode1,]
+
+# tree2
+DF[Intnode1+Nnodes,]
+
+# save this data frame for later
+write.table(DF, file = "../data/processed/biogeo/Descendant_data.txt", quote = F, row.names = F)
+```
+
+Read in posterior ancestral states into data frame.
+```{r read-states, echo=TRUE, eval=FALSE}
+DF <- read.table(file = "../data/processed/biogeo/Descendant_data.txt", header = T)
+
+# get the posterior sample of states that matches the random sample of trees
+StatesWide <-
+  read.table(
+    paste0(
+      output.folder,
+      "Coen.g1.beta.calib.strong.673464.states.txt"
+    ),
+    sep = "\t",
+    header = T
+  )[c(rsample), ]
+
+# take a look
+head(StatesWide)[,c(1:10)]
+
+# create data frame with the starting states of each branch and each tree
+# select columns with starting states from the full wide data frame
+AnaStart <- StatesWide[, seq(from = 2, to = Nnodes * 2, by = 2)]
+
+# Africa East (F) will be interpreted as false, change F to f
+AnaStart <- data.frame(lapply(AnaStart, function(x) {
+                   gsub("F", "f", x)
+                }))
+
+# melt to long data frame
+AnaStart <- melt(AnaStart, measure.vars = colnames(AnaStart))
+
+# make index variable for trees
+AnaStart$tree <- rep(seq(1:length(tres)), Nnodes)
+
+# make index variable for nodes
+AnaStart$index <- sort(rep(seq(1:Nnodes), length(tres)))
+
+# rename starting state variable
+colnames(AnaStart)[2]<-"start"
+
+# fix East Africa back to "F"
+AnaStart$start<-revalue(AnaStart$start, c("f" = "F", "fALSE" = "F")) 
+
+# double check state names
+levels(as.factor(AnaStart$start))
+
+# create data frame with the ending states of each branch and each tree
+# select columns with ending states from the full wide data frame
+AnaEnd <- StatesWide[, seq(from = 3, to = Nnodes * 2 + 1, by = 2)]
+
+# Africa East (F) will be interpreted as false, change F to f
+AnaEnd <- data.frame(lapply(AnaEnd, function(x) {
+  gsub("F", "f", x)
+}))
+
+# melt to long data frame
+AnaEnd <- melt(AnaEnd, measure.vars = colnames(AnaEnd))
+
+# rename ending state variable
+colnames(AnaEnd)[2]<-"end"
+
+AnaEnd$end <-
+  revalue(AnaEnd$end, c("f" = "F",
+                        "fALSE" = "F"))
+
+# cbind to AnaStart
+AnaStart$end <- AnaEnd$end
+
+#Join ancestral state data frame to node information data frame
+DF<-join(DF,AnaStart[,c(-1)])
+# head(DF)
+
+ check ancestral states for root node
+summary(as.factor(DF$end[which(DF$node == 670)]))
+
+# save this data frame for later
+write.table(DF, file = "../data/processed/biogeo/Biogeo_data.txt", quote = F, row.names = F)
+```
+
+## Ancestral states
+
+### Most ancestral nodes
+For the inset of Fig. 2 we want to know the posterior distribution of ancestral states in the MRCA of Coenagrionoidea (Coenagrionidae + Platycnemididae), Platynemididae, the "Ridge-face" clade of Coenagrionidae and the "Core" clade of Coenagionidae.
+
+```{r plot-old, message=FALSE, echo=TRUE, eval=TRUE}
+# get posterior distributions of ancestral states for the key ancestral nodes  
+DF <- read.table(file = "../data/processed/biogeo/Biogeo_data.txt", header = T)
+N <- nrow(DF)
+
+old_nodes <- rbind(cbind(count = summary(as.factor(DF$end[which(DF$node == 670)])), node = 4), # root
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 671)])), node = 5), # Coenagrionidae
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 672)])), node = 2), # Core
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 961)])), node = 1), # Ridge
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 1226)])), node = 3)) # Feather
+
+# make a column for the names of the biogeographic areas
+old_nodes <- data.frame(states = rownames(old_nodes), old_nodes)
+
+# transform long to wide
+pie_data <- pivot_wider(old_nodes, id_cols = "node", names_from = "states", values_from = "count")  
+
+# missing states have 0 posterior frequency
+pie_data[is.na(pie_data)] <- 0
+
+# combine all the rare states into "others"
+pie_data <- pie_data %>% mutate(others= `1` + `7` + `8`+  A, + E + G, +H + J + L+ N + `2`)
+
+# drop rare states from data frame
+pie_data <- pie_data[, c("node","0","B","D","I","others")]
+
+# use same colours as in Fig 2
+area_col_old <-c("palegreen", #SamN
+            "deeppink", #AsSe
+            "orange1", #AfrW
+            "purple", #AusE
+            "white" #others
+)
+
+# create pies for each node
+pies <- nodepie(pie_data, cols=c(2:6), alpha=1, color = area_col_old)
+
+# read in simplified backbone cladogram
+bb <- read.tree("../data/processed/biogeo/backbone.tre")
+
+# plot annotated backbone phylogeny
+ggtree (bb) + geom_inset(pies, width = 0.25, height = 0.25)
+```
+
+Calculate posterior probability for each of the older nodes.
+```{r nodes-pp, echo=TRUE, eval=TRUE}
+Node_pp <- cbind (Clade = c("root", "Coenagrionidae", "Core", "Ridge-face", "Featherleg"), pie_data[,-1]/1000)
+
+Node_pp %>%
+kbl(booktabs =T, linesep="") %>%
+kable_styling(latex_options ="striped")
+
+# PP root in either S America (N) or Africa W
+#sum(c(Node_pp[1, "0"], Node_pp[1, "D"]))
+```
+
+
+### Across the entire phylogeny
+For Fig. 2 we want to know the posterior distribution of ancestral states in every node of the tree.
+```{r plot-all, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+DF_anc <- DF[which(DF$node > 669),]
+
+Node_states <- as.data.frame(cbind(node =unique(DF_anc$node), aggregate(as.factor(DF_anc$end), by = list(DF_anc$node), FUN=summary)$x))
+
+# use same colours as in Fig. 2 but reordered
+area_col_sorted <- c(
+  "palegreen",  #SamN
+  "chartreuse3",  #SamE
+  "olivedrab2",  #SamS
+  "dodgerblue3",  #NamNW
+  "deepskyblue2", #NamNE
+  "cyan1",  #NamSE
+  "turquoise",  #NamSW
+  "peachpuff1", #Grn
+  "sandybrown",  #Eur
+  "sienna1",  #AsC
+  "brown2",  #AsNE
+  "deeppink",  #AsSe
+  "tomato1",  #AsE
+  "orange1",  #AfrW
+  "gold1",  #AfrS
+  "lightgoldenrod1",   # AfrE
+  "lightgoldenrodyellow", #AfrN
+  "mediumorchid3",  #AusW
+  "purple",  #AusE
+  "bisque2",  #Ind
+  "goldenrod1",  #Mdg
+  "white", #AntW
+  "white", #AntE
+  "plum3",  #Mly
+  "mediumpurple"  #NZ
+ )
+
+# create pies for each node
+all_pies <- nodepie(Node_states, cols=c(2:26), alpha=1, color = area_col_sorted)
+
+# plot annotated backbone phylogeny
+p2 <- ggtree(MAP, size = 0.5) + geom_inset(all_pies, width = 0.1, height = 0.1) 
+g2<-gheatmap(p2, dd, offset = 0, width=0.4, colnames=F, hjust=0)+
+  labs(title = "(b)") + 
+  theme(plot.title = element_text(face = "bold")) +
+  theme(text = element_text(size = 10)) +
+  scale_fill_manual(values = area_col, breaks = area_breaks,
+                    labels = areas, name="Biogeographic areas",
+                    na.value = "transparent") +
+  #guides(fill = F)
+  guides(fill = (guide_legend(ncol=2,byrow=F)))
+ 
+g2
+```
+
+For supplementary figures we want to split the plot by the main clades and include the tiplabels.
+
+Create plot with tip labels.
+```{r plot-by-clade,  eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+p3 <-
+  ggtree(MAP, size = 0.5) + geom_inset(all_pies, width = 0.18, height = 0.18)
+g3 <-
+  gheatmap(
+    p3,
+    dd,
+    offset = 40,
+    width = 0.4,
+    font.size = 3,
+    colnames = F,
+    hjust = 0
+  ) +
+  geom_tiplab(size = 1.2, offset = 2) +
+  theme(plot.title = element_text(face = "bold"),
+        legend.text = element_text(size = 6)) +
+  scale_fill_manual(
+    values = area_col,
+    breaks = area_breaks,
+    labels = areas,
+    name = "Biogeographic areas",
+    na.value = "transparent"
+  ) +
+  #guides(fill = F)
+  guides(fill = (guide_legend(ncol = 2, byrow = F))) + labs(title = "(a)")
+```
+
+Plot Featherleg clade.
+```{r plot-featherlegs, fig.width=7, fig.height=5.5}
+gfeather <-
+  viewClade(g3, getMRCA(MAP, tip = c(
+    "Arabicnemis_caerulea", "Elattoneura_caesia"
+  )))
+
+gfeather
+```
+
+Plot Ridge-face clade.
+```{r plot-ridge, fig.width=7, fig.height=5.5}
+gridge <-
+  viewClade(g3, getMRCA(MAP, tip = c("Phasmoneura_exigua", "Argia_euphorbia")))
+
+gridge
+```
+
+Plot Core clade.
+```{r plot-core, fig.width=7, fig.height=5.5}
+gcore <-
+  viewClade(g3, getMRCA(MAP, tip = c(
+    "Coenagrion_scitulum", "Acanthagrion_gracile"
+  )))
+
+gcore
+```
+
+# Diversification
+Here we explore how diversification rates vary across time and between latitudinal regions.
+
+## Time-dependent diversification
+We analyzed the temporal dynamics of diversification using episodic birth-death (EBD) models in RevBayes.
+
+<!---#### Identifying the number of epochs
+We first used marginal likelihood approximation to identify the number of equal-length epochs between which diversification rates change, that better fits our dated phylogeny
+```{r run-EBD-ML, eval=FALSE, echo=TRUE}
+system("bash ~/Dropbox/Phylogeny/EBD/scripts/Run_EBED_power.sh")
+```
+
+We ran this analysis in triplicate, estimating ML via the stepping stone algorithm and path sampling
+```{r EBD-ML}
+# Create a data frame for ML results
+ML <- data.frame(model = character(), ss = numeric(), ps = numeric(), run = numeric())
+
+# how many runs to check estimates are stable
+n_runs <- 3
+
+# read in results  and add to data frame
+for (i in 1:n_runs){
+  model <- read.table(file = paste0("~/Dropbox/Phylogeny/EBED/output/stdout/datasetR", i, ".txt"), header = F)
+  ss <- read.table(file = paste0("~/Dropbox/Phylogeny/EBED/output/stdout/SteppingStoneR", i, ".txt"), header = F)
+  ps <- read.table(file = paste0("~/Dropbox/Phylogeny/EBED/output/stdout/PathSamplerR", i, ".txt"), header = F)
+  run <- rep(x = i,length(model$V1)) 
+  
+  ML <- rbind(ML, data.frame(model, ss, ps, run))
+}
+
+# rename columns
+colnames(ML) <- c("model", "ss", "ps", "run")
+
+# transform long to wide
+ML_wide <-
+  pivot_wider(ML, names_from = run, values_from = c(ss, ps)) %>%
+  arrange (desc(ss_1))
+
+ML_wide %>%
+  kbl(booktabs = T, align = c("l", rep('r', 4))) %>%
+  kable_styling(latex_options = "striped")
+```
+
+ML increases with increasing number of intervals until 6 time intervals. For the main text, we use 20 time intervals which has similar ML as 6, but allows for better resolution of the timing of diversification shifts.--->
+
+We used a EBD model under the horseshoe prior [@magee2020locally] with 20 time intervals (epochs) which allows for good resolution of the timing of diversification shifts (see Appendix S1).
+```{bash run-EBED, echo=TRUE, eval=FALSE, fig.width=4, fig.height=12}
+#!bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+ 
+# run diversification analysis on strongly informed MAP tree
+rb_command="source(\"./EBED/quick_EB20ED20_strong.Rev\");"
+echo $rb_command | rb
+
+# run diversification analysis on weakly informed MAP tree
+rb_command="source(\"./EBED/quick_EB20ED20_weak.Rev\");"
+echo $rb_command | rb
+```
+
+Plot the results
+```{r plot-EBD, echo=TRUE, eval=TRUE}
+rev_out <-
+  rev.process.div.rates(
+    speciation_times_file = "../output/EBED/EBED.strong2020_EBD_speciation_times.log",
+    speciation_rates_file =  "../output/EBED/EBED.strong2020_EBD_speciation_rates.log",
+    extinction_times_file = "../output/EBED/EBED.strong2020_EBD_extinction_times.log",
+    extinction_rates_file = "../output/EBED/EBED.strong2020_EBD_extinction_rates.log",
+    tree = MAP,
+    burnin = 0.05,
+    numIntervals = 20
+  )
+
+par(mfrow=c(3,1))
+rev.plot.div.rates(
+  rev_out,
+  fig.types = c("speciation rate", "extinction rate", "net-diversification rate"),
+  use.geoscale = FALSE,
+  col = wes_palette("Moonrise2")[1:4]
+)
+```
+
+## Trait-dependent diversification
+We asked if diversification rates depend on latitudinal range, using a HiSSE model [@beaulieu2016detecting] in RevBayes (see Appendix S1).
+
+### Running the HiSSE model
+There are two hidden states that accommodate heterogeneity in diversification rates not explained by latitudinal range.
+```{bash run-HiSSE, echo=TRUE, eval=FALSE}
+#!bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+ 
+# run diversification analysis on strongly informed MAP tree
+rb_command="source(\"./HiSSE/quick_HiSSE_strong.Rev\");"
+echo $rb_command | rb
+
+# run diversification analysis on weakly informed MAP tree
+rb_command="source(\"./HiSSE/quick_HiSSE_weak.Rev\");"
+echo $rb_command | rb
+```
+
+Plot the results
+```{r plot-HiSSE, message=FALSE, warning=FALSE,  fig.width=8, fig.height=12}
+# number of replicate runs
+runs = 2
+
+# create data frame for combined posterior
+H_out <- data.frame()
+
+# extra burn-in and append
+for (i in 1:runs){
+  temp <-  read.table(paste0 ("../output/HiSSE/LatHiSSE_strong_r1model_run_",  i, ".log") , header=TRUE)
+  start <- round(0.2*length(temp$Iteration))
+  end <- length(temp$Iteration)
+  temp <- temp[start:end,]
+ H_out <- rbind(H_out, temp)  
+}
+
+# sort by iteration
+ H_out <- H_out[order(H_out$Iteration),] 
+
+# rename character states
+HiSSE_types <- rep(c("Trp1", "Tmp1", "Trp2", "Tmp2"),
+                   each = length(H_out$extinction.1))
+
+# create data frame for each rate 
+dat_spec <- data.frame(dens = c(H_out$speciation.1., H_out$speciation.2.,
+                                H_out$speciation.3., H_out$speciation.4.), 
+                       Type = HiSSE_types)
+
+dat_ext <- data.frame(dens = c(H_out$extinction.1., H_out$extinction.2., 
+                               H_out$extinction.3., H_out$extinction.4.),
+                      Type = HiSSE_types)
+
+dat_div <- data.frame(dens = c(H_out$speciation.1.-H_out$extinction.1., 
+                               H_out$speciation.2.-H_out$extinction.2., 
+                               H_out$speciation.3.-H_out$extinction.3., 
+                               H_out$speciation.4.-H_out$extinction.4.),
+                       Type = HiSSE_types)
+
+# add latitudinal state as a separate column
+dat_spec$Lat<-substr(dat_spec$Type, start = 1, stop = 3)
+dat_ext$Lat<-substr(dat_ext$Type, start = 1, stop = 3)
+dat_div$Lat<-substr(dat_div$Type, start = 1, stop = 3)
+
+# add hidden trait character state
+dat_spec$hidden <- paste0("hidden state ", substr(dat_spec$Type, 4, 4))
+dat_ext$hidden <- paste0("hidden state ", substr(dat_ext$Type, 4, 4))
+dat_div$hidden <- paste0("hidden state ", substr(dat_div$Type, 4, 4))
+
+p1 <- ggplot(dat_spec, aes(x = dens, color = Lat, fill = Lat)) + 
+   theme_bw()+
+  theme(plot.title = element_text(size = 10))+
+labs(title = "(a) Speciation", x="Rate", y="Posterior frequency") + 
+  facet_wrap(~hidden, ncol =2)+
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.01) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  xlim(-0.01,0.3)+
+   scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp", "Tmp"),
+                     labels = c("Tropical", "Temperate"),
+                     name = "Latitude") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8)) + 
+  theme(strip.text = element_text(size = 8))
+
+p2 <- ggplot(dat_ext, aes(x = dens, color = Lat, fill = Lat)) +  
+   theme_bw()+
+  theme(plot.title = element_text(size = 10))+
+  labs(title = "(b) Extinction", x="Rate", y="Posterior frequency") + 
+  facet_wrap(~hidden, ncol =2,)+
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.01) +
+   scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp", "Tmp"),
+                     labels = c("Tropical", "Temperate"),
+                     name = "Latitude") +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  xlim(-0.01,0.3)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  + 
+  theme(strip.text = element_text(size = 8))
+
+p3 <- ggplot(dat_div, aes(x = dens, color = Lat, fill = Lat)) +
+  theme_bw()+
+  labs(title = "(c) Diversification", x="Rate", y="Posterior frequency") + 
+  theme(plot.title = element_text(size = 10))+
+  xlim(-0.01,0.3)+
+  facet_wrap(~hidden, ncol =2)+
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.01) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp", "Tmp"),
+                     labels = c("Tropical", "Temperate"),
+                     name = "Latitude") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  + 
+  theme(strip.text = element_text(size = 8))
+  
+multiplot(p1, p2, p3, ncol = 1)
+```
+
+Summarise HiSSE results
+```{r lat-divers-summ, echo=TRUE, eval=TRUE}
+# compute differences between rates
+# speciation
+diff_lambda1 <- H_out$speciation.1. - H_out$speciation.2.
+diff_lambda2 <- H_out$speciation.3. - H_out$speciation.4.
+
+# extinction
+diff_mu1 <- H_out$extinction.1. - H_out$extinction.2.
+diff_mu2 <- H_out$extinction.3. - H_out$extinction.4.
+
+#diversification
+diff_div1 <- (H_out$speciation.1. - H_out$extinction.1.) - (H_out$speciation.2. - H_out$extinction.2.)
+diff_div2 <- (H_out$speciation.3. - H_out$extinction.3.) - (H_out$speciation.4. - H_out$extinction.4.)
+
+# and number of posterior samples
+N_post <- nrow(H_out)
+
+# Create a table summary
+Div_summ <-
+  data.frame(
+    hidden_state = rep (c("Hidden state 1", "Hidden state 2"), each = 3),
+    comparison = rep(
+      c(
+        "Speciation Trp vs Tmp",
+        "Extinction Trp vs Tmp",
+        "Diversification Trp vs Tmp"
+      ),
+      2
+    ),
+    # this is the mean difference between posterior rates
+    mean_diff = c(
+      mean(diff_lambda1),
+      mean(diff_mu1),
+      mean(diff_div1),
+      #hidden state 2
+      mean(diff_lambda2),
+      mean(diff_mu2),
+      mean(diff_div2)
+    ),
+    # the lower limit of the 95% HPD interval
+    HPD_lower = c(
+      HPDinterval(mcmc(diff_lambda1))[1],
+      HPDinterval(mcmc(diff_mu1))[1],
+      HPDinterval(mcmc(diff_div1))[1],
+      HPDinterval(mcmc(diff_lambda2))[1],
+      #hidden state 2
+      HPDinterval(mcmc(diff_mu2))[1],
+      HPDinterval(mcmc(diff_div2))[1]
+    ),
+    # the upper limit of the 95% HPD interval
+    HPD_upper = c(
+      HPDinterval(mcmc(diff_lambda1))[2],
+      HPDinterval(mcmc(diff_mu1))[2],
+      HPDinterval(mcmc(diff_div1))[2],
+      HPDinterval(mcmc(diff_lambda2))[2],
+      HPDinterval(mcmc(diff_mu2))[2],
+      HPDinterval(mcmc(diff_div2))[2]
+    )
+  )
+
+Div_summ %>% kbl(booktabs =T, align= c(rep("l",2),rep('r', 4))) %>%
+kable_styling(latex_options ="striped")
+```
+
+
+Plot the transition rates between tropical and temperate ranges.
+```{r plot-transition-rates, message=FALSE, warning=FALSE}
+# rename transition rates
+HiSSE_trans <- rep(c("Trp to Tmp", "Tmp to Trp"),
+                   each = length(H_out$extinction.1))
+
+# create data frame for each rate 
+dat_trans <- data.frame(dens = c(H_out$rate_01, H_out$rate_10), 
+                       Type = HiSSE_trans)
+
+# Plot
+p_trans <- ggplot(dat_trans, aes(x = dens, fill = Type)) +
+  theme_bw()+
+  labs( x="Transition rate", y="Posterior frequency") + 
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.1) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp to Tmp", "Tmp to Trp"),
+                     labels = c("Tropical to temperate", "Temperate to tropical"),
+                     name = "Range shift") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  + 
+  theme(strip.text = element_text(size = 8))
+
+p_trans
+```
+
+Plot hidden states on phylogeny to look at background heterogeneity.
+```{r plot-hidden}
+# read in joint posterior of ancestral states
+hidden_states <- read.table("../output/HiSSE/LatHiSSE_strong_r1anc_states_HiSSE.log",header=TRUE)[,-2]
+
+# burn-in 20%
+start <- round(0.2*length(hidden_states$end_1))
+end <- length(hidden_states$end_1)
+
+hidden_states <- hidden_states[start:end,]
+
+# recode states 4 -> hidden state 1, 5 -> hidden state 2
+hidden_states[hidden_states == 0] <- 4
+hidden_states[hidden_states == 1] <- 4
+
+hidden_states[hidden_states == 2] <- 5
+hidden_states[hidden_states == 3] <- 5
+
+
+# get the mode of each state and it's frequency in the posterior
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+# create a data frame for the frequencies of each ancestral state
+ModHidden<-data.frame(index = seq(1:Nnodes), state = numeric(length = Nnodes))
+
+# polulate with most common state and its frequency
+for (i in 1:Nnodes) {
+  ModHidden$state[i] <- Mode(hidden_states[,(i + 1)])
+  ModHidden$freq[i] <-
+    length(which(hidden_states[, i + 1] ==   ModHidden$state[i])) /
+    nrow(hidden_states)
+  
+}
+
+# bin frequencies
+for (i in 1:Nnodes){
+  if (ModHidden$freq[i] > 0.95) {
+     ModHidden$cert[i] <-  as.character(ModHidden$state[i])
+  }
+  else{
+    if (ModHidden$freq[i] > 0.75){
+      ModHidden$cert[i] <- paste("most", ModHidden$state[i], sep = "_" ) 
+    }
+    else{
+    ModHidden$cert[i] <- "uncertain"
+    }
+  }
+}
+
+# revalue to S (state) 1 and 2
+ModHidden$cert<-revalue(ModHidden$cert, c("4" = "S1", "5" = "S2"))
+ModHidden$state<-as.character(ModHidden$state)
+ModHidden$state<-revalue(ModHidden$state, c("4" = "S1", "5" = "S2"))
+
+# match node number to be able to plot
+for (i in 1:Nnodes) {
+  ModHidden$node[i] <-
+    DF$node[which(DF$tree == 1  &  DF$index == ModHidden$index[i])]
+}
+
+# plot with branch colour by frequency category 
+p4 <- ggtree(MAP, aes(color = cert), layout = 'circular') %<+% ModHidden +
+  geom_tiplab(size =0)+  geom_tippoint(aes(color = cert), size=1, alpha=1) +
+  scale_color_manual(breaks = c("S1", "most_4","uncertain", "most_5", "S2"),
+                     values = c("gray90", "gray80", "gray50", "gray20", "gray10"), 
+                     labels = c("0.0 - 0.05",
+                                "0.05 - 0.25",
+                                "0.25 - 0.75",
+                                "0.75 - 0.95",
+                                "0.95 - 1.00"),
+                     name = "Frequency of hidden state 2\n(high diversification)") +
+    theme(legend.position = "right", legend.justification =  c(0.9,0.9))
+
+
+p4
+```
+
+Plot ancestral latitudinal states on phylogeny (for completeness).
+```{r plot-ancestral-latitude}
+# read in joint posterior of character states
+anc_states <- read.table("../output/HiSSE/LatHiSSE_strong_r1anc_states_HiSSE.log",header=TRUE)[,-2]
+
+# burn-in
+start <- round(0.2*length(anc_states$end_1))
+end <- length(anc_states$end_1)
+
+anc_states <- anc_states[start:end,]
+
+# recode states so Trp = 4 and Tmp = 5
+anc_states[anc_states == 0] <- 4
+anc_states[anc_states == 1] <- 5
+
+anc_states[anc_states == 2] <- 4
+anc_states[anc_states == 3] <- 5
+
+# create a data frame for character state frequencies
+ModAnc<-data.frame(index = seq(1:Nnodes), state = numeric(length = Nnodes))
+
+# populate with most common state and its frequency
+for (i in 1:Nnodes) {
+  ModAnc$state[i] <- Mode(anc_states[,(i + 1)])
+  ModAnc$freq[i] <-
+    length(which(anc_states[, i + 1] ==   ModAnc$state[i])) /
+    nrow(hidden_states)
+}
+
+# revalue to character state names "Trp" and "Tmp"
+ModAnc$state<-revalue(as.character(ModAnc$state), c("4" = "Trp", "5" = "Tmp"))
+
+# match node number to RevBayes index so we can plot
+for (i in 1:Nnodes) {
+  ModAnc$node[i] <-
+    DF$node[which(DF$tree == 1  &  DF$index == ModAnc$index[i])]
+}
+
+# plot with size of circles reflecting uncertainty in ancestral states
+p5 <- ggtree(MAP, layout = 'circular', colour = "gray70") %<+% ModAnc +
+  geom_tiplab(size =0)+  geom_tippoint(aes(colour = state, size = 1), alpha=0.7) +
+  geom_nodepoint(aes(colour = state, size = freq), alpha=0.7) +
+  scale_color_manual(breaks = c("Trp", "Tmp"),
+                     values = c("#C27D38", "#798E87"), 
+                     labels = c("Tropical",
+                                "Temperate"),
+                     name = "Latitudinal region") +
+  scale_size(range = c(0.2,2), name = "Posterior frequency") +
+    theme(legend.position = "right", legend.justification =  c(0.9,0.9))
+
+p5
+```
+
+# Dispersal
+Here we explored how dispersal rates vary between latitudinal regions. For the first approach, we are using the posterior from the biogeographic dating analyses. We need to identify dispersal events along branches by comparing states at the start and end of each branch.
+
+## Approach #1: from bigeographic dating model
+
+We start by coding dispersal events and extracting biogeographic areas.
+```{r code-dispersal, echo=TRUE, eval=FALSE}
+DF <- read.table("..data/processed/biogeo/Biogeo_data.txt", header = T)
+
+# for each ancestral node, 0 = no dispersal along following branch, 1 = dispersal occurred along branch 
+for (i in 1:N) {
+  # terminal nodes to NA (extant taxa have not dispersed!)
+  if (is.na(DF$D1[i]) == T) {
+    DF$AreaD[i] <- NA
+  } else{
+    # no dispersal when starting and end states are the same
+    if (grepl(pattern = DF$start[i], x = DF$end[i]) == T) {
+      DF$AreaD[i] <- 0
+    }
+    else{
+      # dispersal when starting and end states are different
+      if (grepl(pattern = DF$start[i], x = DF$end[i]) == F) {
+        DF$AreaD[i] <- 1
+      }
+    }
+  }
+}
+
+# if dispersal occurred register where to and where from
+for (i in 1:N) {
+  # nothing to do if no dispersal or if node is a tip
+  if (DF$AreaD[i] == 0 | is.na(DF$AreaD[i]  == TRUE)) {
+    # no dispersal is NA
+    DF$AreaFrom[i] <- NA
+    DF$AreaTo[i] <- NA
+  }
+  else{
+    # dispersal from starting stat to end state of each branch
+    DF$AreaFrom[i] <- as.character(DF$start[i])
+    DF$AreaTo[i] <- as.character(DF$end[i])
+  }
+}
+```
+
+### Dispersal between latitudinal regions
+We will use the paleogeographic model to determine the latitudinal range of ancestral taxa. For this we need the starting age of every branch of the tree.
+
+Get starting age per branch.
+```{r starting-age,  echo=TRUE, eval=FALSE}
+# get age at the start of each branch in each
+for (i in 1:length(tres)){
+  temp<-numeric(length = Nnodes)
+  for (j in 1:Nnodes){
+    if (j == Intnode1){
+    
+    # ignore start of root branch
+    temp[j] <- NA
+    }
+    else{
+      if (j %in% DF$D1 == T){
+        temp[j] <-DF$age[which(DF$D1==j & DF$tree == i)]
+      }
+      else{
+        temp[j] <-DF$age[which(DF$D2==j & DF$tree == i)]
+      }
+     }
+  }
+    assign(paste("AgesStart.T", i,sep = ""), temp)
+}
+
+# make a list for starting ages across all trees
+agestart = list()
+for (i in 1:length(tres)){
+  temp = eval(parse(text=paste("AgesStart.T", i,sep = "")))
+  agestart[[i]] <-  temp
+} 
+
+# and unlist within each tree to get vectors for data frame
+DF$agestart<-unlist(agestart)
+
+# clean workspace
+rm(list=ls(pattern="AgesStart.T*"))
+```
+
+Categorise starting areas as Temperate or Tropical.
+```{r code-lat-start, echo=TRUE, eval=FALSE}
+# keep AfrS, Mdg, AusW, AusE as ambiguous in the present
+DF$Lstart <-
+  revalue(
+    DF$start,
+    c(
+      "0" = "Trp",
+      "1" = "Trp",
+      "2" = "Trp",
+      "3" = "Tmp",
+      "4" = "Tmp",
+      "5" = "Tmp",
+      "6" = "Tmp",
+      "7" = "Tmp",
+      "8" = "Tmp",
+      "9" = "Tmp",
+      A = "Tmp",
+      B = "Trp",
+      C = "Tmp",
+      D = "Trp",
+      E = NA,
+      "F" = "Trp",
+      G = "Trp",
+      H = NA,
+      I = NA,
+      J = NA,
+      K = NA,
+      L = "Tmp",
+      M = "Tmp",
+      N = "Trp",
+      O = "Tmp"
+    )
+  )
+
+# now use empirical paleogeography for specific regions that have drifted across latitudes
+# Madagascar is Temperate before 50 Ma, Tropical after 20 Ma and NA in between
+for (i in 1:N) {
+  if (DF$agestart[i] > 50 &  DF$start[i] == "K") {
+    DF$Lstart[i] <- "Tmp"
+  }
+  else{
+    if (DF$agestart[i] < 20 &  DF$start[i] == "K") {
+      DF$Lstart[i] <- "Trp"
+    }
+  }
+}
+
+# AfrS was all temperate until 70 Ma
+for (i in 1:N) {
+  if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] > 70 &  DF$start[i] == "E") {
+    DF$Lstart[i] <- "Tmp"
+  }
+}
+
+# India was temperate until 110 Ma and NA until 60 Ma
+for (i in 1:N) {
+  if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] > 110 &  DF$start[i] == "J") {
+    DF$Lstart[i] <- "Tmp"
+  }
+  else{
+    if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] < 60 &  DF$start[i] == "J") {
+      DF$Lstart[i] <- "Trp"
+    }
+  }
+}
+
+# AusW was mainly temperate until 10 Ma
+for (i in 1:N) {
+  if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] > 10 &  DF$start[i] == "H") {
+    DF$Lstart[i] <- "Tmp"
+  }
+}
+
+# AusE was mainly temperate until 20 Ma
+for (i in 1:N) {
+  if (is.na(DF$agestart[i]) == F) {
+    if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] > 20 & DF$start[i] == "I") {
+      DF$Lstart[i] <- "Tmp"
+    }
+  }
+}
+```
+
+Categorise ending areas as Temperate or Tropical.
+```{r code-lat-end, echo=TRUE, eval=FALSE}
+DF$Lend <-
+  revalue(
+    DF$end,
+    c(
+      "0" = "Trp",
+      "1" = "Trp",
+      "2" = "Tmp",
+      "3" = "Tmp",
+      "4" = "Tmp",
+      "5" = "Tmp",
+      "6" = "Tmp",
+      "7" = "Tmp",
+      "8" = "Tmp",
+      "9" = "Tmp",
+      A = "Tmp",
+      B = "Trp",
+      C = "Tmp",
+      D = "Trp",
+      E = NA,
+      "F" = "Trp",
+      G = "Trp",
+      H = NA,
+      I = NA,
+      J = NA,
+      K = NA,
+      L = "Tmp",
+      M = "Tmp",
+      N = "Trp",
+      O = "Tmp"
+      )
+  )
+
+# now use empirical paleogeography for specific regions that have drifted across latitudes
+# Madagascar is Temperate before 50 Ma, Tropical after 20 Ma and NA in between
+for (i in 1:N) {
+  if (DF$age[i] > 50 &  DF$end[i] == "K") {
+    DF$Lend[i] <- "Tmp"
+  }
+  else{
+    if (DF$age[i] < 20 &  DF$end[i] == "K") {
+      DF$Lend[i] <- "Trp"
+    }
+  }
+}
+# AfrS was all temperate until 70 Ma
+for (i in 1:N) {
+  if (DF$age[i] > 70 &  DF$end[i] == "E") {
+    DF$Lend[i] <- "Tmp"
+  }
+}
+
+# India was temperate until 110 Ma and NA until 60 Ma
+for (i in 1:N) {
+  if (DF$age[i] > 110 &  DF$end[i] == "J") {
+    DF$Lend[i] <- "Tmp"
+  }
+  else{
+    if (DF$age[i] < 60 &  DF$end[i] == "J") {
+      DF$Lend[i] <- "Trp"
+    }
+  }
+}
+
+# AusW was mainly temperate until 10 Ma
+for (i in 1:N) {
+  if (DF$age[i] > 10 &  DF$end[i] == "H") {
+    DF$Lend[i] <- "Tmp"
+  }
+}
+
+# AusE was mainly temperate until 20 Ma
+for (i in 1:N) {
+  if (DF$age[i] > 20 &  DF$end[i] == "I") {
+    DF$Lend[i] <- "Tmp"
+  }
+}
+```
+
+Quantify dispersal between latitudinal regions.
+```{r count-dispersal, echo=TRUE, eval=FALSE}
+# latitudinal dispersal = 0 if a branch starts and ends in the same latitudinal region, = 1 otherwise
+for (i in 1:N) {
+  # ambiguous starting point to NA
+  if (is.na(DF$Lstart[i]) == T | is.na(DF$Lend[i]) == T) {
+    DF$LatD[i] <- NA
+  }
+  else{
+    # otherwise dispersal if starting latitude is different from ending latitude
+    if (DF$Lstart[i] %in% DF$Lend[i] == T) {
+      DF$LatD[i] <- 0
+    }
+    else{
+      DF$LatD[i] <- 1
+    }
+  }
+}
+
+# if dispersal occurred register where to and where from
+for (i in 1:N) {
+  # ignore if latitude is uncertain
+  if (is.na(DF$LatD[i]) == T) {
+    DF$LatFrom[i] <- NA
+    DF$LatTo[i] <- NA
+  }
+  else {
+    # "from" is the start of the branch and "to" the end
+    if (DF$LatD[i] == 1) {
+      DF$LatFrom[i] <- as.character(DF$Lstart[i])
+      DF$LatTo[i] <- as.character(DF$Lend[i])
+    }
+    else {
+      # ignore if there was no latitudinal dispersal
+      DF$LatFrom[i] <- NA
+      DF$LatTo[i] <- NA
+    }
+  }
+} 
+
+# save this final version of DF
+write.table(DF, file = "../data/processed/dispersal/Biogeo_Dispersal_data.txt", quote = F, row.names = F)
+
+```
+
+### Latitudinal variation in dispersal rates
+
+We start by creating useful variables and reading in dispersal data.
+```{r read-dispersal}
+# useful variable
+Nt <- length(tres)
+Ns <- levels(as.factor(DF$Lstart))
+
+# read ancestral biogeographic and dispersal data
+DF <- read.table(file = "../data/processed/dispersal/Biogeo_Dispersal_data.txt", header = T)
+```
+
+Create latitudinal dispersal data frame.
+```{r lat-dispersal-df, echo=TRUE, eval=FALSE}
+# pre-allocate space to data frame
+Latdf <- data.frame(
+  tree = numeric(Nt * length(Ns)),
+  Lat = character(Nt * length(Ns)),
+  Snode = numeric(Nt * length(Ns)),
+  Dispersal = numeric(Nt *length(Ns)),
+  DRate = numeric(Nt * length(Ns)),
+  Enode = numeric(Nt * length(Ns)),
+  Establish = numeric(Nt * length(Ns)),
+  ERate = numeric(Nt * length(Ns)),
+  stringsAsFactors = F
+)
+
+# create an index for combination of tree and latitudinal state
+m = 1
+for (i in 1:Nt) {
+  for (j in Ns) {
+    Latdf$tree[m] <- i
+    Latdf$Lat[m] <- j
+    
+    # dispersal from
+    # how many branches start on each latitudinal region
+    Latdf$Snode[m] <-
+      nrow(DF[which(DF$Lstart == j & DF$tree == i), ])
+    
+    # how many branches underwent dispersal from each latitudinal region
+    Latdf$Dispersal[m] <-
+      nrow(DF[which(DF$LatFrom == j & DF$tree == i), ])
+    
+    # number of branches with dispersal from divided by all the time spent at given starting region (whether dispersal occurs or not)
+    Latdf$DRate[m] <-
+      Latdf$Dispersal[m] / (sum(DF$agestart[which(DF$Lstart == j &
+                                                    DF$Lend == j &
+                                                    DF$tree == i &
+                                                    is.na(DF$agestart) == F)]
+                                - DF$age[which(DF$Lstart == j &
+                                                 DF$Lend == j &
+                                                 DF$tree == i &
+                                                 is.na(DF$agestart) == F)]) +
+                              (sum(DF$agestart[which(DF$Lstart == j &
+                                                       DF$Lend != j &
+                                                       DF$tree == i &
+                                                       is.na(DF$agestart) == F)]
+                                   - DF$age[which(DF$Lstart == j &
+                                                    DF$Lend != j &
+                                                    DF$tree == i &
+                                                    is.na(DF$agestart) == F)])) / 2)
+    
+    
+    #dispersal to
+    # how many branches end on each latitudinal region
+    Latdf$Enode[m] <- nrow(DF[which(DF$Lend == j & DF$tree == i), ])
+    
+    # how many branches underwent dispersal to each latitudinal region
+    Latdf$Establish[m] <-
+      nrow(DF[which(DF$LatTo == j & DF$tree == i), ])
+    
+    # number of branches with dispersal to divided by the total time spent at given starting region (whether dispersal occurs or not)
+    Latdf$ERate[m] <-
+            Latdf$Establish[m] / (sum(DF$agestart[which(DF$Lend == j &
+                                                    DF$Lstart == j &
+                                                    DF$tree == i  &
+                                                    is.na(DF$agestart) == F)]
+                                - DF$age[which(DF$Lend == j &
+                                                 DF$Lstart == j &
+                                                 DF$tree == i &
+                                                 is.na(DF$agestart) == F)]) +
+                              (sum(DF$agestart[which(DF$Lend == j &
+                                                       DF$Lstart != j &
+                                                       DF$tree == i  &
+                                                       is.na(DF$agestart) == F)]
+                                   - DF$age[which(DF$Lend == j &
+                                                    DF$Lstart != j &
+                                                    DF$tree == i &
+                                                    is.na(DF$agestart) == F)])) / 2)
+    m = m + 1
+  }
+}
+
+# save the latitudinal dispersal data
+write.table(Latdf, file = "../data/processed/dispersal/Lat_Dispersal_data.txt", row.names = F, quote = F)
+```
+
+Plot dispersal events by latitudinal region
+```{r plot-lat-dispersal-events, warning=FALSE}
+# read latitudinal dispersal posterior
+Latdf <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_data.txt", header = T)
+
+# what is the posterior mode for each direction of dispersal
+Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Trp")]) # out of the tropics
+Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Tmp")]) #into the tropics
+
+# Plot
+p_events <- ggplot(Latdf, aes(x = Dispersal, fill = Lat)) +
+  theme_bw()+
+  labs(title = "(a)", x="Number of dispersal events", y="Posterior frequency") + 
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.1) +
+    xlim(0,125)+
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp", "Tmp"),
+                     labels = c("Tropical to temperate", "Temperate to tropical"),
+                     name = "Range shift") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  + 
+  theme(strip.text = element_text(size = 8))
+
+p_events
+```
+
+
+Plot dispersal relative to phylogenetic diversity by latitudinal region.
+```{r plot-lat-dispersal-phylo, warning=FALSE}
+# read latitudinal dispersal posterior
+Latdf <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_data.txt", header = T)
+
+# transform latitudinal data frame to long format
+Llong<-melt(Latdf, measure.vars = c("DRate", "ERate"),variable_name = "Direction")
+
+# create variable for fill colour
+Llong$fill<-paste(Llong$Lat, Llong$variable, sep = ".")
+
+# plot dispersal rates for each latitudinal region
+LatD_plot <-
+  ggplot(Llong, aes(value, color = fill, fill = fill)) +
+  geom_histogram(position = "identity",
+    alpha = 0.8,
+    size = 0.3,
+    bins = 40
+    ) +
+  theme_bw() +
+  labs(title = "(a)", x = "Phylogenetic dispersal rate", y = "Posterior density") +
+  facet_wrap( ~ factor(
+    Lat,
+    levels = c("Trp", "Tmp"),
+    labels = c("Tropical", "Temperate"),
+    ordered = T
+  ) ,
+  nrow = 1,
+  scales = "free_y") +
+  scale_color_manual(
+    name = "Dispersal type",
+    values = c("#C27D38", "white" , "#798E87",  "white"),
+    breaks = c("Trp.DRate", "Trp.ERate", "Tmp.DRate", "Tmp.ERate"),
+    labels = c(
+      "Tropical departure",
+      "Tropical establishment",
+      "Temperate departure",
+      "Temperate establishment"
+    )
+  ) +
+  scale_fill_manual(
+    name = "Dispersal type",
+    values = c("white" , "#C27D38", "white", "#798E87"),
+    breaks = c("Trp.DRate", "Trp.ERate", "Tmp.DRate", "Tmp.ERate"),
+    labels = c(
+      "Tropical departure",
+      "Tropical establishment",
+      "Temperate departure",
+      "Temperate establishment"
+    )
+  ) +
+  guides(color = guide_legend(byrow = T)) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8)) +
+  theme(axis.text =  element_text(size = 8)) + 
+  theme(strip.text = element_text(size = 8))
+
+LatD_plot
+```
+
+Summary statistics for latitudinal dispersal.
+```{r lat-dispersal-summ}
+# create a table summary
+LatD_summ <-
+  data.frame(
+    comparison = c(
+      "Establishment Trp vs Tmp",
+      "Departure Trp vs Tmp",
+      "Trp Departure vs Establishment",
+      "Tmp Departure vs Establishment"
+    ),
+    # this is the mean difference between posterior rates
+    mean_diff = c(mean(Latdf$ERate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")]),
+                  mean(Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$DRate[which(Latdf$Lat == "Tmp")]),
+                  mean(Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Trp")]),
+                  mean(Latdf$DRate[which(Latdf$Lat == "Tmp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")])),
+    # the lower limit of the 95% HPD interval 
+    HPD_lower = c(HPDinterval(mcmc((Latdf$ERate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")])))[1],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$DRate[which(Latdf$Lat == "Tmp")])))[1],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Trp")])))[1],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Tmp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")])))[1]),
+     # the upper limit of the 95% HPD interval
+     HPD_upper = c(HPDinterval(mcmc((Latdf$ERate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")])))[2],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$DRate[which(Latdf$Lat == "Tmp")])))[2],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Trp")])))[2],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Tmp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")])))[2]))
+
+LatD_summ %>% kbl(booktabs =T, align= c("l",rep('r', 4))) %>%
+kable_styling(latex_options ="striped")
+```
+
+## Approach #2: from HiSSE stochastic character mapping
+
+For the second approach we used the stochastic character mapping from the HiSSE analysis [@@freyman2019stochastic]. The "events.csv" file already records translatitudinal dispersal events from a posterior sample.
+
+### Latitudinal variation in dispersal rates
+Create a latitudinal dispersal data frame.
+```{r lat-dispersal-df-2, echo=TRUE, eval=FALSE}
+# read events table thinning every 10th iteration
+events <- read.table(file = "../output/HiSSE/LatHiSSE_strong_r1_events.tsv", header = T)
+events <-events[which(events$iteration %in% seq(1, nrow(events), 10)), ]
+
+Nt_e <- max(events$iteration)
+Ns <- levels(as.factor(DF$Lstart))
+
+rws <- 2 * length(seq(from = 2000, to = Nt_e, 10))
+
+# pre-allocate space to data frame
+Lat_events <- data.frame(
+  it = numeric(rws),
+  Lat = character(rws),
+  Snode = numeric(rws),
+  Dispersal = numeric(rws),
+  DRate = numeric(rws),
+  Enode = numeric(rws),
+  Establish = numeric(rws),
+  ERate = numeric(rws),
+  stringsAsFactors = F
+)
+
+# create an index for combination of iteration and latitudinal state
+m = 1
+for (i in seq(from = 2001, to = Nt_e, 10)) {
+  for (j in Ns) {
+    Lat_events$it[m] <- i
+    Lat_events$Lat[m] <- j
+    
+    # dispersal from
+    # how many branches start on the temperate region, odd start states correspond to the temperate region (2 hidden states for diversification)
+    if (Lat_events$Lat[m] == "Tmp") {
+      Lat_events$Snode[m] <-
+        nrow(events[which(events$start_state %% 2 != 0 &
+                            events$iteration == i), ])
+      
+      # how many branches underwent dispersal from the temperate region
+      Lat_events$Dispersal[m] <-
+        nrow(events[which(
+          events$transition_type == "anagenetic" &
+            events$start_state %% 2 != 0 & events$iteration == i
+        ),])
+      
+      # number of branches with dispersal from divided by all the time spent at given starting region (whether dispersal occurs or not)
+      
+      Lat_events$DRate[m] <-
+        Lat_events$Dispersal[m] / (sum(events$branch_start_time[which(
+          events$start_state %% 2 != 0 &
+            events$end_state %% 2 != 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]
+        - events$branch_end_time[which(
+          events$start_state %% 2 != 0 &
+            events$end_state %% 2 != 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]) +
+          (
+            sum(events$branch_start_time[which(
+              events$start_state %% 2 != 0 &
+                events$end_state %% 2 == 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )]
+            - events$branch_end_time[which(
+              events$start_state %% 2 != 0 &
+                events$end_state %% 2 == 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )])
+          ) / 2)
+      
+      
+      #dispersal to
+      # how many branches end on each the temperate region
+      Lat_events$Enode[m] <-
+        nrow(events[which(events$end_state %% 2 != 0 &
+                            events$iteration == i),])
+      
+      # how many branches underwent dispersal to the temperate region
+      Lat_events$Establish[m] <-
+        nrow(DF[which(
+          events$transition_type == "anagenetic" &
+            events$end_state %% 2 != 0 & events$iteration == i
+        ),])
+      
+      # number of branches with dispersal to divided by the total time spent at given starting region (whether dispersal occurs or not)
+      Lat_events$ERate[m] <-
+        Lat_events$Establish[m] / (sum(events$branch_start_time[which(
+          events$start_state %% 2 != 0 &
+            events$end_state %% 2 != 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]
+        - events$branch_end_time[which(
+          events$start_state %% 2 != 0 &
+            events$end_state %% 2 != 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]) +
+          (
+            sum(events$branch_start_time[which(
+              events$start_state %% 2 == 0 &
+                events$end_state %% 2 != 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )]
+            - events$branch_end_time[which(
+              events$start_state %% 2 == 0 &
+                events$end_state %% 2 != 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )])
+          ) / 2)
+    }   else {
+      # dispersal from
+    # how many branches start on the tropical region, even start states correspond to the tropical region (2 hidden states for diversification)
+      Lat_events$Snode[m] <-
+        nrow(events[which(events$start_state %% 2 == 0 &
+                            events$iteration == i), ])
+      # how many branches underwent dispersal from the tropical region
+      Lat_events$Dispersal[m] <-
+        nrow(events[which(
+          events$transition_type == "anagenetic" &
+            events$start_state %% 2 == 0 & events$iteration == i
+        ),])
+      
+      # number of branches with dispersal from divided by all the time spent at given starting region (whether dispersal occurs or not)
+      
+      Lat_events$DRate[m] <-
+        Lat_events$Dispersal[m] / (sum(events$branch_start_time[which(
+          events$start_state %% 2 == 0 &
+            events$end_state %% 2 == 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]
+        - events$branch_end_time[which(
+          events$start_state %% 2 == 0 &
+            events$end_state %% 2 == 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]) +
+          (
+            sum(events$branch_start_time[which(
+              events$start_state %% 2 == 0 &
+                events$end_state %% 2 != 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )]
+            - events$branch_end_time[which(
+              events$start_state %% 2 == 0 &
+                events$end_state %% 2 != 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )])
+          ) / 2)
+      
+      
+      #dispersal to
+      # how many branches end on each latitudinal region
+      Lat_events$Enode[m] <-
+        nrow(events[which(events$end_state %% 2 == 0 &
+                            events$iteration == i),])
+      
+      # how many branches underwent dispersal to each latitudinal region
+      Lat_events$Establish[m] <-
+        nrow(DF[which(
+          events$transition_type == "anagenetic" &
+            events$end_state %% 2 == 0 & events$iteration == i
+        ),])
+      
+      # number of branches with dispersal to divided by the total time spent at given starting region (whether dispersal occurs or not)
+      Lat_events$ERate[m] <-
+        Lat_events$Establish[m] / (sum(events$branch_start_time[which(
+          events$start_state %% 2 == 0 &
+            events$end_state %% 2 == 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]
+        - events$branch_end_time[which(
+          events$start_state %% 2 == 0 &
+            events$end_state %% 2 == 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]) +
+          (
+            sum(events$branch_start_time[which(
+              events$start_state %% 2 != 0 &
+                events$end_state %% 2 == 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )]
+            - events$branch_end_time[which(
+              events$start_state %% 2 != 0 &
+                events$end_state %% 2 == 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )])
+          ) / 2)
+    }
+    
+    m = m + 1
+  }
+}
+
+# save the latitudinal dispersal data
+write.table(Lat_events, file = "../data/processed/dispersal/Lat_Dispersal_HiSSE_data.txt", row.names = F, quote = F)
+```
+
+Plot dispersal events by latitudinal region.
+```{r plot-lat-events-2, warning=FALSE}
+# read latitudinal dispersal posterior
+Lat_events <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_HiSSE_data.txt", header = T)
+
+# what is the posterior mode for each direction of dispersal
+Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Trp")]) # out of the tropics
+Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")]) #into the tropics
+
+# Plot
+p_events2 <- ggplot(Lat_events, aes(x = Dispersal, fill = Lat)) +
+  theme_bw()+
+  labs(title = "(b)", x="Number of dispersal events", y="Posterior frequency") + 
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.1) +
+  xlim(0,125)+
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp", "Tmp"),
+                     labels = c("Tropical to temperate", "Temperate to tropical"),
+                     name = "Range shift") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  + 
+  theme(strip.text = element_text(size = 8))
+
+p_events2
+```
+
+Plot dispersal relative to phylogenetic diversity by latitudinal region.
+```{r plot-lat-dispersal-phylo-2, warning=FALSE}
+# read latitudinal dispersal posterior
+Lat_events <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_HiSSE_data.txt", header = T)
+
+# transform latitudinal data frame to long format
+events_long<-melt(Lat_events, measure.vars = c("DRate", "ERate"),variable_name = "Direction")
+
+# create variable for fill colour
+events_long$fill<-paste(events_long$Lat, events_long$variable, sep = ".")
+
+# plot dispersal rates for each latitudinal region
+LatD_events_plot <-
+  ggplot(events_long, aes(value, color = fill, fill = fill)) +
+  geom_histogram(position = "identity",
+    alpha = 0.8,
+    size = 0.3,
+    bins = 40
+    ) +
+  theme_bw() +
+  xlim(0,0.06) +
+  labs(x = "Phylogenetic dispersal rate", y = "Posterior density", title = "(b)") +
+  facet_wrap( ~ factor(
+    Lat,
+    levels = c("Trp", "Tmp"),
+    labels = c("Tropical", "Temperate"),
+    ordered = T
+  ) ,
+  nrow = 1,
+  scales = "free_y")  +
+  scale_color_manual(
+    name = "Dispersal type",
+    values = c("#C27D38", "white" , "#798E87",  "white"),
+    breaks = c("Trp.DRate", "Trp.ERate", "Tmp.DRate", "Tmp.ERate"),
+    labels = c(
+      "Tropical departure",
+      "Tropical establishment",
+      "Temperate departure",
+      "Temperate establishment"
+    )
+  ) +
+  scale_fill_manual(
+    name = "Dispersal type",
+    values = c("white" , "#C27D38", "white", "#798E87"),
+    breaks = c("Trp.DRate", "Trp.ERate", "Tmp.DRate", "Tmp.ERate"),
+    labels = c(
+      "Tropical departure",
+      "Tropical establishment",
+      "Temperate departure",
+      "Temperate establishment"
+    )
+  ) +
+  guides(color = guide_legend(byrow = T)) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8)) +
+  theme(axis.text =  element_text(size = 8)) + 
+  theme(strip.text = element_text(size = 8))
+
+
+LatD_events_plot
+```
+
+Summary statistics for latitudinal dispersal.
+```{r lat-dispersal-summ-2}
+# create a table summary
+LatD_summ <-
+  data.frame(
+    comparison = c(
+      "Establishment Trp vs Tmp",
+      "Departure Trp vs Tmp",
+      "Trp Departure vs Establishment",
+      "Tmp Departure vs Establishment"
+    ),
+    # this is the mean difference between posterior rates
+    mean_diff = c(mean(Lat_events$ERate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")]),
+                  mean(Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$DRate[which(Lat_events$Lat == "Tmp")]),
+                  mean(Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Trp")]),
+                  mean(Lat_events$DRate[which(Lat_events$Lat == "Tmp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")])),
+    # the lower limit of the 95% HPD interval 
+    HPD_lower = c(HPDinterval(mcmc((Lat_events$ERate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")])))[1],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$DRate[which(Lat_events$Lat == "Tmp")])))[1],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Trp")])))[1],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Tmp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")])))[1]),
+     # the upper limit of the 95% HPD interval
+     HPD_upper = c(HPDinterval(mcmc((Lat_events$ERate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")])))[2],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$DRate[which(Lat_events$Lat == "Tmp")])))[2],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Trp")])))[2],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Tmp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")])))[2]))
+
+LatD_summ %>% kbl(booktabs =T, align= c("l",rep('r', 4))) %>%
+kable_styling(latex_options ="striped")
+```
+
+# Repeat downstream analyses for weakly informed tree prior
+
+## Ancestral biogeography
+Here we process the posterior sample of ancestral states for Figure S4-S10. The ancestral states posteriors will also be used for computing dispersal rates.
+
+## Prepare the data
+
+Read posterior trees and obtain a sample of 1000.
+```{r read-trees-w, echo=TRUE, eval=FALSE, message=FALSE}
+# read tree posterior
+allT <- read.tree(paste0(output.folder, "Coen.g1.beta.calib.354635.trees"), keep.multi = T)
+
+# burn-in 20%
+burnin <- floor(length(allT)*0.20)
+
+# sample 1000 trees
+rsample <- sample(seq(from = burnin+1, to = length(allT)), size = 1000, replace = F)
+tres <- allT[rsample] 
+
+# force ultrametric (this is an annoying problem with rounding branch lengths)
+for (i in 1:length(tres)) {
+  temp <- nnls.tree(cophenetic(tres[[i]]), tres[[i]], rooted = TRUE)
+  tres[[i]] <- temp
+}
+
+# save these trees for later
+write.tree(phy = tres, file = "../data/processed/biogeo/G1.weak.1000.trees")
+```
+
+Read in the tree posterior.
+```{r read-map-w, echo=TRUE, eval=TRUE}
+tres <- read.tree(file = "../data/processed/biogeo/G1.weak.1000.trees", keep.multi = T)
+```
+
+Get index data.
+```{r get-index-w, echo=TRUE, eval=FALSE}
+# create a data frame with index information for each posterior tree and arrange the data frames into a list
+dat = list()
+for (i in 1:length(tres)) {
+  assign(paste("gstats", i, sep = ""), Map_weak@data)
+  temp = eval(parse(text = paste("gstats", i, sep = "")))
+  dat[[i]] <-  temp
+}
+
+# clean workspace
+rm(list=ls(pattern="gstats*"))
+
+# just checking it's a list of data frames
+class(dat[[2]]) 
+```
+
+Get descendants for each internal node in each posterior tree.
+```{r get-descendants-w, echo=TRUE, eval=FALSE}
+# for each tree and each ancestral node get the two immediate descendants
+
+# get one descendant
+for (i in 1:length(tres)) {
+  temp <- list()
+  for (j in 1:Ntips) {
+    # extant taxa have no descendants
+    temp[j] <- "NA"
+  }
+  for (j in Intnode1:Nnodes) {
+    temp2 = eval(parse(text = paste("tres[[", i, "]]", sep = "")))
+    temp[j] <- getDescendants(temp2, j)[1]
+  }
+  assign(paste("D1.T", i, sep = ""), temp)
+}
+
+# get the other descendant
+for (i in 1:length(tres)) {
+  temp <- list()
+  for (j in 1:Ntips) {
+    # extant taxa have no descendants
+    temp[j] <- "NA"
+  }
+  for (j in Intnode1:Nnodes) {
+    temp2 = eval(parse(text = paste("tres[[", i, "]]", sep = "")))
+    temp[j] <- getDescendants(temp2, j)[2]
+  }
+  assign(paste("D2.T", i, sep = ""), temp)
+}
+
+# make a list for D1 across all trees, and unlist within each tree to get a vector of descendants per tree
+D1 <- list()
+for (i in 1:length(tres)){
+  temp = eval(parse(text=paste("D1.T", i,sep = "")))
+  D1[[i]] <-  unlist(temp)
+} 
+
+# for example D1 of the root in the first tree
+D1[[1]][Intnode1] 
+
+# clean workspace
+rm(list=ls(pattern="D1.T*"))
+
+# make a list for D2 across all trees, and unlist within each tree to get a vector of descendants per tree
+D2 = list()
+for (i in 1:length(tres)){
+  temp = eval(parse(text=paste("D2.T", i,sep = "")))
+  D2[[i]] <-  unlist(temp)
+} 
+
+# for example D2 of the root in the first tree
+D2[[1]][Intnode1] 
+
+# clean workspace
+rm(list=ls(pattern="D2.T*"))
+```
+
+Get node ages for each tree.
+```{r node-ages-w, echo=TRUE, eval=FALSE}
+# age for each internal node (end of a branch)
+for (i in 1:length(tres)) {
+  
+  # get the tree height here
+  rootAge <- nodeheight(tres[[i]], 1)
+  temp <- list()
+  for (j in 1:Nnodes) {
+    temp2 = eval(parse(text = paste("tres[[", i, "]]", sep = "")))
+    temp[j] <- rootAge - nodeheight(temp2, j)
+  }
+  assign(paste("Ages.T", i, sep = ""), temp)
+}
+
+# make a list of node ages across all trees (and unlist within each tree to get vectors of ages per tree)
+Age = list()
+for (i in 1:length(tres)){
+  temp = eval(parse(text=paste("Ages.T", i,sep = "")))
+  Age[[i]] <-  unlist(temp)
+} 
+
+Age[[1]][Intnode1] # for example D1 of the root in the first tree
+
+# clean workspace
+rm(list=ls(pattern="Ages.T*"))
+```
+
+Make data frame with data (age and node number) for each descendant.
+```{r make-df-w, echo=TRUE, eval=FALSE}
+# pre-allocate space
+ddf <- data.frame(
+  tree = numeric(length(tres) * Nnodes),
+  node = numeric(length(tres) * Nnodes),
+  D1 = numeric(length(tres) * Nnodes),
+  D2 = numeric(length(tres) * Nnodes),
+  age = numeric(length(tres) * Nnodes),
+  stringsAsFactors = TRUE
+)
+
+# populate data frame with each row being one node of one tree
+k=1
+for (i in 1:length(tres)) {
+  for (j in k:(k + Nnodes - 1)) {
+   
+     # make and index for nodes within each tree 
+    m <- j - Nnodes * (i - 1)
+    ddf$tree[j] <- i
+    ddf$node[j] <- m
+    ddf$D1[j] <- D1[[i]][m]
+    ddf$D2[j] <- D2[[i]][m]
+    ddf$age[j] <- Age[[i]][m]
+  }
+  k = i * Nnodes + 1
+}
+
+# check the root row for the second tree
+ddf[Intnode1+Nnodes,] 
+```
+
+Make data frame with RevBayes index for each node.
+```{r make-rb-df-w, echo=TRUE, eval=FALSE}
+sdf <- data.frame(
+  tree = numeric(length(tres) * Nnodes),
+  node = numeric(length(tres) * Nnodes),
+  index = numeric(length(tres) * Nnodes),
+  stringsAsFactors = TRUE
+)
+
+k = 1
+for (i in 1:length(tres)) {
+  for (j in k:(k + Nnodes - 1)) {
+    # make and index for nodes within each tree
+    m <- j - Nnodes * (i - 1)
+    sdf$tree[j] <- i
+    sdf$node[j] <- dat[[i]]$node[m]
+    sdf$index[j] <- dat[[i]]$index[m]
+    
+  }
+  k = i * Nnodes + 1
+}
+```
+
+Match node labels and RevBayes indices.
+```{r merge-dfs-w, echo=TRUE, eval=FALSE}
+# join into one data frame with descendants, age and index for each node in each tree
+DF <- join(ddf, sdf)
+
+# check root for sanity
+# tree 1
+DF[Intnode1,]
+
+# tree2
+DF[Intnode1+Nnodes,]
+
+# save this data frame for later
+write.table(DF, file = "../data/processed/biogeo/Descendant_data_weak.txt", quote = F, row.names = F)
+```
+
+Read in posterior ancestral states into data frame.
+```{r read-states-w, echo=TRUE, eval=FALSE}
+DF <- read.table(file = "../data/processed/biogeo/Descendant_data_weak.txt", header = T)
+
+# get the posterior sample of states that matches the random sample of trees
+StatesWide <-
+  read.table(
+    paste0(
+      output.folder,
+      "Coen.g1.beta.calib.354635.states.txt"
+    ),
+    sep = "\t",
+    header = T
+  )[c(rsample), ]
+
+# take a look
+head(StatesWide)[,c(1:10)]
+
+# create data frame with the starting states of each branch and each tree
+# select columns with starting states from the full wide data frame
+AnaStart <- StatesWide[, seq(from = 2, to = Nnodes * 2, by = 2)]
+
+# Africa East (F) will be interpreted as false, change F to f
+AnaStart <- data.frame(lapply(AnaStart, function(x) {
+                   gsub("F", "f", x)
+                }))
+
+# melt to long data frame
+AnaStart <- melt(AnaStart, measure.vars = colnames(AnaStart))
+
+# make index variable for trees
+AnaStart$tree <- rep(seq(1:length(tres)), Nnodes)
+
+# make index variable for nodes
+AnaStart$index <- sort(rep(seq(1:Nnodes), length(tres)))
+
+# rename starting state variable
+colnames(AnaStart)[2]<-"start"
+
+# fix East Africa back to "F"
+AnaStart$start<-revalue(AnaStart$start, c("f" = "F", "fALSE" = "F")) 
+
+# double check state names
+levels(as.factor(AnaStart$start))
+
+# create data frame with the ending states of each branch and each tree
+# select columns with ending states from the full wide data frame
+AnaEnd <- StatesWide[, seq(from = 3, to = Nnodes * 2 + 1, by = 2)]
+
+# Africa East (F) will be interpreted as false, change F to f
+AnaEnd <- data.frame(lapply(AnaEnd, function(x) {
+  gsub("F", "f", x)
+}))
+
+# melt to long data frame
+AnaEnd <- melt(AnaEnd, measure.vars = colnames(AnaEnd))
+
+# rename ending state variable
+colnames(AnaEnd)[2]<-"end"
+
+AnaEnd$end <-
+  revalue(AnaEnd$end, c("f" = "F",
+                        "fALSE" = "F"))
+
+# cbind to AnaStart
+AnaStart$end <- AnaEnd$end
+
+#Join ancestral state data frame to node information data frame
+DF<-join(DF,AnaStart[,c(-1)])
+# head(DF)
+
+ check ancestral states for root node
+summary(as.factor(DF$end[which(DF$node == 670)]))
+
+# save this data frame for later
+write.table(DF, file = "../data/processed/biogeo/Biogeo_data_weak.txt", quote = F, row.names = F)
+```
+
+### Ancestral states
+
+#### Most ancestral nodes
+For the inset of Fig. 2 we want to know the posterior distribution of ancestral states in the MRCA of Coenagrionoidea (Coenagrionidae + Platycnemididae), Platynemididae, the "Ridge-face" clade of Coenagrionidae and the "Core" clade of Coenagionidae. Here we draw the same figure for the Supporting Material Extended Results.
+
+```{r plot-old-w, message=FALSE}
+# get posterior distributions of ancestral states for the key ancestral nodes  
+DF <- read.table(file = "../data/processed/biogeo/Biogeo_data_weak.txt", header = T)
+N <- nrow(DF)
+
+old_nodes <- rbind(cbind(count = summary(as.factor(DF$end[which(DF$node == 670)])), node = 4), # root
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 671)])), node = 5), # Coenagrionidae
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 672)])), node = 2), # Core
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 961)])), node = 1), # Ridge
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 1226)])), node = 3)) # Feather
+
+# make a column for the names of the biogeographic areas
+old_nodes <- data.frame(states = rownames(old_nodes), old_nodes)
+
+# transform long to wide
+pie_data <- pivot_wider(old_nodes, id_cols = "node", names_from = "states", values_from = "count")  
+
+# missing states have 0 posterior frequency
+pie_data[is.na(pie_data)] <- 0
+
+# combine all the rare states into "others"
+pie_data <- pie_data %>% mutate(others= `1` + `7` + `8`+  A, + E + G, +H + J + L+ N + `2`)
+
+# drop rare states from data frame
+pie_data <- pie_data[, c("node","0","B","D","I","others")]
+
+# use same colours as in Fig. 2
+area_col_old <-c("palegreen", #SamN
+            "deeppink", #AsSe
+            "orange1", #AfrW
+            "purple", #AusE
+            "white" #others
+)
+
+# create pies for each node
+pies <- nodepie(pie_data, cols=c(2:6), alpha=1, color = area_col_old)
+
+# read in simplified backbone cladogram
+bb <- read.tree("../data/processed/biogeo/backbone.tre")
+
+# plot annotated backbone phylogeny
+ggtree (bb) + geom_inset(pies, width = 0.25, height = 0.25) 
+  
+```
+
+Calculate posterior probability for each of the older nodes.
+```{r nodes-pp-w}
+Node_pp <- cbind (Clade = c("root", "Coenagrionidae", "Core", "Ridge-face", "Featherleg"), pie_data[,-1]/1000)
+
+Node_pp %>%
+kbl(booktabs =T, linesep="") %>%
+kable_styling(latex_options ="striped")
+
+# PP root in either S America (N) or Africa W
+#sum(c(Node_pp[1, "0"], Node_pp[1, "D"]))
+```
+
+
+### Across the entire phylogeny
+For Fig. 2 we want to know the posterior distribution of ancestral states in every node of the tree.
+```{r plot-all-w, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+DF_anc <- DF[which(DF$node > 669),]
+
+Node_states <- as.data.frame(cbind(node =unique(DF_anc$node), aggregate(as.factor(DF_anc$end), by = list(DF_anc$node), FUN=summary)$x))
+
+# use same colours as in Fig 2 but reordered
+area_col_sorted <- c(
+  "palegreen",  #SamN
+  "chartreuse3",  #SamE
+  "olivedrab2",  #SamS
+  "dodgerblue3",  #NamNW
+  "deepskyblue2", #NamNE
+  "cyan1",  #NamSE
+  "turquoise",  #NamSW
+  "peachpuff1", #Grn
+  "sandybrown",  #Eur
+  "sienna1",  #AsC
+  "brown2",  #AsNE
+  "deeppink",  #AsSe
+  "tomato1",  #AsE
+  "orange1",  #AfrW
+  "gold1",  #AfrS
+  "lightgoldenrod1",   # AfrE
+  "lightgoldenrodyellow", #AfrN
+  "mediumorchid3",  #AusW
+  "purple",  #AusE
+  "bisque2",  #Ind
+  "goldenrod1",  #Mdg
+  "white", #AntW
+  "white", #AntE
+  "plum3",  #Mly
+  "mediumpurple"  #NZ
+ )
+
+# create pies for each node
+all_pies <- nodepie(Node_states, cols=c(2:26), alpha=1, color = area_col_sorted)
+
+# plot annotated backbone phylogeny
+p2 <- ggtree(Map_weak, size = 0.5) + geom_inset(all_pies, width = 0.1, height = 0.1) 
+g2<-gheatmap(p2, dd, offset = 0, width=0.4, colnames=F, hjust=0)+
+  labs(title = "(b)") + 
+  theme(plot.title = element_text(face = "bold")) +
+  theme(text = element_text(size = 10)) +
+  scale_fill_manual(values = area_col, breaks = area_breaks,
+                    labels = areas, name="Biogeographic areas",
+                    na.value="transparent") +
+  #guides(fill = F)
+  guides(fill = (guide_legend(ncol=2,byrow=F)))
+ 
+g2
+```
+
+For supplementary figures we want to split the plot by the main clades and include the tiplabels.
+
+Create plot with tip labels.
+```{r plot-by-clade-w,  eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+p3 <-
+  ggtree(Map_weak, size = 0.5) + geom_inset(all_pies, width = 0.18, height = 0.18)
+g3 <-
+  gheatmap(
+    p3,
+    dd,
+    offset = 40,
+    width = 0.4,
+    font.size = 3,
+    colnames = F,
+    hjust = 0
+  ) +
+  geom_tiplab(size = 1.2, offset = 2) +
+  theme(plot.title = element_text(face = "bold"),
+        legend.text = element_text(size = 6)) +
+  scale_fill_manual(
+    values = area_col,
+    breaks = area_breaks,
+    labels = areas,
+    name = "Biogeographic areas",
+    na.value = "transparent"
+  ) +
+  #guides(fill = F)
+  guides(fill = (guide_legend(ncol = 2, byrow = F))) + labs(title = "(a)")
+```
+
+Plot Featherleg clade.
+```{r plot-featherlegs-w, fig.width=7, fig.height=5.5}
+gfeather <-
+  viewClade(g3, getMRCA(Map_weak@phylo, tip = c(
+    "Arabicnemis_caerulea", "Elattoneura_caesia"
+  )))
+
+gfeather
+```
+
+Plot Ridge-face clade.
+```{r plot-ridge-w, fig.width=7, fig.height=5.5}
+gridge <-
+  viewClade(g3, getMRCA(Map_weak@phylo, tip = c("Phasmoneura_exigua", "Argia_euphorbia")))
+
+gridge
+```
+
+Plot Core clade.
+```{r plot-core-w, fig.width=7, fig.height=5.5}
+gcore <-
+  viewClade(g3, getMRCA(Map_weak@phylo, tip = c(
+    "Coenagrion_scitulum", "Acanthagrion_gracile"
+  )))
+
+gcore
+```
+
+# Diversification
+Here we explored how diversification rates vary across time and between latitudinal regions.
+
+## Time-dependent diversification
+We analyzed the temporal dynamics of diversification using episodic birth-death (EBD) models in RevBayes.
+
+Plot the results
+```{r plot-EBD-w,  fig.width=4, fig.height=12}
+rev_out <-
+  rev.process.div.rates(
+    speciation_times_file ="../output/EBED/EBED.weak2020_EBD_speciation_times.log",
+    speciation_rates_file = "../output/EBED/EBED.weak2020_EBD_speciation_rates.log",
+    extinction_times_file = "../output/EBED/EBED.weak2020_EBD_extinction_times.log",
+    extinction_rates_file = "../output/EBED/EBED.weak2020_EBD_extinction_rates.log",
+    tree = Map_weak@phylo,
+    burnin = 0.05,
+    numIntervals = 20
+  )
+
+par(mfrow=c(3,1))
+rev.plot.div.rates(
+  rev_out,
+  fig.types = c("speciation rate", "extinction rate", "net-diversification rate"),
+  use.geoscale = FALSE,
+  col = wes_palette("Moonrise2")[1:4]
+)
+```
+
+## Trait-dependent diversification
+We asked if diversification rates depend on latitudinal range, using a HiSSE model [@beaulieu2016detecting] in RevBayes.
+
+#### Running the HiSSE model
+There are two hidden states that accommodate heterogeneity in diversification rates not explained by latitudinal range
+
+Plot the results
+```{r plot-HiSSE-w, message=FALSE, warning=FALSE}
+# number of replicate runs
+runs = 2
+
+# create data frame for combined posterior
+H_out <- data.frame()
+
+# extra burn-in and append
+for (i in 1:runs){
+  temp <-  read.table(paste0 ("../output/HiSSE/LatHiSSE_weak_r1model_run_",  i, ".log") , header=TRUE)
+  start <- round(0.2*length(temp$Iteration))
+  end <- length(temp$Iteration)
+  temp <- temp[start:end,]
+ H_out <- rbind(H_out, temp)  
+}
+
+# sort by iteration
+ H_out <- H_out[order(H_out$Iteration),] 
+
+# rename character states
+HiSSE_types <- rep(c("Trp1", "Tmp1", "Trp2", "Tmp2"),
+                   each = length(H_out$extinction.1))
+
+# create data frame for each rate 
+dat_spec <- data.frame(dens = c(H_out$speciation.1., H_out$speciation.2.,
+                                H_out$speciation.3., H_out$speciation.4.), 
+                       Type = HiSSE_types)
+
+dat_ext <- data.frame(dens = c(H_out$extinction.1., H_out$extinction.2., 
+                               H_out$extinction.3., H_out$extinction.4.),
+                      Type = HiSSE_types)
+
+dat_div <- data.frame(dens = c(H_out$speciation.1.-H_out$extinction.1., 
+                               H_out$speciation.2.-H_out$extinction.2., 
+                               H_out$speciation.3.-H_out$extinction.3., 
+                               H_out$speciation.4.-H_out$extinction.4.),
+                       Type = HiSSE_types)
+
+# add latitudinal state as a separate column
+dat_spec$Lat<-substr(dat_spec$Type, start = 1, stop = 3)
+dat_ext$Lat<-substr(dat_ext$Type, start = 1, stop = 3)
+dat_div$Lat<-substr(dat_div$Type, start = 1, stop = 3)
+
+# add hidden trait character state
+dat_spec$hidden <- paste0("hidden state ", substr(dat_spec$Type, 4, 4))
+dat_ext$hidden <- paste0("hidden state ", substr(dat_ext$Type, 4, 4))
+dat_div$hidden <- paste0("hidden state ", substr(dat_div$Type, 4, 4))
+
+p1 <- ggplot(dat_spec, aes(x = dens, color = Lat, fill = Lat)) + 
+   theme_bw()+
+  theme(plot.title = element_text(size = 10))+
+labs(title = "(a) Speciation", x="Rate", y="Posterior frequency") + 
+  facet_wrap(~hidden, ncol =2)+
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.01) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  xlim(-0.01,0.3)+
+   scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp", "Tmp"),
+                     labels = c("Tropical", "Temperate"),
+                     name = "Latitude") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8)) + 
+  theme(strip.text = element_text(size = 8))
+
+p2 <- ggplot(dat_ext, aes(x = dens, color = Lat, fill = Lat)) +  
+   theme_bw()+
+  theme(plot.title = element_text(size = 10))+
+  labs(title = "(b) Extinction", x="Rate", y="Posterior frequency") + 
+  facet_wrap(~hidden, ncol =2,)+
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.01) +
+   scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp", "Tmp"),
+                     labels = c("Tropical", "Temperate"),
+                     name = "Latitude") +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  xlim(-0.01,0.3)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  + 
+  theme(strip.text = element_text(size = 8))
+
+p3 <- ggplot(dat_div, aes(x = dens, color = Lat, fill = Lat)) +
+  theme_bw()+
+  labs(title = "(c) Diversification", x="Rate", y="Posterior frequency") + 
+  theme(plot.title = element_text(size = 10))+
+  xlim(-0.01,0.3)+
+  facet_wrap(~hidden, ncol =2)+
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.01) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp", "Tmp"),
+                     labels = c("Tropical", "Temperate"),
+                     name = "Latitude") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  + 
+  theme(strip.text = element_text(size = 8))
+  
+multiplot(p1, p2, p3, ncol = 1)
+```
+
+Summarise HiSSE results
+```{r lat-divers-summ-w}
+# compute differences between rates
+# speciation
+diff_lambda1 <- H_out$speciation.1. - H_out$speciation.2.
+diff_lambda2 <- H_out$speciation.3. - H_out$speciation.4.
+
+# extinction
+diff_mu1 <- H_out$extinction.1. - H_out$extinction.2.
+diff_mu2 <- H_out$extinction.3. - H_out$extinction.4.
+
+#diversification
+diff_div1 <- (H_out$speciation.1. - H_out$extinction.1.) - (H_out$speciation.2. - H_out$extinction.2.)
+diff_div2 <- (H_out$speciation.3. - H_out$extinction.3.) - (H_out$speciation.4. - H_out$extinction.4.)
+
+# and number of posterior samples
+N_post <- nrow(H_out)
+
+# Create a table summary
+Div_summ <-
+  data.frame(
+    hidden_state = rep (c("Hidden state 1", "Hidden state 2"), each = 3),
+    comparison = rep(
+      c(
+        "Speciation Trp vs Tmp",
+        "Extinction Trp vs Tmp",
+        "Diversification Trp vs Tmp"
+      ),
+      2
+    ),
+    # this is the mean difference between posterior rates
+    mean_diff = c(
+      mean(diff_lambda1),
+      mean(diff_mu1),
+      mean(diff_div1),
+      #hidden state 2
+      mean(diff_lambda2),
+      mean(diff_mu2),
+      mean(diff_div2)
+    ),
+    # the lower limit of the 95% HPD interval
+    HPD_lower = c(
+      HPDinterval(mcmc(diff_lambda1))[1],
+      HPDinterval(mcmc(diff_mu1))[1],
+      HPDinterval(mcmc(diff_div1))[1],
+      HPDinterval(mcmc(diff_lambda2))[1],
+      #hidden state 2
+      HPDinterval(mcmc(diff_mu2))[1],
+      HPDinterval(mcmc(diff_div2))[1]
+    ),
+    # the upper limit of the 95% HPD interval
+    HPD_upper = c(
+      HPDinterval(mcmc(diff_lambda1))[2],
+      HPDinterval(mcmc(diff_mu1))[2],
+      HPDinterval(mcmc(diff_div1))[2],
+      HPDinterval(mcmc(diff_lambda2))[2],
+      HPDinterval(mcmc(diff_mu2))[2],
+      HPDinterval(mcmc(diff_div2))[2]
+    )
+  )
+
+Div_summ %>% kbl(booktabs =T, align= c(rep("l",2),rep('r', 4))) %>%
+kable_styling(latex_options ="striped")
+```
+
+Plot the transition rates between tropical and temperate ranges.
+```{r plot-transition-rates-w, message=FALSE, warning=FALSE}
+# rename transition rates
+HiSSE_trans <- rep(c("Trp to Tmp", "Tmp to Trp"),
+                   each = length(H_out$extinction.1))
+
+# create data frame for each rate 
+dat_trans <- data.frame(dens = c(H_out$rate_01, H_out$rate_10), 
+                       Type = HiSSE_trans)
+
+# Plot
+p_trans <- ggplot(dat_trans, aes(x = dens, fill = Type)) +
+  theme_bw()+
+  labs( x="Transition rate", y="Posterior frequency") + 
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.1) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp to Tmp", "Tmp to Trp"),
+                     labels = c("Tropical to temperate", "Temperate to tropical"),
+                     name = "Range shift") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  + 
+  theme(strip.text = element_text(size = 8))
+
+p_trans
+```
+
+Plot hidden states on phylogeny to look at background heterogeneity
+```{r plot-hidden-w}
+# read in joint posterior of ancestral states
+hidden_states <- read.table("../output/HiSSE/LatHiSSE_weak_r1anc_states_HiSSE.log",header=TRUE)[,-2]
+
+# burn-in 20%
+start <- round(0.2*length(hidden_states$end_1))
+end <- length(hidden_states$end_1)
+
+hidden_states <- hidden_states[start:end,]
+
+# recode states 4 -> hidden state 1, 5 -> hidden state 2
+hidden_states[hidden_states == 0] <- 4
+hidden_states[hidden_states == 1] <- 4
+
+hidden_states[hidden_states == 2] <- 5
+hidden_states[hidden_states == 3] <- 5
+
+
+# get the mode of each state and it's frequency in the posterior
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+# create a data frame for the frequencies of each ancestral state
+ModHidden<-data.frame(index = seq(1:Nnodes), state = numeric(length = Nnodes))
+
+# polulate with most common state and its frequency
+for (i in 1:Nnodes) {
+  ModHidden$state[i] <- Mode(hidden_states[,(i + 1)])
+  ModHidden$freq[i] <-
+    length(which(hidden_states[, i + 1] ==   ModHidden$state[i])) /
+    nrow(hidden_states)
+  
+}
+
+# bin frequencies
+for (i in 1:Nnodes){
+  if (ModHidden$freq[i] > 0.95) {
+     ModHidden$cert[i] <-  as.character(ModHidden$state[i])
+  }
+  else{
+    if (ModHidden$freq[i] > 0.75){
+      ModHidden$cert[i] <- paste("most", ModHidden$state[i], sep = "_" ) 
+    }
+    else{
+    ModHidden$cert[i] <- "uncertain"
+    }
+  }
+}
+
+# revalue to S (state) 1 and 2
+ModHidden$cert<-revalue(ModHidden$cert, c("4" = "S1", "5" = "S2"))
+ModHidden$state<-as.character(ModHidden$state)
+ModHidden$state<-revalue(ModHidden$state, c("4" = "S1", "5" = "S2"))
+
+# match node number to be able to plot
+for (i in 1:Nnodes) {
+  ModHidden$node[i] <-
+    DF$node[which(DF$tree == 1  &  DF$index == ModHidden$index[i])]
+}
+
+# plot with branch colour by frequency category 
+p4 <- ggtree(MAP, aes(color = cert), layout = 'circular') %<+% ModHidden +
+  geom_tiplab(size =0)+  geom_tippoint(aes(color = cert), size=1, alpha=1) +
+  scale_color_manual(breaks = c("S1", "most_4","uncertain", "most_5", "S2"),
+                     values = c("gray90", "gray80", "gray50", "gray20", "gray10"), 
+                     labels = c("0.0 - 0.05",
+                                "0.05 - 0.25",
+                                "0.25 - 0.75",
+                                "0.75 - 0.95",
+                                "0.95 - 1.00"),
+                     name = "Frequency of hidden state 2\n(high diversification)") +
+    theme(legend.position = "right", legend.justification =  c(0.9,0.9))
+
+p4
+```
+
+Plot ancestral latitudinal states on phylogeny (for completeness)
+```{r plot-ancestral-latitude-w,  fig.width=8, fig.height=12}
+# read in joint posterior of character states
+anc_states <- read.table("../output/HiSSE/LatHiSSE_weak_r1anc_states_HiSSE.log",header=TRUE)[,-2]
+
+# burn-in
+start <- round(0.2*length(anc_states$end_1))
+end <- length(anc_states$end_1)
+
+anc_states <- anc_states[start:end,]
+
+# recode states so Trp = 4 and Tmp = 5
+anc_states[anc_states == 0] <- 4
+anc_states[anc_states == 1] <- 5
+
+anc_states[anc_states == 2] <- 4
+anc_states[anc_states == 3] <- 5
+
+# create a data frame for character state frequencies
+ModAnc<-data.frame(index = seq(1:Nnodes), state = numeric(length = Nnodes))
+
+# populate with most common state and its frequency
+for (i in 1:Nnodes) {
+  ModAnc$state[i] <- Mode(anc_states[,(i + 1)])
+  ModAnc$freq[i] <-
+    length(which(anc_states[, i + 1] ==   ModAnc$state[i])) /
+    nrow(hidden_states)
+}
+
+# revalue to character state names "Trp" and "Tmp"
+ModAnc$state<-revalue(as.character(ModAnc$state), c("4" = "Trp", "5" = "Tmp"))
+
+# match node number to RevBayes index so we can plot
+for (i in 1:Nnodes) {
+  ModAnc$node[i] <-
+    DF$node[which(DF$tree == 1  &  DF$index == ModAnc$index[i])]
+}
+
+# plot with size of circles reflecting uncertainty in ancestral states
+p5 <- ggtree(MAP, layout = 'circular', colour = "gray70") %<+% ModAnc +
+  geom_tiplab(size =0)+  geom_tippoint(aes(colour = state, size = 1), alpha=0.7) +
+  geom_nodepoint(aes(colour = state, size = freq), alpha=0.7) +
+  scale_color_manual(breaks = c("Trp", "Tmp"),
+                     values = c("#C27D38", "#798E87"), 
+                     labels = c("Tropical",
+                                "Temperate"),
+                     name = "Latitudinal region") +
+  scale_size(range = c(0.2,2), name = "Posterior frequency") +
+    theme(legend.position = "right", legend.justification =  c(0.9,0.9))
+
+p5
+```
+
+## Dispersal
+Here we explored how dispersal rates vary between latitudinal regions. For the first approach, we are using the posterior from the biogeographic dating analyses. We need to identify dispersal events along branches by comparing states at the start and end of each branch.
+
+### Approach #1: from bigeographic dating model
+
+We start by coding dispersal events and extracting biogeographic areas.
+```{r code-dispersal-w, echo=TRUE, eval=FALSE}
+DF <- read.table("../data/processed/biogeo/Biogeo_data_weak.txt", header = T)
+
+# for each ancestral node, 0 = no dispersal along following branch, 1 = dispersal occurred along branch 
+for (i in 1:N) {
+  # terminal nodes to NA (extant taxa have not dispersed!)
+  if (is.na(DF$D1[i]) == T) {
+    DF$AreaD[i] <- NA
+  } else{
+    # no dispersal when starting and end states are the same
+    if (grepl(pattern = DF$start[i], x = DF$end[i]) == T) {
+      DF$AreaD[i] <- 0
+    }
+    else{
+      # dispersal when starting and end states are different
+      if (grepl(pattern = DF$start[i], x = DF$end[i]) == F) {
+        DF$AreaD[i] <- 1
+      }
+    }
+  }
+}
+
+# if dispersal occurred register where to and where from
+for (i in 1:N) {
+  # nothing to do if no dispersal or if node is a tip
+  if (DF$AreaD[i] == 0 | is.na(DF$AreaD[i]  == TRUE)) {
+    # no dispersal is NA
+    DF$AreaFrom[i] <- NA
+    DF$AreaTo[i] <- NA
+  }
+  else{
+    # dispersal from starting stat to end state of each branch
+    DF$AreaFrom[i] <- as.character(DF$start[i])
+    DF$AreaTo[i] <- as.character(DF$end[i])
+  }
+}
+```
+
+### Dispersal between latitudinal regions
+We will use the paleogeographic model to determine the latitudinal range of ancestral taxa. For this we need the starting age of every branch of the tree.
+
+Get starting age per branch.
+```{r starting-age-w,  echo=TRUE, eval=FALSE}
+# get age at the start of each branch in each
+for (i in 1:length(tres)){
+  temp<-numeric(length = Nnodes)
+  for (j in 1:Nnodes){
+    if (j == Intnode1){
+    
+    # ignore start of root branch
+    temp[j] <- NA
+    }
+    else{
+      if (j %in% DF$D1 == T){
+        temp[j] <-DF$age[which(DF$D1==j & DF$tree == i)]
+      }
+      else{
+        temp[j] <-DF$age[which(DF$D2==j & DF$tree == i)]
+      }
+     }
+  }
+    assign(paste("AgesStart.T", i,sep = ""), temp)
+}
+
+# make a list for starting ages across all trees
+agestart = list()
+for (i in 1:length(tres)){
+  temp = eval(parse(text=paste("AgesStart.T", i,sep = "")))
+  agestart[[i]] <-  temp
+} 
+
+# and unlist within each tree to get vectors for data frame
+DF$agestart<-unlist(agestart)
+
+# clean workspace
+rm(list=ls(pattern="AgesStart.T*"))
+```
+
+Categorise starting areas as Temperate or Tropical.
+```{r code-lat-start-w, echo=TRUE, eval=FALSE}
+# keep AfrS, Mdg, AusW, AusE as ambiguous in the present
+DF$Lstart <-
+  revalue(
+    DF$start,
+    c(
+      "0" = "Trp",
+      "1" = "Trp",
+      "2" = "Trp",
+      "3" = "Tmp",
+      "4" = "Tmp",
+      "5" = "Tmp",
+      "6" = "Tmp",
+      "7" = "Tmp",
+      "8" = "Tmp",
+      "9" = "Tmp",
+      A = "Tmp",
+      B = "Trp",
+      C = "Tmp",
+      D = "Trp",
+      E = NA,
+      "F" = "Trp",
+      G = "Trp",
+      H = NA,
+      I = NA,
+      J = NA,
+      K = NA,
+      L = "Tmp",
+      M = "Tmp",
+      N = "Trp",
+      O = "Tmp"
+    )
+  )
+
+# now use empirical paleogeography for specific regions that have drifted across latitudes
+# Madagascar is Temperate before 50 Ma, Tropical after 20 Ma and NA in between
+for (i in 1:N) {
+  if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] > 50 &  DF$start[i] == "K") {
+    DF$Lstart[i] <- "Tmp"
+  }
+  else{
+    if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] < 20 &  DF$start[i] == "K") {
+      DF$Lstart[i] <- "Trp"
+    }
+  }
+}
+
+# AfrS was all temperate until 70 Ma
+for (i in 1:N) {
+  if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] > 70 &  DF$start[i] == "E") {
+    DF$Lstart[i] <- "Tmp"
+  }
+}
+
+# India was temperate until 110 Ma and NA until 60 Ma
+for (i in 1:N) {
+  if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] > 110 &  DF$start[i] == "J") {
+    DF$Lstart[i] <- "Tmp"
+  }
+  else{
+    if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] < 60 &  DF$start[i] == "J") {
+      DF$Lstart[i] <- "Trp"
+    }
+  }
+}
+
+# AusW was mainly temperate until 10 Ma
+for (i in 1:N) {
+  if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] > 10 &  DF$start[i] == "H") {
+    DF$Lstart[i] <- "Tmp"
+  }
+}
+
+# AusE was mainly temperate until 20 Ma
+for (i in 1:N) {
+  if (is.na(DF$agestart[i]) == F) {
+    if (is.na(DF$agestart[i]) == FALSE & DF$agestart[i] > 20 & DF$start[i] == "I") {
+      DF$Lstart[i] <- "Tmp"
+    }
+  }
+}
+```
+
+Categorise ending areas as Temperate or Tropical.
+```{r code-lat-end-w, echo=TRUE, eval=FALSE}
+DF$Lend <-
+  revalue(
+    DF$end,
+    c(
+      "0" = "Trp",
+      "1" = "Trp",
+      "2" = "Tmp",
+      "3" = "Tmp",
+      "4" = "Tmp",
+      "5" = "Tmp",
+      "6" = "Tmp",
+      "7" = "Tmp",
+      "8" = "Tmp",
+      "9" = "Tmp",
+      A = "Tmp",
+      B = "Trp",
+      C = "Tmp",
+      D = "Trp",
+      E = NA,
+      "F" = "Trp",
+      G = "Trp",
+      H = NA,
+      I = NA,
+      J = NA,
+      K = NA,
+      L = "Tmp",
+      M = "Tmp",
+      N = "Trp",
+      O = "Tmp"
+      )
+  )
+
+# now use empirical paleogeography for specific regions that have drifted across latitudes
+# Madagascar is Temperate before 50 Ma, Tropical after 20 Ma and NA in between
+for (i in 1:N) {
+  if (DF$age[i] > 50 &  DF$end[i] == "K") {
+    DF$Lend[i] <- "Tmp"
+  }
+  else{
+    if (DF$age[i] < 20 &  DF$end[i] == "K") {
+      DF$Lend[i] <- "Trp"
+    }
+  }
+}
+# AfrS was all temperate until 70 Ma
+for (i in 1:N) {
+  if (DF$age[i] > 70 &  DF$end[i] == "E") {
+    DF$Lend[i] <- "Tmp"
+  }
+}
+
+# India was temperate until 110 Ma and NA until 60 Ma
+for (i in 1:N) {
+  if (DF$age[i] > 110 &  DF$end[i] == "J") {
+    DF$Lend[i] <- "Tmp"
+  }
+  else{
+    if (DF$age[i] < 60 &  DF$end[i] == "J") {
+      DF$Lend[i] <- "Trp"
+    }
+  }
+}
+
+# AusW was mainly temperate until 10 Ma
+for (i in 1:N) {
+  if (DF$age[i] > 10 &  DF$end[i] == "H") {
+    DF$Lend[i] <- "Tmp"
+  }
+}
+
+# AusE was mainly temperate until 20 Ma
+for (i in 1:N) {
+  if (DF$age[i] > 20 &  DF$end[i] == "I") {
+    DF$Lend[i] <- "Tmp"
+  }
+}
+```
+
+Quantify dispersal between latitudinal regions.
+```{r count-dispersal-w, echo=TRUE, eval=FALSE}
+# latitudinal dispersal = 0 if a branch starts and ends in the same latitudinal region, = 1 otherwise
+for (i in 1:N) {
+  # ambiguous starting point to NA
+  if (is.na(DF$Lstart[i]) == T | is.na(DF$Lend[i]) == T) {
+    DF$LatD[i] <- NA
+  }
+  else{
+    # otherwise dispersal if starting latitude is different from ending latitude
+    if (DF$Lstart[i] %in% DF$Lend[i] == T) {
+      DF$LatD[i] <- 0
+    }
+    else{
+      DF$LatD[i] <- 1
+    }
+  }
+}
+
+# if dispersal occurred register where to and where from
+for (i in 1:N) {
+  # ignore if latitude is uncertain
+  if (is.na(DF$LatD[i]) == T) {
+    DF$LatFrom[i] <- NA
+    DF$LatTo[i] <- NA
+  }
+  else {
+    # "from" is the start of the branch and "to" the end
+    if (DF$LatD[i] == 1) {
+      DF$LatFrom[i] <- as.character(DF$Lstart[i])
+      DF$LatTo[i] <- as.character(DF$Lend[i])
+    }
+    else {
+      # ignore if there was no latitudinal dispersal
+      DF$LatFrom[i] <- NA
+      DF$LatTo[i] <- NA
+    }
+  }
+} 
+
+# save this final version of DF
+write.table(DF, file = "../data/processed/dispersal/Biogeo_Dispersal_data_weak.txt", quote = F, row.names = F)
+
+```
+
+### Latitudinal variation in dispersal rates
+
+We start by creating useful variables and reading in dispersal data.
+```{r read-dispersal-w}
+# useful variable
+Nt <- length(tres)
+Ns <- levels(as.factor(DF$Lstart))
+
+# read ancestral biogeographic and dispersal data
+DF <- read.table(file = "../data/processed/dispersal/Biogeo_Dispersal_data_weak.txt", header = T)
+```
+
+Create latitudinal dispersal data frame.
+```{r lat-dispersal-df-w, echo=TRUE, eval=FALSE}
+# pre-allocate space to data frame
+Latdf <- data.frame(
+  tree = numeric(Nt * length(Ns)),
+  Lat = character(Nt * length(Ns)),
+  Snode = numeric(Nt * length(Ns)),
+  Dispersal = numeric(Nt *length(Ns)),
+  DRate = numeric(Nt * length(Ns)),
+  Enode = numeric(Nt * length(Ns)),
+  Establish = numeric(Nt * length(Ns)),
+  ERate = numeric(Nt * length(Ns)),
+  stringsAsFactors = F
+)
+
+# create an index for combination of tree and latitudinal state
+m = 1
+for (i in 1:Nt) {
+  for (j in Ns) {
+    Latdf$tree[m] <- i
+    Latdf$Lat[m] <- j
+    
+    # dispersal from
+    # how many branches start on each latitudinal region
+    Latdf$Snode[m] <-
+      nrow(DF[which(DF$Lstart == j & DF$tree == i), ])
+    
+    # how many branches underwent dispersal from each latitudinal region
+    Latdf$Dispersal[m] <-
+      nrow(DF[which(DF$LatFrom == j & DF$tree == i), ])
+    
+    # number of branches with dispersal from divided by all the time spent at given starting region (whether dispersal occurs or not)
+    Latdf$DRate[m] <-
+      Latdf$Dispersal[m] / (sum(DF$agestart[which(DF$Lstart == j &
+                                                    DF$Lend == j &
+                                                    DF$tree == i &
+                                                    is.na(DF$agestart) == F)]
+                                - DF$age[which(DF$Lstart == j &
+                                                 DF$Lend == j &
+                                                 DF$tree == i &
+                                                 is.na(DF$agestart) == F)]) +
+                              (sum(DF$agestart[which(DF$Lstart == j &
+                                                       DF$Lend != j &
+                                                       DF$tree == i &
+                                                       is.na(DF$agestart) == F)]
+                                   - DF$age[which(DF$Lstart == j &
+                                                    DF$Lend != j &
+                                                    DF$tree == i &
+                                                    is.na(DF$agestart) == F)])) / 2)
+    
+    
+    #dispersal to
+    # how many branches end on each latitudinal region
+    Latdf$Enode[m] <- nrow(DF[which(DF$Lend == j & DF$tree == i), ])
+    
+    # how many branches underwent dispersal to each latitudinal region
+    Latdf$Establish[m] <-
+      nrow(DF[which(DF$LatTo == j & DF$tree == i), ])
+    
+    # number of branches with dispersal to divided by the total time spent at given starting region (whether dispersal occurs or not)
+    Latdf$ERate[m] <-
+            Latdf$Establish[m] / (sum(DF$agestart[which(DF$Lend == j &
+                                                    DF$Lstart == j &
+                                                    DF$tree == i  &
+                                                    is.na(DF$agestart) == F)]
+                                - DF$age[which(DF$Lend == j &
+                                                 DF$Lstart == j &
+                                                 DF$tree == i &
+                                                 is.na(DF$agestart) == F)]) +
+                              (sum(DF$agestart[which(DF$Lend == j &
+                                                       DF$Lstart != j &
+                                                       DF$tree == i  &
+                                                       is.na(DF$agestart) == F)]
+                                   - DF$age[which(DF$Lend == j &
+                                                    DF$Lstart != j &
+                                                    DF$tree == i &
+                                                    is.na(DF$agestart) == F)])) / 2)
+    m = m + 1
+  }
+}
+
+# save the latitudinal dispersal data
+write.table(Latdf, file = "../data/processed/dispersal/Lat_Dispersal_data_weak.txt", row.names = F, quote = F)
+```
+
+Plot dispersal events by latitudinal region
+```{r plot-lat-dispersal-events-w, warning=FALSE}
+# read latitudinal dispersal posterior
+Latdf <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_data_weak.txt", header = T)
+
+# what is the posterior mode for each direction of dispersal
+Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Trp")]) # out of the tropics
+Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Tmp")]) #into the tropics
+
+# Plot
+p_events <- ggplot(Latdf, aes(x = Dispersal, fill = Lat)) +
+  theme_bw()+
+  labs(title = "(a)", x="Number of dispersal events", y="Posterior frequency") + 
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.1) +
+    xlim(0,125)+
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp", "Tmp"),
+                     labels = c("Tropical to temperate", "Temperate to tropical"),
+                     name = "Range shift") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  + 
+  theme(strip.text = element_text(size = 8))
+
+p_events
+```
+
+Plot dispersal relative to phylogenetic diversity by latitudinal region.
+```{r plot-lat-dispersal-phylo-w, warning=FALSE}
+# read latitudinal dispersal posterior
+Latdf <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_data_weak.txt", header = T)
+
+# transform latitudinal data frame to long format
+Llong<-melt(Latdf, measure.vars = c("DRate", "ERate"),variable_name = "Direction")
+
+# create variable for fill colour
+Llong$fill<-paste(Llong$Lat, Llong$variable, sep = ".")
+
+# plot dispersal rates for each latitudinal region
+LatD_plot <-
+  ggplot(Llong, aes(value, color = fill, fill = fill)) +
+  geom_histogram(position = "identity",
+    alpha = 0.8,
+    size = 0.3,
+    bins = 40
+    ) +
+  theme_bw() +
+  labs(title = "(a)", x = "Phylogenetic dispersal rate", y = "Posterior density") +
+  facet_wrap( ~ factor(
+    Lat,
+    levels = c("Trp", "Tmp"),
+    labels = c("Tropical", "Temperate"),
+    ordered = T
+  ) ,
+  nrow = 1,
+  scales = "free_y") +
+  scale_color_manual(
+    name = "Dispersal type",
+    values = c("#C27D38", "white" , "#798E87",  "white"),
+    breaks = c("Trp.DRate", "Trp.ERate", "Tmp.DRate", "Tmp.ERate"),
+    labels = c(
+      "Tropical departure",
+      "Tropical establishment",
+      "Temperate departure",
+      "Temperate establishment"
+    )
+  ) +
+  scale_fill_manual(
+    name = "Dispersal type",
+    values = c("white" , "#C27D38", "white", "#798E87"),
+    breaks = c("Trp.DRate", "Trp.ERate", "Tmp.DRate", "Tmp.ERate"),
+    labels = c(
+      "Tropical departure",
+      "Tropical establishment",
+      "Temperate departure",
+      "Temperate establishment"
+    )
+  ) +
+  guides(color = guide_legend(byrow = T)) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8)) +
+  theme(axis.text =  element_text(size = 8)) + 
+  theme(strip.text = element_text(size = 8))
+
+
+LatD_plot
+```
+
+Summary statistics for latitudinal dispersal.
+```{r lat-dispersal-summ-w}
+# Create a table summary
+LatD_summ <-
+  data.frame(
+    comparison = c(
+      "Establishment Trp vs Tmp",
+      "Departure Trp vs Tmp",
+      "Trp Departure vs Establishment",
+      "Tmp Departure vs Establishment"
+    ),
+    # this is the mean difference between posterior rates
+    mean_diff = c(mean(Latdf$ERate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")]),
+                  mean(Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$DRate[which(Latdf$Lat == "Tmp")]),
+                  mean(Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Trp")]),
+                  mean(Latdf$DRate[which(Latdf$Lat == "Tmp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")])),
+    # the lower limit of the 95% HPD interval 
+    HPD_lower = c(HPDinterval(mcmc((Latdf$ERate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")])))[1],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$DRate[which(Latdf$Lat == "Tmp")])))[1],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Trp")])))[1],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Tmp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")])))[1]),
+     # the upper limit of the 95% HPD interval
+     HPD_upper = c(HPDinterval(mcmc((Latdf$ERate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")])))[2],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$DRate[which(Latdf$Lat == "Tmp")])))[2],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Trp")] - Latdf$ERate[which(Latdf$Lat == "Trp")])))[2],
+               HPDinterval(mcmc((Latdf$DRate[which(Latdf$Lat == "Tmp")] - Latdf$ERate[which(Latdf$Lat == "Tmp")])))[2]))
+
+LatD_summ %>% kbl(booktabs =T, align= c("l",rep('r', 4))) %>%
+kable_styling(latex_options ="striped")
+```
+
+### Approach #2: from HiSSE stochastic character mapping
+
+For the second approach we used the stochastic character mapping from the HiSSE analysis [@@freyman2019stochastic]. The "events.csv" file already records translatitudinal dispersal events from a posterior sample.
+
+#### Latitudinal variation in dispersal rates
+Create a latitudinal dispersal data frame.
+```{r lat-dispersal-df-2-w, echo=TRUE, eval=FALSE}
+# read events table thinning every 10th iteration
+events <- read.table(file = "../output/HiSSE/LatHiSSE_weak_r1_events.tsv", header = T)
+events <-events[which(events$iteration %in% seq(1, nrow(events), 10)), ]
+
+Nt_e <- max(events$iteration)
+Ns <- levels(as.factor(DF$Lstart))
+
+rws <- 2 * length(seq(from = 2000, to = Nt_e, 10))
+
+# pre-allocate space to data frame
+Lat_events <- data.frame(
+  it = numeric(rws),
+  Lat = character(rws),
+  Snode = numeric(rws),
+  Dispersal = numeric(rws),
+  DRate = numeric(rws),
+  Enode = numeric(rws),
+  Establish = numeric(rws),
+  ERate = numeric(rws),
+  stringsAsFactors = F
+)
+
+# create an index for combination of iteration and latitudinal state
+m = 1
+for (i in seq(from = 2001, to = Nt_e, 10)) {
+  for (j in Ns) {
+    Lat_events$it[m] <- i
+    Lat_events$Lat[m] <- j
+    
+    # dispersal from
+    # how many branches start on the temperate region, odd start states correspond to the temperate region (2 hidden states for diversification)
+    if (Lat_events$Lat[m] == "Tmp") {
+      Lat_events$Snode[m] <-
+        nrow(events[which(events$start_state %% 2 != 0 &
+                            events$iteration == i), ])
+      
+      # how many branches underwent dispersal from the temperate region
+      Lat_events$Dispersal[m] <-
+        nrow(events[which(
+          events$transition_type == "anagenetic" &
+            events$start_state %% 2 != 0 & events$iteration == i
+        ),])
+      
+      # number of branches with dispersal from divided by all the time spent at given starting region (whether dispersal occurs or not)
+      
+      Lat_events$DRate[m] <-
+        Lat_events$Dispersal[m] / (sum(events$branch_start_time[which(
+          events$start_state %% 2 != 0 &
+            events$end_state %% 2 != 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]
+        - events$branch_end_time[which(
+          events$start_state %% 2 != 0 &
+            events$end_state %% 2 != 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]) +
+          (
+            sum(events$branch_start_time[which(
+              events$start_state %% 2 != 0 &
+                events$end_state %% 2 == 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )]
+            - events$branch_end_time[which(
+              events$start_state %% 2 != 0 &
+                events$end_state %% 2 == 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )])
+          ) / 2)
+      
+      
+      #dispersal to
+      # how many branches end on each the temperate region
+      Lat_events$Enode[m] <-
+        nrow(events[which(events$end_state %% 2 != 0 &
+                            events$iteration == i),])
+      
+      # how many branches underwent dispersal to the temperate region
+      Lat_events$Establish[m] <-
+        nrow(DF[which(
+          events$transition_type == "anagenetic" &
+            events$end_state %% 2 != 0 & events$iteration == i
+        ),])
+      
+      # number of branches with dispersal to divided by the total time spent at given starting region (whether dispersal occurs or not)
+      Lat_events$ERate[m] <-
+        Lat_events$Establish[m] / (sum(events$branch_start_time[which(
+          events$start_state %% 2 != 0 &
+            events$end_state %% 2 != 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]
+        - events$branch_end_time[which(
+          events$start_state %% 2 != 0 &
+            events$end_state %% 2 != 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]) +
+          (
+            sum(events$branch_start_time[which(
+              events$start_state %% 2 == 0 &
+                events$end_state %% 2 != 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )]
+            - events$branch_end_time[which(
+              events$start_state %% 2 == 0 &
+                events$end_state %% 2 != 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )])
+          ) / 2)
+    }   else {
+      # dispersal from
+    # how many branches start on the tropical region, even start states correspond to the tropical region (2 hidden states for diversification)
+      Lat_events$Snode[m] <-
+        nrow(events[which(events$start_state %% 2 == 0 &
+                            events$iteration == i), ])
+      # how many branches underwent dispersal from the tropical region
+      Lat_events$Dispersal[m] <-
+        nrow(events[which(
+          events$transition_type == "anagenetic" &
+            events$start_state %% 2 == 0 & events$iteration == i
+        ),])
+      
+      # number of branches with dispersal from divided by all the time spent at given starting region (whether dispersal occurs or not)
+      
+      Lat_events$DRate[m] <-
+        Lat_events$Dispersal[m] / (sum(events$branch_start_time[which(
+          events$start_state %% 2 == 0 &
+            events$end_state %% 2 == 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]
+        - events$branch_end_time[which(
+          events$start_state %% 2 == 0 &
+            events$end_state %% 2 == 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]) +
+          (
+            sum(events$branch_start_time[which(
+              events$start_state %% 2 == 0 &
+                events$end_state %% 2 != 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )]
+            - events$branch_end_time[which(
+              events$start_state %% 2 == 0 &
+                events$end_state %% 2 != 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )])
+          ) / 2)
+      
+      
+      #dispersal to
+      # how many branches end on each latitudinal region
+      Lat_events$Enode[m] <-
+        nrow(events[which(events$end_state %% 2 == 0 &
+                            events$iteration == i),])
+      
+      # how many branches underwent dispersal to each latitudinal region
+      Lat_events$Establish[m] <-
+        nrow(DF[which(
+          events$transition_type == "anagenetic" &
+            events$end_state %% 2 == 0 & events$iteration == i
+        ),])
+      
+      # number of branches with dispersal to divided by the total time spent at given starting region (whether dispersal occurs or not)
+      Lat_events$ERate[m] <-
+        Lat_events$Establish[m] / (sum(events$branch_start_time[which(
+          events$start_state %% 2 == 0 &
+            events$end_state %% 2 == 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]
+        - events$branch_end_time[which(
+          events$start_state %% 2 == 0 &
+            events$end_state %% 2 == 0 &
+            events$iteration == i &
+            is.na(events$branch_start_time) == F
+        )]) +
+          (
+            sum(events$branch_start_time[which(
+              events$start_state %% 2 != 0 &
+                events$end_state %% 2 == 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )]
+            - events$branch_end_time[which(
+              events$start_state %% 2 != 0 &
+                events$end_state %% 2 == 0 &
+                events$iteration == i &
+                is.na(events$branch_start_time) == F
+            )])
+          ) / 2)
+    }
+    
+    m = m + 1
+  }
+}
+
+# save the latitudinal dispersal data
+write.table(Lat_events, file = "../data/processed/dispersal/Lat_Dispersal_HiSSE_data_weak.txt", row.names = F, quote = F)
+```
+
+Plot dispersal events by latitudinal region.
+```{r plot-lat-events-2-w, warning=FALSE}
+# read latitudinal dispersal posterior
+Lat_events <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_HiSSE_data_weak.txt", header = T)
+
+# what is the posterior mode for each direction of dispersal
+Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Trp")]) # out of the tropics
+Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")]) #into the tropics
+
+# Plot
+p_events2 <- ggplot(Lat_events, aes(x = Dispersal, fill = Lat)) +
+  theme_bw()+
+  labs(title = "(b)", x="Number of dispersal events", y="Posterior frequency") + 
+  geom_histogram(alpha = 0.5, position = "identity", bins = 100, colour = "white", size = 0.1) +
+  xlim(0,125)+
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#C27D38", "#798E87"),
+                     breaks = c("Trp", "Tmp"),
+                     labels = c("Tropical to temperate", "Temperate to tropical"),
+                     name = "Range shift") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  + 
+  theme(strip.text = element_text(size = 8))
+
+p_events2
+```
+
+Plot dispersal relative to phylogenetic diversity by latitudinal region.
+```{r plot-lat-dispersal-phylo-2-w, warning=FALSE}
+# read latitudinal dispersal posterior
+Lat_events <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_HiSSE_data_weak.txt", header = T)
+
+# transform latitudinal data frame to long format
+events_long<-melt(Lat_events, measure.vars = c("DRate", "ERate"),variable_name = "Direction")
+
+# create variable for fill colour
+events_long$fill<-paste(events_long$Lat, events_long$variable, sep = ".")
+
+# plot dispersal rates for each latitudinal region
+LatD_events_plot <-
+  ggplot(events_long, aes(value, color = fill, fill = fill)) +
+  geom_histogram(position = "identity",
+    alpha = 0.8,
+    size = 0.3,
+    bins = 40
+    ) +
+  theme_bw() +
+  xlim(0,0.08) +
+  labs(x = "Phylogenetic dispersal rate", y = "Posterior density", title = "(b)") +
+  facet_wrap( ~ factor(
+    Lat,
+    levels = c("Trp", "Tmp"),
+    labels = c("Tropical", "Temperate"),
+    ordered = T
+  ) ,
+  nrow = 1,
+  scales = "free_y")  +
+  scale_color_manual(
+    name = "Dispersal type",
+    values = c("#C27D38", "white" , "#798E87",  "white"),
+    breaks = c("Trp.DRate", "Trp.ERate", "Tmp.DRate", "Tmp.ERate"),
+    labels = c(
+      "Tropical departure",
+      "Tropical establishment",
+      "Temperate departure",
+      "Temperate establishment"
+    )
+  ) +
+  scale_fill_manual(
+    name = "Dispersal type",
+    values = c("white" , "#C27D38", "white", "#798E87"),
+    breaks = c("Trp.DRate", "Trp.ERate", "Tmp.DRate", "Tmp.ERate"),
+    labels = c(
+      "Tropical departure",
+      "Tropical establishment",
+      "Temperate departure",
+      "Temperate establishment"
+    )
+  ) +
+  guides(color = guide_legend(byrow = T)) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8)) +
+  theme(axis.text =  element_text(size = 8)) + 
+  theme(strip.text = element_text(size = 8))
+
+
+LatD_events_plot
+```
+
+Summary statistics for latitudinal dispersal.
+```{r lat-dispersal-summ-2-w}
+# create a table summary
+LatD_summ <-
+  data.frame(
+    comparison = c(
+      "Establishment Trp vs Tmp",
+      "Departure Trp vs Tmp",
+      "Trp Departure vs Establishment",
+      "Tmp Departure vs Establishment"
+    ),
+    # this is the mean difference between posterior rates
+    mean_diff = c(mean(Lat_events$ERate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")]),
+                  mean(Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$DRate[which(Lat_events$Lat == "Tmp")]),
+                  mean(Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Trp")]),
+                  mean(Lat_events$DRate[which(Lat_events$Lat == "Tmp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")])),
+    # the lower limit of the 95% HPD interval 
+    HPD_lower = c(HPDinterval(mcmc((Lat_events$ERate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")])))[1],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$DRate[which(Lat_events$Lat == "Tmp")])))[1],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Trp")])))[1],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Tmp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")])))[1]),
+     # the upper limit of the 95% HPD interval
+     HPD_upper = c(HPDinterval(mcmc((Lat_events$ERate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")])))[2],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$DRate[which(Lat_events$Lat == "Tmp")])))[2],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Trp")] - Lat_events$ERate[which(Lat_events$Lat == "Trp")])))[2],
+               HPDinterval(mcmc((Lat_events$DRate[which(Lat_events$Lat == "Tmp")] - Lat_events$ERate[which(Lat_events$Lat == "Tmp")])))[2]))
+
+LatD_summ %>% kbl(booktabs =T, align= c("l",rep('r', 4))) %>%
+kable_styling(latex_options ="striped")
+```
+
+# References

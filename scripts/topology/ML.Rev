@@ -1,0 +1,20 @@
+###############################################################################################   
+###            Marginal likelihood estimation for each partition scheme                     ###
+###############################################################################################
+
+############################
+# Power posterior analysis #
+############################
+
+pow_p = powerPosterior(mymodel, mv, mn, out_fp + base_str + ".out", cats=100)
+pow_p.burnin(generations=5000,tuningInterval=200)
+pow_p.run(generations=2000)
+
+##########################
+# Stepping stone sampler #
+##########################
+
+ss = steppingStoneSampler(file=out_fp + base_str + ".out", powerColumnName="power", likelihoodColumnName="likelihood")
+ss.marginal()
+
+q()

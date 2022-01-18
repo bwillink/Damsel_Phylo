@@ -1,0 +1,33 @@
+# settings
+
+base_mol_fn     = "Coen.mol.nex"
+base_bg_fn      = "Coen.bg.nex"
+
+base_fp         = "../"
+
+
+in_fp           = base_fp + "data/processed/bg_dating/"
+code_fp		= base_fp + "scripts/bg_dating/"
+out_fp          = base_fp + "output/bg_dating/"
+out_str         = base_str
+
+tree_fn         = in_fp + base_tree_fn
+bg_fn           = in_fp + base_bg_fn
+mol_fn          = in_fp + base_mol_fn
+
+# move/monitor index
+moves = VectorMoves()
+monitors = VectorMonitors()
+
+# load tree module
+source(code_fp + "tree_module_strong.Rev")
+
+# load biogeography module
+source(code_fp + "bg_module.Rev")
+
+# load molecular module
+source(code_fp + "mol_module.Rev")
+
+# run mcmc
+source(code_fp + "mcmc.Rev")
+

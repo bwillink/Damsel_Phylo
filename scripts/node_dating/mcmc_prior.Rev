@@ -1,0 +1,17 @@
+# monitors
+monitors.append(mnScreen(root_age, speciation_rate, extinction_rate, age_Argia, age_Nehalennia, age_Ischnura, printgen=1))
+monitors.append(mnFile(filename=out_fp+out_str+".params.txt",  height_mol, root_age, speciation_rate, extinction_rate, age_Argia, age_Nehalennia, age_Ischnura, printgen=1))
+monitors.append(mnModel(filename=out_fp+out_str+".model.txt",printgen=5))
+monitors.append(mnFile(tau,filename=out_fp+out_str+".trees",printgen=5))
+
+# model
+mdl = model(tau)
+
+# mcmc
+my_mcmc = mcmc(mdl,monitors,moves,nruns=1)
+my_mcmc.burnin(10000,100)
+my_mcmc.initializeFromCheckpoint(out_fp+out_str+".model.state")
+my_mcmc.run(generations=60000, checkpointInterval=10, checkpointFile=out_fp+out_str+".model.state", tuningInterval=100, underPrior=true)
+
+# quit rb
+q()

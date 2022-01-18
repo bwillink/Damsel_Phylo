@@ -1,0 +1,99 @@
+###############################################################################################   
+###         Uniform tree prior, GTR + gamma model with partition multipliers                 ###
+###############################################################################################
+
+
+########
+# data #
+########
+# read in molecular character matrix
+d_mol = readDiscreteCharacterData(mol_fn)
+
+# get useful variables
+n_parts = d_mol.size()
+n_mol_states   <- 4
+n_mol_elements <- n_mol_states*(n_mol_states-1)/2
+n_species <- d_mol[1].ntaxa()
+n_branches <- 2 * n_species - 2
+taxa <- d_mol[1].taxa()
+
+###################
+# molecular model #
+###################
+
+# create per-partition rate matrix by looping over partitions
+for (i in 1:n_parts)
+{
+    # exchangeability rates
+    er_mol_pr[i] <- rep(1, n_mol_elements)
+    er_mol[i] ~ dnDirichlet(er_mol_pr[i])
+    mv[mvi++] = mvSimplexElementScale(x=er_mol[i], alpha=20.0, tune=true, weight=10.0)
+
+    # base frequencies
+    bf_mol_pr[i] <- rep(1, n_mol_states)
+    bf_mol[i] ~ dnDirichlet(bf_mol_pr[i])
+    mv[mvi++] = mvSimplexElementScale(x=bf_mol[i], alpha=20.0, tune=true, weight=10.0)
+
+    # rate matrix
+    Q_mol[i] := fnGTR(exchangeRates=er_mol[i], baseFrequencies=bf_mol[i])
+}
+
+# create the gamma mixture model
+
+for (i in 1:n_parts) {
+    alpha_prior_mean[i] <- ln(5.0)
+    alpha_prior_sd[i] <- 0.587405
+    alpha[i] ~ dnLognormal( alpha_prior_mean[i], alpha_prior_sd[i] )
+    #alpha[i].setValue(1.0)
+    gamma_rates[i] := fnDiscretizeGamma( alpha[i], alpha[i], 4, false )
+   
+    mv[mvi++] = mvScale(alpha[i],tune = true, weight=2)
+}
+
+##############################
+# Partition rate multipliers #
+##############################
+
+# specify a rate multiplier for each partition
+part_rate_mult ~ dnDirichlet( rep(10.0, n_parts) )
+mv[mvi++] = mvBetaSimplex(part_rate_mult, alpha=1.0, tune=true, weight=n_parts)
+mv[mvi++] = mvDirichletSimplex(part_rate_mult, alpha=1.0, tune=true, weight=2.0)
+
+
+# vector multiplication to assign a partition rate to each data subset 
+part_rate := part_rate_mult * n_parts
+
+
+##############
+# Tree model #
+##############
+
+# Prior distribution on the tree topology
+
+topology ~ dnUniformTopology(taxa=taxa, outgroup=feather, rooted=true)
+
+mv[mvi++] = mvNNI(topology, weight=10.0)
+mv[mvi++] = mvSPR(topology, weight=5.0)
+mv[mvi++] = mvSPR(topology, weight=2.0)
+
+# Branch length prior
+for (i in 1:n_branches) {
+    bl[i] ~ dnExponential(10.0)
+    mv[mvi++] = mvScale(bl[i])
+}
+
+TL := sum(bl)
+
+psi := treeAssembly(topology, bl)
+
+###################
+# Put it together #
+###################
+
+for (i in 1:n_parts) {
+phyloSeq[i] ~ dnPhyloCTMC(tree=psi, Q=Q_mol[i], branchRates=part_rate[i], siteRates=
+gamma_rates[i],type="DNA", nSites=d_mol[i].nchar())
+phyloSeq[i].clamp(d_mol[i])
+}
+
+mymodel = model(psi)

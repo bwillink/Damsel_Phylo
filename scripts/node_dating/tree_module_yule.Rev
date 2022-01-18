@@ -1,0 +1,82 @@
+##############
+# tree model #
+##############
+
+# tree
+tau_tmp 	<- readTrees(tree_fn)[1]
+names 		=  tau_tmp.names()
+n_species 	<- tau_tmp.ntips()
+n_branches	<- 2 * n_species - 2
+n_nodes     <- tau_tmp.nnodes()
+
+# tree ages
+tau_rescale <- 120
+tau_tmp.rescale( 1.0 / tau_tmp.rootAge() )
+tip_ages <- rep(0., n_species)
+
+# ages, clocks
+
+if (exists("use_calib_suvorov")) {
+  root_age ~ dnNormal(mean=120, sd=20, min=40, max=240)
+} else {
+    root_age ~ dnUnif(0, max_age)
+}
+root_age.setValue(tau_rescale)
+
+moves.append(mvScale(root_age, tune=true, lambda=0.1, weight=10))
+moves.append(mvScale(root_age, tune=true, lambda=10.0, weight=10))
+moves.append(mvSlide(root_age, tune=true, delta=4.0, weight=10))
+
+# determine molecular,biogeographic clocks
+clock_mol ~ dnExponential(2.0)
+
+moves.append( mvScale(clock_mol, lambda=0.5, tune=true, weight=10))
+
+# report the expected number of events/site
+height_mol   := clock_mol * root_age # this equals evol
+
+rate_mean <- ln( ln(1805.0/2.0) / 116 )
+rate_sd <- 2.0
+
+#Stochastic variables for the trait of interest
+
+ 
+#Create a lognormal distributed variable for the diversification rate
+speciation_alpha ~ dnNormal(mean=rate_mean,sd=rate_sd) 
+moves.append( mvSlide(speciation_alpha,delta=4,tune=true,weight=3.0))
+moves.append(mvScale(speciation_alpha, tune=true, lambda=0.1, weight=2))
+moves.append(mvScale(speciation_alpha, tune=true, lambda=2.0, weight=3))
+moves.append(mvLevyJump(speciation_alpha, tune=true, delta=1.0, weight=3))
+
+speciation_rate := exp( speciation_alpha )
+extinction_rate <- 0
+
+# Fix the probability of sampling parameter (rho) to 669/1805 #
+rho <- 0.37
+
+# Define the tree-prior distribution as the birth-death process #
+tree_dist = dnBDP(lambda=speciation_rate, mu=extinction_rate, rho=rho, rootAge=root_age, samplingStrategy="uniform", condition="time", taxa=names)
+
+# Define clade constraints #
+source(code_fp + "clade_constraints.Rev")
+
+# Define a stochastic node for the constrained tree topology #
+tau ~ dnConstrainedTopology(tree_dist, constraints=constraints)
+
+# Specify moves on the tree and node times #
+moves.append( mvNodeTimeSlideUniform(tau, weight=n_branches) )
+
+# Monitor the age of constrained clades #
+age_Argia := tmrca(tau, clade_Argia)
+age_Nehalennia := tmrca(tau, clade_Nehalennia)
+age_Ischnura := tmrca(tau, clade_Ischnura)
+
+# Specify offset node ages #
+obs_age_Argia ~ dnExponential(1, offset = -age_Argia)
+obs_age_Argia.clamp(-16.0)
+
+obs_age_Nehalennia ~ dnExponential(1, offset = -age_Nehalennia)
+obs_age_Nehalennia.clamp(-16.0)
+
+obs_age_Ischnura ~ dnExponential(1, offset = -age_Ischnura)
+obs_age_Ischnura.clamp(-13.7)

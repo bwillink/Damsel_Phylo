@@ -1,0 +1,28 @@
+##################################################################################################
+###                                    Summarize tree trace with MAP                           ###
+##################################################################################################
+
+#settings
+base_fp         = "../"
+out_fp          = base_fp + "output/bg_dating/"
+G1_beta_strong	= "Coen.g1.beta.calib.strong.673464"
+G1_beta_weak	= "Coen.g1.beta.calib.354635"
+
+source (base_fp + "scripts/bg_dating/Outgroup.Rev")
+
+# The tree with paleogeography and informed prior
+# Read in the tree trace
+treetrace = readTreeTrace(file = out_fp + G1_beta_strong + ".trees", outgroup = feather, treetype="clock", burnin=0.2)
+
+# Save the map tree
+mapTree(treetrace, out_fp + "G1_beta_strong.673464" + "_MAP.tree")
+
+# The tree with paleogeograhy and weak prior
+# Read in the tree trace
+treetrace = readTreeTrace(file = out_fp + G1_beta_weak + ".trees", outgroup = feather, treetype="clock", burnin=0.2)
+
+# Save the map tree
+mapTree(treetrace, out_fp +"G1_beta_weak.354635" + "_MAP.tree")
+
+# quit upon completion
+quit()

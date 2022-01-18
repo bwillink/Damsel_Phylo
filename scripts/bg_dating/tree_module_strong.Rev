@@ -1,0 +1,59 @@
+##############
+# tree model #
+##############
+
+# tree
+tau_tmp 	<- readTrees(tree_fn)[1]
+names 		=  tau_tmp.names()
+n_species 	<- tau_tmp.ntips()
+n_branches	<- 2 * n_species - 2
+n_nodes     <- tau_tmp.nnodes()
+
+# tree ages
+tau_rescale <- 120
+tau_tmp.rescale( 1.0 / tau_tmp.rootAge() )
+tip_ages <- rep(0., n_species)
+
+# evol length
+evol ~ dnUnif(0,1000)
+#evol.setValue( exp(runif(1,-2,2)[1]) )
+evol.setValue (1.15)
+moves.append(mvScale(evol, tune=true, lambda=0.1, weight=10))
+moves.append(mvScale(evol, tune=true, lambda=5.0, weight=10)) # changed lamda from 1 to 5 and tune
+moves.append(mvSlide(evol, tune=true, delta=0.1, weight=10))
+
+# ages, clocks
+max_age <- 240
+if (exists("use_calib_suvorov")) {
+    root_age ~ dnNormal(mean=120, sd=20, min=40, max=240)
+} else {
+    root_age ~ dnUnif(0, max_age)
+}
+root_age.setValue(tau_rescale)
+moves.append(mvScale(root_age, tune=true, lambda=0.1, weight=10))
+moves.append(mvScale(root_age, tune=true, lambda=1.0, weight=10))
+moves.append(mvSlide(root_age, tune=true, delta=2.0, weight=10))
+
+# want avg subst rate of 10^-7 / site / yr
+# e.g. 10^-1 / site / Myr
+s_bg ~ dnUnif(-3,3)
+#s_bg.setValue(runif(1,-1,1)[1])
+#s_bg.setValue(2)
+moves.append(mvSlide(s_bg, weight=10))
+
+# determine molecular,biogeographic clocks
+clock_mol    := evol / root_age
+clock_bg     := clock_mol * 10^s_bg
+
+# report the expected number of events/site
+height_mol   := clock_mol * root_age # this equals evol
+height_bg    := clock_bg * root_age
+
+# tree
+tau_unit ~ dnUniformTimeTree(rootAge=1., taxa=names)
+tau_unit.setValue( tau_tmp )
+
+tau := fnTreeScale(scale=root_age, tree=tau_unit, tipAges=tip_ages)
+
+# update branch lengths
+moves.append(mvNodeTimeSlideUniform(tau_unit, weight=n_branches))

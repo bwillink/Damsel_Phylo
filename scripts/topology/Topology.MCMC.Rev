@@ -1,0 +1,23 @@
+###############################################################################################   
+###                      MCMC analysis for topology inference                               ###
+###############################################################################################
+
+############
+# Monitors #
+############
+mn[mni++] = mnScreen(TL, printgen=100)
+mn[mni++] = mnModel(filename=out_fp + base_str + ".log",printgen=10)
+mn[mni++] = mnFile(psi, filename=out_fp + base_str + ".tre", printgen=100)
+
+#################
+# Run the MCMC  #
+#################
+# set up mcmc algorithm
+mymcmc = mcmc(mymodel, mn, mv, nruns=2)
+mymcmc.burnin(generations=20000,tuningInterval=250)
+
+# run
+mymcmc.run(80000)
+mymcmc.operatorSummary()
+
+q()

@@ -1,0 +1,9 @@
+base_tree_fn    = "Coen.start.tre"
+base_str        = "Coen.g0.fossil.calib.flat"
+rv              = floor(runif(1,100000,999999)[1])
+base_str        = base_str + "." + rv
+use_atlas       = false
+use_beta_prior  = false
+use_calib_suvorov  = true
+
+source("scripts/quick_coen.yule.Rev")

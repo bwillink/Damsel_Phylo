@@ -1,0 +1,80 @@
+########
+# data #
+########
+# read in molecular character matrix
+d_mol = readDiscreteCharacterData(mol_fn)
+n_parts = d_mol.size()
+n_mol_states   <- 4
+n_mol_elements <- n_mol_states*(n_mol_states-1)/2
+
+################
+# Branch rates #
+################
+
+# constrain variance of distribution of relaxed clocks
+ucln_sd ~ dnExp(0.1)
+ucln_sd.setValue(rexp(1,5)[1])
+#ucln_sd.setValue(0.1)
+moves.append(mvScale(ucln_sd, lambda=0.2, weight=10.0))
+ucln_mean := ln( clock_mol ) - ucln_sd*ucln_sd*0.5
+
+# branch rates draw from a discretized Lognormal
+num_rate_categories <- 8 # reduce n categories from 32 to 8
+rate_distribution = dnLnorm(mean=ucln_mean, sd=ucln_sd)
+rate_categories := fnDiscretizeDistribution(rate_distribution, num_rate_categories)
+rate_probs <- simplex(rep(1,num_rate_categories))
+step_size = round(num_rate_categories/8)
+
+# assign branch rate vector
+for (i in 1:floor(n_branches)) {
+    br_mol_clock[i] ~ dnMixture(rate_categories, rate_probs)
+    br_mol_clock[i].setValue( rate_categories[4] )
+   moves.append(mvMixtureAllocation(br_mol_clock[i], weight=1., delta=step_size))
+}
+
+branch_rates_mean :=  ln( clock_mol ) - ucln_sd*ucln_sd*0.5
+
+############
+# Site rates #
+##############
+
+# site-heterogeneity, +Gamma-4
+alpha_mol_gr ~ dnUnif(0, 50)
+alpha_mol_gr.setValue(rexp(1,5)[1])
+#alpha_mol_gr.setValue(1.)
+site_mol_clock := fnDiscretizeGamma(alpha_mol_gr, alpha_mol_gr, 4, false)
+moves.append(mvScale(alpha_mol_gr, tune=true, weight=10)) # reduced weight from 25 to 10
+
+#############
+# DNA model #
+#############
+
+# each partition has its own rate matrix
+for (i in 1:n_parts)
+{
+    # exchangeability rates
+    er_mol_pr[i] <- rep(1, n_mol_elements)
+    er_mol[i] ~ dnDirichlet(er_mol_pr[i])
+    moves.append(mvSimplexElementScale(x=er_mol[i], alpha=20.0, tune=true, weight=10.0))
+
+    # base frequencies
+    bf_mol_pr[i] <- rep(1, n_mol_states)
+    bf_mol[i] ~ dnDirichlet(bf_mol_pr[i])
+    moves.append(mvSimplexElementScale(x=bf_mol[i], alpha=20.0, tune=true, weight=10.0))
+
+    # rate matrix
+    Q_mol[i] := fnGTR(exchangeRates=er_mol[i], baseFrequencies=bf_mol[i])
+
+    # create the molecular model
+    m_mol[i] ~ dnPhyloCTMC(tree=tau,
+                           Q=Q_mol[i],
+                           rootFrequencies=bf_mol[i],
+                           branchRates=br_mol_clock,
+                           siteRates=site_mol_clock,
+                           nSites=d_mol[i].nchar(),
+                           type="DNA")
+
+    # treat the molecular character matrix as observed
+    m_mol[i].clamp(d_mol[i])
+
+}

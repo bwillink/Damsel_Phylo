@@ -1,0 +1,158 @@
+##################################################################################################
+#               Hidden State Dependent Speciation and Extinction for Latitudinal Range           #
+##################################################################################################
+
+##########
+# Set up #
+##########
+
+#Read in the tree
+start_tre <- readTrees(tree_fn)[1]
+names <- start_tre.names()
+n_species <- start_tre.ntips()
+n_branches<- 2 * n_species - 2
+n_nodes <- start_tre.nnodes()
+
+# Create vectors for the moves and monitors of this analysis
+moves    = VectorMoves()
+monitors = VectorMonitors()
+
+#Read in the character data
+data <- readDiscreteCharacterData(cr_fn) #or alternatively readDiscreteCharacterData
+
+
+#Create helper variables
+NUM_STATES = 2
+NUM_HIDDEN = 2
+NUM_RATES = NUM_STATES * NUM_HIDDEN
+
+# we need to expand the data to the hidden states
+data_exp <- data.expandCharacters( NUM_HIDDEN )
+
+#########################
+# Diversification rates #
+#########################
+
+#Priors
+
+#Asume identical priors on speciation and extinction, which follow a normal distribution with mean
+# (ln(no.taxa/2))/tree age which is the net diversification rate
+
+rate_mean <- ln( ln(1805.0/2.0) / start_tre.rootAge() )
+rate_sd <- 2.0
+
+#Stochastic variables for the trait of interest
+
+for (i in 1:NUM_STATES) {
+    
+    ### Create a lognormal distributed variable for the diversification rate
+    speciation_alpha[i] ~ dnNormal(mean=rate_mean,sd=rate_sd) 
+    moves.append( mvSlide(speciation_alpha[i],delta=0.20,tune=true,weight=3.0))
+
+    ### Create a lognormal distributed variable for the turnover rate
+    extinction_alpha[i] ~ dnNormal(mean=rate_mean,sd=rate_sd) 
+    moves.append( mvSlide(extinction_alpha[i],delta=0.20,tune=true,weight=3.0))
+
+}
+
+#Stochastic variables for the hidden trait
+
+
+    
+    ### Create an exponential distributed variable for the diversification rate
+    speciation_beta ~ dnExp(1.0) 
+    moves.append( mvScale(speciation_beta,lambda=0.20,tune=true,weight=2.0))        
+
+    ### Create an normal distributed variable for the turnover rate
+    extinction_beta ~ dnNormal(0.0,1.0)
+    moves.append( mvSlide(extinction_beta,delta=0.20,tune=true,weight=2.0))
+    
+
+#Now match the rates to all observed and hidden states
+
+for (j in 1:NUM_HIDDEN) {
+    for (i in 1:NUM_STATES) {
+        if ( j == 1) {
+            speciation[i] := exp( speciation_alpha[i] )
+            extinction[i] := exp( extinction_alpha[i] )
+        } else {
+            index = i+(j*NUM_STATES)-NUM_STATES
+            speciation[index] := speciation[i] * exp( speciation_beta )
+            extinction[index] := exp( extinction_alpha[i] + extinction_beta )
+        }
+    }
+}
+
+#########################################################
+# Set up the transition rate matrix for observed states #
+#########################################################
+
+# Each transition rate between observed states are drawn
+# from an exponential distribution with a mean of 10
+# character state transitions over the tree. 
+rate_pr := start_tre.treeLength() / 10
+
+rate_01 ~ dnExp(rate_pr)
+rate_10 ~ dnExp(rate_pr)
+
+moves.append( mvScale( rate_01, weight=2 ))
+
+moves.append( mvScale( rate_10, weight=2 ))
+
+
+Q := [ rate_01,rate_10 ]
+
+
+#########################################################
+# Set up the transition rate matrix for hidden states #
+#########################################################
+
+# We assume the transitions among the hidden states
+# are all equal and drawn from an exponential distriubtion.
+hidden_rate ~ dnExponential(rate_pr)
+moves.append( mvScale(hidden_rate,lambda=0.2,tune=true,weight=5))
+
+for (i in 1:(NUM_HIDDEN * (NUM_HIDDEN - 1))) {
+    R[i] := hidden_rate
+}
+
+
+######################################################################
+# Create the rate matrix for the combined observed and hidden states #
+######################################################################
+#it is very important that the matrix is NOT rescaled to 1.0
+rate_matrix := fnHiddenStateRateMatrix(Q, R, rescaled=false)
+
+
+#####################################
+# Set up the root state frequencies #
+#####################################
+
+### Create a constant variable with the prior probabilities of each rate category at the root.
+rate_category_prior ~ dnDirichlet( rep(1,NUM_RATES) )
+moves.append( mvBetaSimplex(rate_category_prior,tune=true,weight=2))
+moves.append( mvDirichletSimplex(rate_category_prior,tune=true,weight=2))
+
+
+### Create the fix parameter for the age of the root set to the observed age
+root <- start_tre.rootAge()
+
+
+### rho is the probability of sampling species at the present
+### fix this for now 
+rho <- start_tre.ntips()/1805
+
+
+#### construct a variable for the tree drawn from a birth death process
+timetree ~ dnCDBDP( rootAge           = root,
+                    speciationRates   = speciation,
+                    extinctionRates   = extinction, 
+                    Q                 = rate_matrix,
+                    delta             = 1.0,
+                    pi                = rate_category_prior,
+                    rho               = rho,
+                    condition         = "survival")
+
+### clamp the model with the "observed" tree
+timetree.clamp( start_tre )
+timetree.clampCharData( data_exp )

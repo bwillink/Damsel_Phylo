@@ -1,0 +1,30 @@
+############
+# settings #
+############
+setOption("useScaling","true")
+
+base_mol_fn     = "M4.mol.nex"
+rv              = floor(runif(1,100000,999999)[1])
+base_str        = "M5.Uniform." + rv
+
+# change base_fp to location of project directory
+base_fp         = "/lunarc/nobackup/users/beatrizw/Damsel_Phylo/"
+code_fp         = base_fp + "scripts/topology/"
+in_fp           = base_fp + "data/processed/nxs/"
+out_fp          = base_fp + "output/topology/"
+out_str         = base_str
+
+mol_fn          = in_fp + base_mol_fn
+
+# move/monitor index
+mvi = 0
+mni = 0
+
+# read outgroup
+source (code_fp + "Outgroup.Rev")
+
+# load model
+source (code_fp + "UniformGTRG.Rev")
+
+# run ML estimation
+source (code_fp + "ML.Rev")
