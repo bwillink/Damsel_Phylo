@@ -567,6 +567,8 @@ echo $rb_command | rb
 Node dating:
 ```{bash node-dating-MAP, echo=TRUE, eval=FALSE}
 #!bin/bash
+# burned trees before loading on rb or it will crash
+cat ../output/node_dating/Coen.g0.fossil.calib.flat.973180.trees | tail -6001 > Coen.g0.fossil.calib.flat.973180.burned.trees
 
 # run the dating analysis
 rb_command="source(\"./node_dating/node_MAP.Rev\");"
@@ -1446,45 +1448,6 @@ Here we explore how diversification rates vary across time and between latitudin
 
 ## Time-dependent diversification
 We analyzed the temporal dynamics of diversification using episodic birth-death (EBD) models in RevBayes.
-
-<!---#### Identifying the number of epochs
-We first used marginal likelihood approximation to identify the number of equal-length epochs between which diversification rates change, that better fits our dated phylogeny
-```{r run-EBD-ML, eval=FALSE, echo=TRUE}
-system("bash ~/Dropbox/Phylogeny/EBD/scripts/Run_EBED_power.sh")
-```
-
-We ran this analysis in triplicate, estimating ML via the stepping stone algorithm and path sampling
-```{r EBD-ML}
-# Create a data frame for ML results
-ML <- data.frame(model = character(), ss = numeric(), ps = numeric(), run = numeric())
-
-# how many runs to check estimates are stable
-n_runs <- 3
-
-# read in results  and add to data frame
-for (i in 1:n_runs){
-  model <- read.table(file = paste0("~/Dropbox/Phylogeny/EBED/output/stdout/datasetR", i, ".txt"), header = F)
-  ss <- read.table(file = paste0("~/Dropbox/Phylogeny/EBED/output/stdout/SteppingStoneR", i, ".txt"), header = F)
-  ps <- read.table(file = paste0("~/Dropbox/Phylogeny/EBED/output/stdout/PathSamplerR", i, ".txt"), header = F)
-  run <- rep(x = i,length(model$V1)) 
-  
-  ML <- rbind(ML, data.frame(model, ss, ps, run))
-}
-
-# rename columns
-colnames(ML) <- c("model", "ss", "ps", "run")
-
-# transform long to wide
-ML_wide <-
-  pivot_wider(ML, names_from = run, values_from = c(ss, ps)) %>%
-  arrange (desc(ss_1))
-
-ML_wide %>%
-  kbl(booktabs = T, align = c("l", rep('r', 4))) %>%
-  kable_styling(latex_options = "striped")
-```
-
-ML increases with increasing number of intervals until 6 time intervals. For the main text, we use 20 time intervals which has similar ML as 6, but allows for better resolution of the timing of diversification shifts.--->
 
 We used a EBD model under the horseshoe prior [@magee2020locally] with 20 time intervals (epochs) which allows for good resolution of the timing of diversification shifts (see Appendix S1).
 ```{bash run-EBED, echo=TRUE, eval=FALSE, fig.width=4, fig.height=12}

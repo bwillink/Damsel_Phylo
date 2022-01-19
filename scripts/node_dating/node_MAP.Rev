@@ -5,13 +5,13 @@
 #settings
 base_fp         = "../"
 out_fp          = base_fp + "output/node_dating/"
-G0_flat_yule 	= "Coen.g0.fossil.calib.flat.973180"
+G0_flat_yule 	= "Coen.g0.fossil.calib.flat.973180.burned"
 
 source (base_fp + "scripts/node_dating/Outgroup.Rev")
 
 # The tree dated with fossil constraints
 # Read in the tree trace
-treetrace = readTreeTrace(file = out_fp + G0_flat_yule + ".trees", outgroup = feather, treetype="clock", burnin=0.5)
+treetrace = readTreeTrace(file = out_fp + G0_flat_yule + ".trees",  outgroup = feather, treetype="clock", burnin=0.2)
 
 # Save the map tree
 mapTree(treetrace, out_fp + "G0_flat_yule.973180" + "_MAP.tree")
