@@ -2239,8 +2239,19 @@ Plot dispersal events by latitudinal region
 Latdf <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_data.txt", header = T)
 
 # what is the posterior mode for each direction of dispersal
-Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Trp")]) # out of the tropics
-Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Tmp")]) #into the tropics
+#Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Trp")]) # out of the tropics
+#Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Tmp")]) #into the tropics
+
+# what is the posterior mean and HPD interval for each direction of dispersal
+mean(Latdf$Dispersal[which(Latdf$Lat == "Trp")])
+mean(Latdf$Dispersal[which(Latdf$Lat == "Tmp")])
+
+HPDinterval(mcmc(Latdf$Dispersal[which(Latdf$Lat == "Trp")]))
+HPDinterval(mcmc(Latdf$Dispersal[which(Latdf$Lat == "Tmp")]))
+       
+# and for the difference
+mean(Latdf$Dispersal[which(Latdf$Lat == "Trp")] - Latdf$Dispersal[which(Latdf$Lat == "Tmp")])     
+HPDinterval(mcmc(Latdf$Dispersal[which(Latdf$Lat == "Trp")] - Latdf$Dispersal[which(Latdf$Lat == "Tmp")]))
 
 # Plot
 p_events <- ggplot(Latdf, aes(x = Dispersal, fill = Lat)) +
@@ -2261,8 +2272,7 @@ p_events <- ggplot(Latdf, aes(x = Dispersal, fill = Lat)) +
 
 p_events
 ```
-
-
+<!---
 Plot dispersal relative to phylogenetic diversity by latitudinal region.
 ```{r plot-lat-dispersal-phylo, warning=FALSE}
 # read latitudinal dispersal posterior
@@ -2355,6 +2365,7 @@ LatD_summ <-
 LatD_summ %>% kbl(booktabs =T, align= c("l",rep('r', 4))) %>%
 kable_styling(latex_options ="striped")
 ```
+--->
 
 ## Approach #2: from HiSSE stochastic character mapping
 
@@ -2579,8 +2590,19 @@ Plot dispersal events by latitudinal region.
 Lat_events <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_HiSSE_data.txt", header = T)
 
 # what is the posterior mode for each direction of dispersal
-Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Trp")]) # out of the tropics
-Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")]) #into the tropics
+#Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Trp")]) # out of the tropics
+#Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")]) #into the tropics
+
+# what is the posterior mean and HPD interval for each direction of dispersal
+mean(Lat_events$Dispersal[which(Lat_events$Lat == "Trp")])
+mean(Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")])
+
+HPDinterval(mcmc(Lat_events$Dispersal[which(Lat_events$Lat == "Trp")]))
+HPDinterval(mcmc(Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")]))
+       
+# and for the difference
+mean(Lat_events$Dispersal[which(Lat_events$Lat == "Trp")] - Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")])     
+HPDinterval(mcmc(Lat_events$Dispersal[which(Lat_events$Lat == "Trp")] - Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")]))
 
 # Plot
 p_events2 <- ggplot(Lat_events, aes(x = Dispersal, fill = Lat)) +
@@ -2602,6 +2624,7 @@ p_events2 <- ggplot(Lat_events, aes(x = Dispersal, fill = Lat)) +
 p_events2
 ```
 
+<!---
 Plot dispersal relative to phylogenetic diversity by latitudinal region.
 ```{r plot-lat-dispersal-phylo-2, warning=FALSE}
 # read latitudinal dispersal posterior
@@ -2696,6 +2719,7 @@ LatD_summ <-
 LatD_summ %>% kbl(booktabs =T, align= c("l",rep('r', 4))) %>%
 kable_styling(latex_options ="striped")
 ```
+---->
 
 # Repeat downstream analyses for weakly informed tree prior
 
@@ -3921,8 +3945,20 @@ Plot dispersal events by latitudinal region
 Latdf <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_data_weak.txt", header = T)
 
 # what is the posterior mode for each direction of dispersal
-Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Trp")]) # out of the tropics
-Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Tmp")]) #into the tropics
+#Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Trp")]) # out of the tropics
+#Mode(x = Latdf$Dispersal[which(Latdf$Lat == "Tmp")]) #into the tropics
+
+# what is the posterior mean and HPD interval for each direction of dispersal
+mean(Latdf$Dispersal[which(Latdf$Lat == "Trp")])
+mean(Latdf$Dispersal[which(Latdf$Lat == "Tmp")])
+
+HPDinterval(mcmc(Latdf$Dispersal[which(Latdf$Lat == "Trp")]))
+HPDinterval(mcmc(Latdf$Dispersal[which(Latdf$Lat == "Tmp")]))
+       
+# and for the difference
+mean(Latdf$Dispersal[which(Latdf$Lat == "Trp")] - Latdf$Dispersal[which(Latdf$Lat == "Tmp")])     
+HPDinterval(mcmc(Latdf$Dispersal[which(Latdf$Lat == "Trp")] - Latdf$Dispersal[which(Latdf$Lat == "Tmp")]))
+
 
 # Plot
 p_events <- ggplot(Latdf, aes(x = Dispersal, fill = Lat)) +
@@ -3943,7 +3979,7 @@ p_events <- ggplot(Latdf, aes(x = Dispersal, fill = Lat)) +
 
 p_events
 ```
-
+<!---
 Plot dispersal relative to phylogenetic diversity by latitudinal region.
 ```{r plot-lat-dispersal-phylo-w, warning=FALSE}
 # read latitudinal dispersal posterior
@@ -4037,6 +4073,7 @@ LatD_summ <-
 LatD_summ %>% kbl(booktabs =T, align= c("l",rep('r', 4))) %>%
 kable_styling(latex_options ="striped")
 ```
+--->
 
 ### Approach #2: from HiSSE stochastic character mapping
 
@@ -4261,8 +4298,19 @@ Plot dispersal events by latitudinal region.
 Lat_events <- read.table(file = "../data/processed/dispersal/Lat_Dispersal_HiSSE_data_weak.txt", header = T)
 
 # what is the posterior mode for each direction of dispersal
-Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Trp")]) # out of the tropics
-Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")]) #into the tropics
+#Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Trp")]) # out of the tropics
+#Mode(x = Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")]) #into the tropics
+
+# what is the posterior mean and HPD interval for each direction of dispersal
+mean(Lat_events$Dispersal[which(Lat_events$Lat == "Trp")])
+mean(Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")])
+
+HPDinterval(mcmc(Lat_events$Dispersal[which(Lat_events$Lat == "Trp")]))
+HPDinterval(mcmc(Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")]))
+       
+# and for the difference
+mean(Lat_events$Dispersal[which(Lat_events$Lat == "Trp")] - Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")])     
+HPDinterval(mcmc(Lat_events$Dispersal[which(Lat_events$Lat == "Trp")] - Lat_events$Dispersal[which(Lat_events$Lat == "Tmp")]))
 
 # Plot
 p_events2 <- ggplot(Lat_events, aes(x = Dispersal, fill = Lat)) +
@@ -4283,7 +4331,7 @@ p_events2 <- ggplot(Lat_events, aes(x = Dispersal, fill = Lat)) +
 
 p_events2
 ```
-
+<!---
 Plot dispersal relative to phylogenetic diversity by latitudinal region.
 ```{r plot-lat-dispersal-phylo-2-w, warning=FALSE}
 # read latitudinal dispersal posterior
@@ -4378,5 +4426,6 @@ LatD_summ <-
 LatD_summ %>% kbl(booktabs =T, align= c("l",rep('r', 4))) %>%
 kable_styling(latex_options ="striped")
 ```
+--->
 
 # References

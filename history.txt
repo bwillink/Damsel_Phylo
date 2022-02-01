@@ -1,0 +1,2 @@
+tt = readTreeTrace(file = "output/HiSSE/LatHiSSE_strong_r1_posterior.tree",  treetype="clock", burnin=0.2)q
+q()
