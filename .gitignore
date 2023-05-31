@@ -69,4 +69,6 @@ output/biome_shift/*
 scripts/COENPhylo_R1_files/
 scripts/history.txt
 scripts/spellcheck.sh
+scripts/COENPhylo.html
+scripts/COENPhylo.rmd
 

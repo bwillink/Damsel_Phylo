@@ -26,6 +26,7 @@ x <-
     "ggplot2",
     "wesanderson",
     "coda",
+    "bayestestR",
     "ape",
     "phangorn",
     "ggtree",
@@ -1704,7 +1705,7 @@ pie_data <- pivot_wider(old_nodes, id_cols = "node", names_from = "states", valu
 pie_data[is.na(pie_data)] <- 0
 
 # combine all the rare states into "others"
-pie_data <- pie_data %>% mutate(others= `1` +  `8`+  A, + E + G, +H + J + L+ N + `2`)
+pie_data <- pie_data %>% mutate(others= `1` + `8`+  A + E + G + N + `2`)
 
 # drop rare states from data frame
 pie_data <- pie_data[, c("node","0","B","D","I","others")]
@@ -3488,7 +3489,7 @@ for (i in 1:n_atlas) {
 
 Plot lineage states trough time.
 
-```{r plot-lstt, eval=TRUE, echo=TRUE, warning=FALSE}
+```{r plot-lstt, eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
 
 d_state = list()
 d_match = list()
@@ -3588,7 +3589,7 @@ pbr
 
 Finally, we plot biome-shift events and event series.
 
-```{r prep-event-plot, eval=TRUE, echo=TRUE, warning=FALSE}
+```{r prep-event-plot, eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
 # filesystem
 fp       = "../"
 plot_fp  = paste0(fp, "output/biome_shift/plot/")
@@ -3673,8 +3674,8 @@ old_south_biome_lbl = c("Trop+Afr to Warm+Afr", "Warm+Afr to Trop+Afr",
 old_south_biome_line_colors = c("#FFCA28", "#F9A825", "#BDBDBD", "#212121",
                                 "#EC407A", "#AD1457", "#BA68C8", "#6A1B9A")
 
-history_fn = paste0(out_fp, base_fn[i],".history.tsv")
-model_fn  = paste0(out_fp, base_fn[i], ".model.log")
+history_fn = paste0(out_fp, base_fn,".history.tsv")
+model_fn  = paste0(out_fp, base_fn, ".model.log")
 ```
 
 Read and process event data
