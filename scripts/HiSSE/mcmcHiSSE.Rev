@@ -8,9 +8,9 @@ mymodel = model(rate_matrix)
 
 ### set up the monitors that will output parameter values to file and screen 
 monitors.append(mnModel(filename= out_fp + out_str + "model.log", printgen=10))
-monitors.append(mnJointConditionalAncestralState(tree=timetree, cdbdp=timetree, type="NaturalNumbers", printgen=10, withTips=true, withStartStates=false, filename=out_fp + out_str + "anc_states_HiSSE.log"))
-monitors.append(mnStochasticCharacterMap(cdbdp=timetree, printgen=10, filename= out_fp + out_str + "stoch_char_map_HiSSE.log", include_simmap=true))
-monitors.append(mnScreen(printgen=10, speciation, extinction))
+#monitors.append(mnJointConditionalAncestralState(tree=timetree, cdbdp=timetree, type="NaturalNumbers", printgen=10, withTips=true, withStartStates=false, filename=out_fp + out_str + "anc_states_HiSSE.log"))
+#monitors.append(mnStochasticCharacterMap(cdbdp=timetree, printgen=10, filename= out_fp + out_str + "stoch_char_map_HiSSE.log", include_simmap=true))
+#monitors.append(mnScreen(printgen=10, speciation, extinction))
 
 
 ################
@@ -21,33 +21,51 @@ monitors.append(mnScreen(printgen=10, speciation, extinction))
 mymcmc = mcmc(mymodel, monitors, moves, nruns=2, moveschedule="random", combine="mixed")
 
 ### pre-burnin to tune the proposals
-mymcmc.burnin(generations=5000, tuningInterval=200)
+#mymcmc.burnin(generations=5000, tuningInterval=200)
 
 ### run the MCMC
-mymcmc.run(generations=50000, tuningInterval=100)
+#mymcmc.run(generations=50000, tuningInterval=100)
+
+
+############################
+# Power posterior analysis #
+############################
+
+pow_p = powerPosterior(mymodel, monitors, moves, out_fp + base_str + ".out", cats=100)
+pow_p.burnin(generations=5000,tuningInterval=200)
+pow_p.run(generations=2000)
+
+##########################
+# Stepping stone sampler #
+##########################
+
+ss = steppingStoneSampler(file=out_fp + base_str + ".out", powerColumnName="power", likelihoodColumnName="likelihood")
+ss.marginal()
+
+q()
 
 
 ##############################
 # Summarize ancestral states #
 ##############################
 
-burnin=25
-n_time_slices = 500
+#burnin=25
+#n_time_slices = 500
 
 # read in the sampled character histories
-anc_states = readAncestralStateTrace(out_fp + out_str + "stoch_char_map_HiSSE.log")
+#anc_states = readAncestralStateTrace(out_fp + out_str + "stoch_char_map_HiSSE.log")
 
-summarizeCharacterMaps(anc_states, timetree, file= out_fp + out_str + "_events.tsv", burnin=0.2)
+#summarizeCharacterMaps(anc_states, timetree, file= out_fp + out_str + "_events.tsv", burnin=0.2)
 
 
 # make summary tree
-char_map_tree = characterMapTree(tree=timetree, 
-                 ancestral_state_trace_vector=anc_states, 
-                 character_file=out_fp + out_str + "_marginal_character.tree", 
-                 posterior_file=out_fp + out_str + "_posterior.tree", 
-                 burnin=burnin, 
-                 num_time_slices=n_time_slices)
+#char_map_tree = characterMapTree(tree=timetree, 
+#                 ancestral_state_trace_vector=anc_states, 
+#                 character_file=out_fp + out_str + "_marginal_character.tree", 
+#                 posterior_file=out_fp + out_str + "_posterior.tree", 
+#                 burnin=burnin, 
+#                 num_time_slices=n_time_slices)
 
-q()
+#q()
 
 

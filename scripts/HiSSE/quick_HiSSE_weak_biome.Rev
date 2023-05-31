@@ -1,0 +1,26 @@
+# settings
+
+base_str	= "BiomeHiSSE_weak_r1"
+
+base_tree_fn	= "G1_beta_weak.354635_MAP.tree"
+base_cr_fn	= "biome.nex"
+
+base_fp         = "../"
+
+in_fp           = base_fp + "data/raw/"
+code_fp		= base_fp + "scripts/HiSSE/"
+out_fp          = base_fp + "output/HiSSE/"
+out_str         = base_str
+
+tree_fn         = base_fp + "output/bg_dating/" + base_tree_fn
+cr_fn           = in_fp + base_cr_fn
+
+#read missing
+#source (code_fp + "Missing.Rev")
+
+# load model
+source(code_fp + "HiSSE_module_biome.Rev")
+
+# run mcmc
+source(code_fp + "mcmcHiSSE.Rev")
+

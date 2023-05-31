@@ -11,7 +11,7 @@ n_nodes     <- tau_tmp.nnodes()
 
 # tree ages
 tau_rescale <- 120
-tau_tmp.rescale( 1.0 / tau_tmp.rootAge() )
+tau_tmp.rescale( 120.0 / tau_tmp.rootAge() )
 tip_ages <- rep(0., n_species)
 
 # ages, clocks
@@ -62,6 +62,7 @@ source(code_fp + "clade_constraints.Rev")
 
 # Define a stochastic node for the constrained tree topology #
 tau ~ dnConstrainedTopology(tree_dist, constraints=constraints)
+tau.setValue(tau_tmp)
 
 # Specify moves on the tree and node times #
 moves.append( mvNodeTimeSlideUniform(tau, weight=n_branches) )
@@ -70,6 +71,7 @@ moves.append( mvNodeTimeSlideUniform(tau, weight=n_branches) )
 age_Argia := tmrca(tau, clade_Argia)
 age_Nehalennia := tmrca(tau, clade_Nehalennia)
 age_Ischnura := tmrca(tau, clade_Ischnura)
+age_Platycnemididae := tmrca(tau, clade_Platycnemididae)
 
 # Specify offset node ages #
 obs_age_Argia ~ dnExponential(1, offset = -age_Argia)
@@ -80,3 +82,7 @@ obs_age_Nehalennia.clamp(-16.0)
 
 obs_age_Ischnura ~ dnExponential(1, offset = -age_Ischnura)
 obs_age_Ischnura.clamp(-13.7)
+
+obs_age_Platycnemididae ~ dnExponential(1, offset = -age_Platycnemididae)
+obs_age_Platycnemididae.clamp(-93.9)
+

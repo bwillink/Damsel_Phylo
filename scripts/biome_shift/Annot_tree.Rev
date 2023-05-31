@@ -1,0 +1,50 @@
+# settings
+
+# standard settings used for scripted runs
+if (!exists("sim_name"))     sim_name     = "run2"
+if (!exists("under_prior"))  under_prior  = false
+if (!exists("epoch_str"))    epoch_str    = v("paleo","modern","ancient","null")[1]
+
+# filesystem variables
+fp           = "/home/bwillink/Dropbox/Doctorado/COEN_Phylogeny/Damsel_phylo/"
+data_fp      = fp + "data/processed/biome_shift/"
+tree_fn      = fp + "output/bg_dating/" + "G1_beta_strong.673464_MAP.tree"
+
+
+out_fn       = fp + "output/biome_shift/" + sim_name
+out_fn       = out_fn + "." + epoch_str
+
+
+# initialize tree
+phy <- readTrees(tree_fn)[1]
+
+burnin=0.2
+n_time_slices = 500
+
+# ase tree
+
+anc_states = readAncestralStateTrace(out_fn + ".states.log")
+anc_tree = ancestralStateTree(tree=phy,
+           ancestral_state_trace_vector=anc_states, 
+           include_start_states=false, 
+           file=out_fn  + ".ase.tre", 
+           burnin=burnin, summary_statistic="MAP", 
+           site=1)
+
+# stoch tree
+
+anc_states = readAncestralStateTrace(out_fn + ".stoch.log")
+
+summarizeCharacterMaps(anc_states, phy, file= out_fn + ".history.tsv", burnin=burnin)
+
+
+# make summary tree
+char_map_tree = characterMapTree(tree=phy, 
+                 ancestral_state_trace_vector=anc_states, 
+                 character_file=out_fn + "_paleo_marginal_character.tree", 
+                 posterior_file=out_fn + "_paleo_posterior.tree", 
+                 burnin=burnin, 
+                 num_time_slices=n_time_slices)
+
+
+q()

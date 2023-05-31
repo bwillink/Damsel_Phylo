@@ -1,0 +1,19 @@
+# filesystem variables
+fp           = "/home/bwillink/Dropbox/Doctorado/COEN_Phylogeny/Damsel_phylo/"
+data_fp      = fp + "output/bg_dating/"
+tree_fn      = data_fp + "G1_beta_strong.673464_MAP.tree"
+
+name         = "G1_beta_strong.673464"
+
+out_fn       = fp + "output/bg_dating/" + name
+
+# initialize tree
+phy <- readTrees(tree_fn)[1]
+
+burnin=0.33
+
+# ase tree
+
+anc_states = readAncestralStateTrace(data_fp + "Coen.g1.beta.calib.strong.673464.states.txt")
+anc_tree = ancestralStateTree(tree=phy, ancestral_state_trace_vector=anc_states,include_start_states=false,file=out_fn  + ".ase.tre",summary_statistic="MAP", burnin=burnin, site=1)
+           

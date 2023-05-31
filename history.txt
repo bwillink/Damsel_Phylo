@@ -1,2 +1,84 @@
 tt = readTreeTrace(file = "output/HiSSE/LatHiSSE_strong_r1_posterior.tree",  treetype="clock", burnin=0.2)q
 q()
+source("./scripts/biome_shift/run_inf.Rev")
+# standard settings used for scripted runs
+if (!exists("sim_name"))     sim_name     = "run"
+if (!exists("under_prior"))  under_prior  = false
+if (!exists("epoch_str"))    epoch_str    = v("paleo","modern","ancient","null")[1]
+# filesystem variables
+fp           = "/home/bwillink/Dropbox/Doctorado/COEN_Phylogeny/Damsel_phylo/"
+data_fp      = fp + "data/processed/biome_shift/"
+atlas_fn     = data_fp + "atlas_damselfly/"
+times_fn     = data_fp + "atlas_damselfly/epoch_times.txt"
+tree_fn      = fp + "output/bg_dating/" + "G1_beta_strong.673464_MAP.tree"
+range_fn     = data_fp + "coen_biome.nex"
+out_fn       = fp + "output/biome_shift/" + sim_name
+out_fn       = out_fn + "." + epoch_str
+if (under_prior) {
+    out_fn = out_fn + ".prior"
+}
+# print output filename as a check
+print("out_fn = " + out_fn)
+# analysis helper variables
+mvi = 1
+mni = 1
+print_gen = 50
+n_gen = 25000
+# initialize tree and taxa
+phy <- readTrees(tree_fn)[1]
+root_age <- phy.rootAge()
+taxa = phy.taxa()
+n_taxa = taxa.size()
+n_branches = 2 * n_taxa - 2
+# read in biome-range dataset
+dat_range = readDiscreteCharacterData(range_fn)
+# read in the time intervals for the time-stratified process
+epoch_times_raw = readDataDelimitedFile(times_fn, delimiter=",")
+n_epochs = epoch_times_raw.nrows()
+for (i in 1:n_epochs) {
+    epoch_times[i] <- abs( epoch_times_raw[i][1] )
+}
+# build the connectivity graphs
+graph_names = [ "land", "tropical", "warm", "cold" ]
+n_graphs = graph_names.size()
+n_biomes = n_graphs - 1
+for (i in 1:n_graphs) {
+    for (j in 1:n_epochs) {
+        tmp_fn = atlas_fn+graph_names[i]+"/"+(j-1)+"_"+graph_names[i]+".graph.txt"
+        graph[j][i] = readDataDelimitedFile(tmp_fn, delimiter=",")
+    }
+}
+n_areas = graph[1][1].size()
+n_states = n_areas * n_biomes
+# construct the time-stratified regional biome shift model
+source(fp + "scripts/biome_shift/model_biome.Rev")
+Q[7]
+Q[1]
+# standard settings used for scripted runs
+if (!exists("sim_name"))     sim_name     = "run"
+if (!exists("under_prior"))  under_prior  = false
+if (!exists("epoch_str"))    epoch_str    = v("paleo","modern","ancient","null")[1]
+# filesystem variables
+fp           = "/home/bwillink/Dropbox/Doctorado/COEN_Phylogeny/Damsel_phylo/"
+data_fp      = fp + "data/processed/biome_shift/"
+atlas_fn     = data_fp + "atlas_damselfly/"
+times_fn     = data_fp + "atlas_damselfly/epoch_times.txt"
+tree_fn      = fp + "output/bg_dating/" + "G1_beta_strong.673464_MAP.tree"
+range_fn     = data_fp + "coen_biome.nex"
+out_fn       = fp + "output/biome_shift/" + sim_name
+out_fn       = out_fn + "." + epoch_str
+if (under_prior) {
+    out_fn = out_fn + ".prior"
+}
+# print output filename as a check
+print("out_fn = " + out_fn)
+# analysis helper variables
+mvi = 1
+mni = 1
+print_gen = 50
+n_gen = 25000
+# initialize tree and taxa
+phy <- readTrees(tree_fn)[1]
+root_age <- phy.rootAge()
+root_age
+q()

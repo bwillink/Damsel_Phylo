@@ -1,0 +1,52 @@
+
+#############
+# The Model #
+#############
+
+### workspace model wrapper ###
+mymodel = model(timetree)
+
+### set up the monitors that will output parameter values to file and screen 
+#monitors.append(mnModel(filename= out_fp + out_str + "model.log", printgen=10))
+#monitors.append(mnJointConditionalAncestralState(tree=timetree, cdbdp=timetree, type="NaturalNumbers", printgen=10, withTips=true, withStartStates=false, filename=out_fp + out_str + "anc_states_HiSSE.log"))
+#monitors.append(mnStochasticCharacterMap(cdbdp=timetree, printgen=10, filename= out_fp + out_str + "stoch_char_map_HiSSE.log", include_simmap=true))
+#monitors.append(mnScreen(printgen=10, speciation, extinction))
+
+
+################
+# The Analysis #
+################
+
+### workspace mcmc
+#mymcmc = mcmc(mymodel, monitors, moves, nruns=1)
+
+### pre-burnin to tune the proposals
+#mymcmc.burnin(generations=5000, tuningInterval=200)
+
+### run the MCMC
+#mymcmc.run(generations=50000, tuningInterval=100)
+
+
+############################
+# Power posterior analysis #
+############################
+
+#pow_p = powerPosterior(mymodel, monitors, moves, out_fp + base_str + ".out", cats=50)
+
+#pwrs <- v(0.00243, 0.00172104, 0.00118814, 0.000796262, 0.000515363, 0.00032, 0.000188957, 0.000104858)
+
+#pow_p = powerPosterior(mymodel, monitors, moves, out_fp + base_str + ".out", powers=pwrs)
+#pow_p.burnin(generations=2000,tuningInterval=200)
+#pow_p.run(generations=1000)
+
+##########################
+# Stepping stone sampler #
+##########################
+
+ss = steppingStoneSampler(file=out_fp + base_str + ".out", powerColumnName="power", likelihoodColumnName="likelihood")
+ss.marginal()
+
+q()
+
+
+

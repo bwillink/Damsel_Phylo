@@ -1,673 +1,673 @@
-Family,Taxon,Countries,Provinces/States/Regions,Areas,Sources
-Coenagrionidae,Oxyagrion_ablutum,"ARG,BOL,PRY,URU",,"SAmS,SAmC","Heckman (2008), von Ellenrieder & Garrison (2007)"
-Coenagrionidae,Acanthagrion_adustum,"BRA,COL,GUF,GUY,PAR,SUR,VEN","Amazonas,Para,Rondonia,Roraima","SAmN,SAmE","FSCA, Heckman (2008)"
-Coenagrionidae,Acanthagrion_amazonicum,BRA,"Amazonas,Rondonia","SAmN,SAmE,SAmC",Heckman (2008)
-Coenagrionidae,Acanthagrion_apicale,"BOL,BRA,COL,ECU,GUF,GUY,PER,SUR,VEN","Amazonas,Para,Rondonia","SAmN,SAmE,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Acanthagrion_cf.abunae,"BOL,BRA,COL,GUY,PAN,PAR","Mato Grosso,Rondonia","SAmN,SAmE,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Acanthagrion_cf.chararum,"BOL,BRA,PER",Mato Grosso,"SAmN,SAmE,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Acanthagrion_cuyabae,"ARG,BOL,BRA","Mato Grosso,Rio Grande do Sul,Sao Paulo","SAmS,SAmC","Heckman (2008), von Ellenrieder (2009a)"
-Coenagrionidae,Acanthagrion_floridense,"COL,ECU",,SAmN,"FSCA, Heckman (2008)"
-Coenagrionidae,Acanthagrion_fluviatile,"GUY,VEN",,SAmE,"FSCA, Heckman (2008), von Ellenrieder et al. (2017)"
-Coenagrionidae,Acanthagrion_gracile,"ARG,BOL,BRA,COL,CRI,ECU,MEX,PAR,PER,URU",,"SAmN,SAmE,SAmS,SAmC",Heckman (2008)
-Coenagrionidae,Acanthagrion_sp3,ECU,,SAmN,von Ellenrieder & Tennessen (2016)
-Coenagrionidae,Acanthagrion_inexpectum,"COL,CRI,GUA,GUF,GUY,HON,MEX,PAN,SUR,VEN",,"SAmN,SAmE","FSCA, Heckman (2008),von Ellenrieder (2009b), von Ellenrieder et al. (2017)"
-Coenagrionidae,Acanthagrion_lancea,"ARG,BOL,BRA,COL,ECU,PAR,PER,URU","Rio Grande do Sul,Santa Catarina,Sao Paulo","SAmN,SAmE,SAmS,SAmC",Heckman (2008)
-Coenagrionidae,Acanthagrion_minutum,"ARG,BOL,BRA,GUY,PER,VEN",Sao Paulo,"SAmE,SAmS,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Acanthagrion_obsoletum,"BOL,COL,ECU,PER",,"SAmN,SAmC","FSCA, Heckman (2008), Hoffmann et al. (2016a)"
-Coenagrionidae,Acanthagrion_sp2,"ARG,BRA,ECU,PER",,"SAmN,SAmC",Lozano & Muzón (2020)
-Coenagrionidae,Acanthagrion_phallicorne,"BRA,ECU,PER,VEN","Mato Grosso,Rondonia","SAmN,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Acanthagrion_rubrifrons,"BRA,ECU,GUF,GUY,PER,SUR,VEN","Amazonas,Para","SAmN,SAmE","FSCA, Heckman (2008)"
-Coenagrionidae,Acanthagrion_sp1,--,,--,--
-Coenagrionidae,Acanthagrion_temporale,"ARG,BRA,VEN","Bahia,Mato Grosso,Minas Gerais,Rio de Janeiro,Roraima,Sao Paulo","SAmE,SAmS,SAmC",Heckman (2008)
-Coenagrionidae,Acanthagrion_trilobatum,"COL,CRI,ECU,ESA,HON,NIC,PAN,VEN",,SAmN,"FSCA, Heckman (2008)"
-Coenagrionidae,Acanthagrion_vidua,"BOL,TTO,VEN",,"SAmN,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Acanthagrion_yungarum,"BOL,ECU,PER",,"SAmN,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Aciagrion_africanum,"AGO,CIV,CMR,COD,COG,GAB,GIN,LBR,MWI,NGA,UGA,ZMB",,"AfrW,AfrE","Dijkstra (2017), Clausnitzer et al. (2016a)"
-Coenagrionidae,Aciagrion_bapepe,"CMR,COG",,AfrW,"Dijkstra (2017), Clausnitzer (2017a)"
-Coenagrionidae,Aciagrion_borneense,"BRN,IDN,IND,KHM,MYS,THA,VNM","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular,Mizoram","AsSE,Mly","Dow & Silvius (2014), FSCA, Dow (2011a)"
-Coenagrionidae,Aciagrion_brosseti,"COD,GAB",,AfrW,"Dijkstra (2017),Dijkstra & Clausnitzer (2014)"
-Coenagrionidae,Aciagrion_hisopa,"IDN,IND,KHM,MMR,MYS,NPL,SGP,THA,VNM","Indonesia-Archipelago,Karnataka,Kerala,Maharashtra,Malaysia-Archipelago","AsSE,Ind,Mly",Dow (2009a)
-Coenagrionidae,Aciagrion_migratum,"CHN,JPN,KOR,TWN,VNM",,"AsE,AsSE",Karube (2009a)
-Coenagrionidae,Aciagrion_nodosum,"AGO,CMR,COG,GAB,ZMB",,AfrW,"Dijkstra (2017), Clausnitzer & Suhling (2018a)"
-Coenagrionidae,Aciagrion_occidentale,"IND,KHM,LKA,VNM",Madras,"AsSE,Ind",Mitra (2010a)
-Coenagrionidae,Aciagrion_approximans,"CHN,HKG,IDN,IND,KHM,THA","Arunachal Pradesh,Guangdong,Guangxi,Hainan,Indonesia-Archipelago,Manipur,Meghalaya,Nagaland,Sikkim,West Bengal","AsSE,Mly","Dow (2009b), Kosterin (2012)"
-Coenagrionidae,Aeolagrion_dorsale,"BOL,BRA,ECU,GUF,GUY,PER,SUR,SUR,TTO,VEN","Amazonas,Para","SAmN,SAmE,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Aeolagrion_inca,"BOL,BRA,ECU,PER",Amazonas,"SAmN,SAmC",Heckman (2008)
-Coenagrionidae,Aeolagrion_philipi,"ARG,BOL",,SAmC,Tennessen (2009)
-Coenagrionidae,Africallagma_elongatum,"AGO,COD,ERI,ETH,KEN,MWI,TZA,UGA,ZWE",,"AfrS,AfrE","FSCA, Clausnitzer & Suhling (2016a)"
-Coenagrionidae,Africallagma_glaucum,"BWA,GAB,GHA,KEN,LSO,MOZ,MWI,NAM,NGA,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE","FSCA, Clausnitzer et al. (2016b)"
-Coenagrionidae,Africallagma_pseudelongatum,"COD,KEN,RWA,UGA",,AfrE,Dijkstra & Clausnitzer (2014)
-Coenagrionidae,Africallagma_quingentum,"COD,KEN,UGA",,AfrE,"Dijkstra (2017), Clausnitzer (2017b)"
-Coenagrionidae,Africallgama_vaginale,"AGO,CMR,COD,GAB,GHA,KEN,TZA,UGA,ZMB",,"AfrW,AfrE","Dijkstra (2017), Clausnitzer & Suhling (2016b)"
-Coenagrionidae,Agriocnemis_argentea,AUS,"Northern Territory,Queensland,Western Australia","AusW,AusE","Atlas of living Australia (2017), FSCA"
-Coenagrionidae,Agriocnemis_canuango,AGO,,AfrW,"Dijkstra (2017), Clausnitzer (2017c)"
-Coenagrionidae,Agriocnemis_exilis,"AGO,BEN,BFA,CAF,CMR,COD,COG,ETH,GAB,GMB,GNB,KEN,LBR,MDG,MLI,MOZ,MUS,MWI,NAM,NGA,REU,SEN,SLE,SOM,SSD,TCD,TGO,TZA,ZAF,ZMB",,"AfrW,AfrS,AfrE,Mdg",Dijkstra (2017)
-Coenagrionidae,Agriocnemis_exsudans,"ASM,AUS,COK,FJI,NCL,SLB,TON,VUT",Queensland,"AusE,Slm,Mln,NC","FSCA, Marinov & Waqa-Sakiti (2013), Papazian et al. (2007)"
-Coenagrionidae,Agriocnemis_femina,"AUS,BGD,BRN,CHN,FSM,GUM,HKG,IDN,IND,JPN,LAO,LKA,MMR,MYS,PHL,PLW,PNG,SGP,SLB,THA,TMS,TWN,VNM","Andaman Is.,Assam,Fujian,Guangdong,Guangxi,Hainan,Henan,Hubei,Hunan,Indonesia-Archipelago,Indonesia-Papua,Malaysia-Archipelago,Malaysia-Peninsular,Manipur,Nicobar Is.,Queensland,Sichuan,West Bengal,Yunnan","AsE,AsSE,AusE,Ind,Slm,Mly,Phl,NG,Mcr",Dow (2020a)
-Coenagrionidae,Agriocnemis_forcipata,"AGO,CAF,CMR,COD,COG,GAB,SSD",,"AfrW,AfrE","Dijkstra (2017),Clausnitzer et al. (2016c)"
-Coenagrionidae,Agriocnemis_inversa,"COD,DJI,ETH,KEN,MWI,SSD,TZA,UGA",,AfrE,Clausnitzer & Dijkstra (2016a)
-Coenagrionidae,Agriocnemis_kalinga,"BGD,IND","Odisha,West Bengal","AsSE,Ind",Nair and Subramanian (2014)
-Coenagrionidae,Agriocnemis_keralensis,IND,"Goa,Kerala",Ind,"Dow (2009c), Kakkasery (2011)"
-Coenagrionidae,Agriocnemis_lacteola,"BGD,CHN,HKG,IND,KHM,NPL,THA,VNM","Arunachal Pradesh,Assam,Bihar,Fujian,Guangdong,Guangxi,Guizhou,Hainan,Henan,Hubei,Jiangsu,Jiangxi,Meghalaya,Orissa,Sichuan,Sikkim,West Bengal,Yunnan,Zhejiang","AsE,AsSE",Kosterin & Holden (2011)
-Coenagrionidae,Agriocnemis_maclachlani,"BEN,CIV,CMR,GIN,GMB,GNB,LBR,NGA,SEN,SLE,UGA",,"AfrW,AfrE",Clausnitzer & Dijkstra (2016b)
-Coenagrionidae,Agriocnemis_nana,"CHN,KHM,LAO,MMR,MYS,SGP,THA,VNM","Malaysia-Peninsular,Yunnan",AsSE,Dow (2011b)
-Coenagrionidae,Agriocnemis_pinheyi,"BDI,COD,KEN,MOZ,MWI,TZA,UGA,ZAF,ZMB,ZWE",,"AfrS,AfrE","Dijkstra (2017), Clausnitzer & Suhling (2018b)"
-Coenagrionidae,Agriocnemis_pygmaea,"AFG,AUS,BGD,BRN,BTN,CHN,HKG,IDN,IND,IRN,JPN,KHM,LAO,LKA,MMR,MYS,OMN,PAK,PHL,PNG,SGP,SLB,SYC,THA,TWN,VNM","Andaman Is.,Andhra Pradesh,Arunachal Pradesh,Bihar,Chandigarh,Chattisgarh,Dadra-Nagar-Haveli,Daman,Darjiling,Delhi,Diu,Goa,Guangdong,Guangxi,Gujarat,Hainan,Haryana,Himachal Pradesh,Indonesia-Archipelago,Indonesia-Papua,Jammu-Kashmir,Jharkand,Karaikal,Karnataka,Kerala,Laccadive Is.,Madhya Pradesh,Madras,Maharashtra,Malaysia-Peninsular,Manipur,Meghalaya,Mizoram,Nagaland,New South Wales,Nicobar Is.,Northern,Orissa,Pondicherry,Punjab,Queensland,Rajasthan,Sichuan,Sikkim,Tamil Nadu,Tripura,Uttaranchal,Uttar Pradesh,West Bengal,Western Australia,Yanam","AsC,AsSE,AfrN,AusW,AusE,Ind,Mdg,Slm,Mly,Phl,NG",Subramanian (2020)
-Coenagrionidae,Agriocnemis_salomonis,SLB,,Slm,"NZAC, Polhemus et al. (2008)"
-Coenagrionidae,Agriocnemis_toto,AGO,,AfrW,"Dijkstra (2017), Clausnitzer (2017d)"
-Coenagrionidae,Agriocnemis_victoria,"AGO,BTN,CAF,CMR,COD,GAB,UGA,ZMB",,"AfrW,AfrE","Dijkstra (2017), Clausnitzer (2016a)"
-Platycnemididae,Allocnemis_cyanura,"CAF,CMR,COD,GAB",,AfrW,Dijkstra (2017)
-Platycnemididae,Allocnemis_leucosticta,ZAF,,AfrS,"Dijkstra (2017), Suhling (2010a)"
-Platycnemididae,Allocnemis_nigripes,"AGO,CAF,CMR,COD,GAB,GNQ,NGA,UGA",,"AfrW,AfrE",Dijkstra (2017)
-Platycnemididae,Allocnemis_pauli,"AGO,COD,GAB,KEN,RWA,UGA",,"AfrW,AfrE",Dijkstra (2017)
-Platycnemididae,Allocnemis_vicki,"CMR,NGA",,AfrW,Dijkstra (2017)
-Coenagrionidae,Amazoneura_ephippigera,"BRA,ECU,PER",Amazonas,SAmN,Heckman (2008)
-Coenagrionidae,Amazoneura_westfalli,"ECU,PER",,SAmN,Hoffmann et al. (2016b)
-Coenagrionidae,Ischnura_armstrongi,"ASM,WSM",,Mln,NZAC
-Coenagrionidae,Ischnura_sp,ASM,,Mln,NZAC
-Coenagrionidae,Amphiagrion_abbreviatum,"CAN,USA","Alberta,AZ,British Columbia,CA,CO,IA,ID,KS,Manitoba,MN,MO,MT,ND,NE,NM,NV,OK,OR,SD,UT,WA,WI,WY","NAmNW,NAmSW",Paulson (2009a)
-Coenagrionidae,Amphiagrion_saucium,"CAN,USA","AL,CT,GA,IA,IL,IN,KS,MA,ME,MI,MO,NC,NE,NH,NJ,NY,OH,OK,Ontario,PA,Quebec,RI,SC,SD,VA,VT,WI,WV","NAmNE,NAmSE",Paulson (2011)
-Coenagrionidae,Amphicnemis_ecornuta,"IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",Dow et al. (2010)
-Coenagrionidae,Amphicnemis_gracilis,"MYS,SGP,THA","Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",Tang et al. (2010)
-Coenagrionidae,Amphicnemis_martini,"BRN,IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago",Mly,"Dow (2019a), Orr (2001)"
-Coenagrionidae,Amphicnemis_triplex,IDN,Indonesia-Archipelago,Mly,Dow (2014)
-Coenagrionidae,Amphicnemis_wallacii,"BRN,MYS",Malaysia-Archipelago,Mly,"Dow (2012), Orr (2001)"
-Coenagrionidae,Andinagrion_garrisoni,ARG,,SAmS,von Ellenrieder & Garrison (2007)
-Coenagrionidae,Anisagrion_allopterum,"CRI,GUA,HON,MEX,NIC",,SAmN,Paulson (2009b)
-Coenagrionidae,Anisagrion_inornatum,"ECU,VEN",,SAmN,von Ellenrieder (2009c)
-Coenagrionidae,Anisagrion_kennedyi,"CRI,PAN",,SAmN,"FSCA, Ramírez et al. (2000)"
-Coenagrionidae,Anomisma_abnorme,"COL,ECU,PER,VEN",,SAmN,Heckman (2008)
-Coenagrionidae,Apanisagrion_lais,"CRI,GUA,HON,MEX,PAN,USA",AZ,"SAmN,NAmSW",Paulson (2009a)
-Platycnemididae,Arabicnemis_caerulea,"ARE,OMN,YEM",,AfrN,Schneider et al. (2013)
-Coenagrionidae,Archibasis_melanocyana,"BRN,MYS","Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly","Tang et al. (2010), Kemp (1989), Orr (2001)"
-Coenagrionidae,Archibasis_rebeccae,"MYS,SGP","Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly","Kemp (1989), Ngiam (2009)"
-Coenagrionidae,Archibasis_viola,"BRN,IDN,MMR,MYS,PHL,SGP,THA,VNM","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Phl,Mly",Dow (2011c)
-Coenagrionidae,Argentagrion_ambiguum,"ARG,BOL,BRA,PRY,URU",Sao Paulo,"SAmS,SAmC",von Ellenrieder (2008a)
-Coenagrionidae,Argia_adamsi,"BOL,COL,CRI,ECU,HON,MEX,NIC,PAN,PER,VEN",,"SAmN,SAmC",Heckman (2008)
-Coenagrionidae,Argia_agrioides,"MEX,USA","AZ,CA,NV,OR","NAmNW,NAmSW",Paulson (2009a)
-Coenagrionidae,Argia_alberta,"MEX,USA","AZ,CA,CO,ID,KS,MT,NE,NM,NV,OK,OR,SD,TX,UT,WY","NAmNW,NAmSW",Paulson (2009a)
-Coenagrionidae,Argia_albistigma,"ARG,BRA,PRY,URU","Rio Grande do Sul,Santa Catarina",SAmS,Heckman (2008)
-Coenagrionidae,Argia_anceps,"BLZ,CRI,ESA,GUA,HON,MEX,NIC",,SAmN,"FSCA, Ramírez et al. (2000)"
-Coenagrionidae,Argia_apicalis,"CAN,MEX,USA","AL,AR,CO,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,ND,NE,NH,NJ,NM,NY,OH,OK,Ontario,PA,SC,SD,TN,TX,UT,VA,VT,WA,WI,WV,WY","NAmNE,NAmSE,NAmNW,NAmSW","Paulson (2017a), Paulson (2011)"
-Coenagrionidae,Argia_barretti,"MEX,USA",TX,NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_bipunctulata,USA,"AL,AR,DE,FL,GA,KY,LA,MD,MO,MS,NC,NJ,PA,SC,TN,TX,VA","NAmSE,NAmSW",Paulson (2011)
-Coenagrionidae,Argia_botacudo,BRA,"Mato Grosso,Mato Grosso do Sul",SAmC,"Heckman (2008), Rodrigues & Roque (2017)"
-Coenagrionidae,Argia_calida,"GUA,MEX",,"SAmN,NAmSW",Abbott (2011)
-Coenagrionidae,Argia_cf.serva,"ARG,BRA,URU",Santa Catarina,SamS,"Heckman (2008), von Ellenrieder & Muzón (2008)"
-Coenagrionidae,Argia_chapadae,BRA,"Mato Grosso,Mato Grosso do Sul",SAmC,"Heckman (2008), Rodrigues & Roque (2017)"
-Coenagrionidae,Argia_chelata,"BLZ,CRI,GUA,HON,MEX,NIC,PAN",,SAmN,Ramírez et al. (2000)
-Coenagrionidae,Argia_claussenii,"ARG,BRA,PRY,URU","Bahia,Minas Gerais","SAmE,SAmS",Heckman (2008)
-Coenagrionidae,Argia_collata,"BOL,BRA,COL,ECU,PER,VEN","Amazonas,Bahia,Para","SAmN,SAmE,SAmC","Garrison & von Ellenrieder (2015), Heckman (2008)"
-Coenagrionidae,Argia_concinna,"DMA,GLP,MTQ",,SAmN,Meurgey (2009)
-Coenagrionidae,Argia_croceipennis,"ARG,BRA,PRY,URU","Rio de Janeiro,Rio Grande do Sul,Santa Catarina,Sao Paulo",SAmS,Heckman (2008)
-Coenagrionidae,Argia_cupraurea,"COL,CRI,GUA,HON,PAN,VEN",,SAmN,Heckman (2008)
-Coenagrionidae,Argia_cuprea,"MEX,USA",TX,NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_difficilis,"BRA,COL,CRI,ECU,PER,VEN",Mato Grosso,"SAmN,SAmC","Garrison & von Ellenrieder (2007), Heckman (2008)"
-Coenagrionidae,Argia_dives,"BOL,BRA,COL,ECU,PER",Mato Grosso,"SAmN,SAmC","Heckman (2008), Hoffmann et al. (2016c)"
-Coenagrionidae,Argia_emma,"CAN,USA","British Columbia,CA,CO,ID,MT,NE,NV,OR,SD,UT,WA,WY",NAmNW,Paulson (2009a)
-Coenagrionidae,Argia_euphorbia,"BRA,COL,ECU,PER,VEN","Amazonas,Rondonia","SAmN,SAmC",Garrison & von Ellenrieder (2015)
-Coenagrionidae,Argia_extranea,"BLZ,COL,CRI,ESA,GUA,HON,MEX,NIC,PAN,USA",AZ,"SAmN,NAmSW","FSCA, Paulson (2009a)"
-Coenagrionidae,Argia_fissa,"COL,CRI,GUA,PAN,PER",,SAmN,Garrison (1996)
-Coenagrionidae,Argia_fraudatricula,"BOL,ECU,PER",,"SAmN,SAmC",Hoffmann et al. (2016d)
-Coenagrionidae,Argia_frequentula,"BLZ,CRI,GUA,HON,MEX,NIC,PAN",,SAmN,Paulson (2009c)
-Coenagrionidae,Argia_fulgida,"COL,ECU",,SAmN,Mauffray & Tennessen (2020a)
-Coenagrionidae,Argia_fumigata,"BRA,GUF,GUY,SUR,VEN","Amazonas,Mato Grosso,Rondonia","SAmE,SAmC",Garrison & von Ellenrieder (2015)
-Coenagrionidae,Argia_fumipennis,"CAN,MEX,USA","AL,AR,AZ,CO,CT,DE,FL,GA,IL,IN,KS,LA,MA,MD,ME,MI,MO,MS,MT,NC,NE,NH,NJ,NM,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,SC,SD,TN,TX,VA,VT,WI,WV,WY","NAmNE,NAmSE,NAmNW,NAmSW",Paulson (2011)
-Coenagrionidae,Argia_funcki,MEX,,NAmSW,Paulson (2002)
-Coenagrionidae,Argia_garrisoni,MEX,,NAmSW,Paulson (2009d)
-Coenagrionidae,Argia_gaumeri,"CRI,GUA,HON,MEX,NIC",,"SAmN,NAmSW",Esquivel (2006)
-Coenagrionidae,Argia_gerhardi,"BOL,COL,ECU,PER",,"SAmN,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Argia_hamulata,"BOL,PER",,SAmC,Hoffmann et al. (2016e)
-Coenagrionidae,Argia_harknessi,"GUA,MEX,USA",AZ,NAmSW,"Heckman (2008), Paulson (2009a)"
-Coenagrionidae,Argia_herberti,MEX,,NAmSW,Calvert (1908)
-Coenagrionidae,Argia_hinei,"MEX,USA","AZ,CA,NM,TX",NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_huanacina,"BOL,COL,ECU,PER",,"SAmN,SAmC",von Ellenrieder (2009d)
-Coenagrionidae,Argia_immunda,"BLZ,GUA,HON,MEX,USA","AR,AZ,NM,TX","SAmN,NAmSW",Paulson (2009a)
-Coenagrionidae,Argia_inculta,"ECU,PER",,SamN,"FSCA, Heckman (2008), von Ellenrieder (2009e)"
-Coenagrionidae,Argia_indicatrix,"BLZ,BRA,COL,CRI,ECU,ESA,GUA,HON,MEX,NIC,PAN,PER,VEN","Amazonas,Para,Rondonia","SAmN,SAmE,SAmC",Garrison & von Ellenrieder (2015)
-Coenagrionidae,Argia_infrequentula,"BOL,COL,ECU,PER",,"SAmN,SAmC","Heckman (2008), Bota-Sierra et al. (2016)"
-Coenagrionidae,Argia_insipida,"BRA,COL,CRI,GUF,GUY,NIC,SUR,TTO,VEN","Amapa,Amazonas","SAmN,SAmE",Garrison & von Ellenrieder (2015)
-Coenagrionidae,Argia_jocosa,"COL,ECU,VEN",,SAmN,Heckman (2008)
-Coenagrionidae,Argia_joergenseni,"ARG,BOL",,"SAmS,SAmC",FSCA
-Coenagrionidae,Argia_johanella,"CRI,HON,NIC,PAN",,SAmN,FSCA
-Coenagrionidae,Argia_jujuya,ARG,,SAmS,Heckman (2008)
-Coenagrionidae,Argia_kokama,"COL,ECU,PER",,SAmN,"Heckman (2008), Hoffmann et al. (2016f)"
-Coenagrionidae,Argia_lacrimans,"BLZ,GUA,HON,MEX,USA",AZ,"SAmN,NAmSW",Paulson (2009a)
-Coenagrionidae,Argia_leonorae,"MEX,USA","AZ,TX",NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_lilacina,"ARG,BRA,PRY,URU","Mato Grosso,Minas Gerais,Sao Paulo","SAmE,SAmS,SAmC",Heckman (2008)
-Coenagrionidae,Argia_limitata,"BOL,ECU,PER",,"SAmN,SAmC","Heckman (2008), Hoffmann et al. (2016g)"
-Coenagrionidae,Argia_lugens,"MEX,USA","AZ,CA,NM,TX",NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_medullaris,"BLZ,COL,CRI,ECU,ESA,GUA,HON,MEX,NIC,PAN,VEN",,SAmN,Heckman (2008)
-Coenagrionidae,Argia_meioura,"BRA,GUF,GUY,SUR,VEN",Amazonas,SAmE,Garrison & von Ellenrieder (2015)
-Coenagrionidae,Argia_modesta,BRA,"Minas Gerais,Rio de Janeiro,Sao Paulo","SAmE,SAmC",Heckman (2008)
-Coenagrionidae,Argia_moesta,"CAN,MEX,USA","AL,AR,AZ,CA,CO,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,NE,New Brunswick,NH,NJ,NM,Nova Scotia,NV,NY,OH,OK,Ontario,PA,Quebec,RI,SC,TN,TX,UT,VA,VT,WI,WV","NAmNE,NAmSE,NAmSW",Paulson (2009a)
-Coenagrionidae,Argia_mollis,"ARG,BOL,BRA,PAR","Amazonas,Mato Grosso,Minas Gerais,Rondonia,Sao Paulo","SAmE,SAmS,SAmC",Heckman (2008)
-Coenagrionidae,Argia_munda,"MEX,USA","AZ,NM,TX",NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_nahuana,"MEX,USA","CA,CO,KS,NM,NV,OK,TX,UT",NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_nigrior,"BOL,BRA,ECU,PER",,"SAmN,SAmC",von Ellenrieder (2009f)
-Coenagrionidae,Argia_oculata,"BLZ,BOL,BRA,COL,CRI,ECU,ESA,GUA,GUF,GUY,HON,MEX,NIC,PAN,PER,SUR,TTO,VEN","Acre,Amazonas,Pernambuco,Rondonia,Roraima","SAmN,SAmE,SAmC",Garrison & von Ellenrieder (2015)
-Coenagrionidae,Argia_oenea,"BLZ,COL,CRI,ESA,GUA,HON,MEX,NIC,PAN,USA","AZ,NM,TX","SAmN,NAmSW","Heckman (2008), Paulson (2009a)"
-Coenagrionidae,Argia_orichalcea,"COL,PAN,TTO,VEN",,SAmN,Heckman (2008)
-Coenagrionidae,Argia_pallens,"GUA,MEX,USA","AZ,NM,TX","SAmN,NAmSW",Paulson (2009a)
-Coenagrionidae,Argia_pima,"MEX,USA",AZ,NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_plana,"GUA,MEX,USA","AR,AZ,CO,IA,IL,KS,MO,NM,OK,SD,TX,WI","SAmN,NAmSW",Paulson (2009a)
-Coenagrionidae,Argia_pocomana,"COL,CRI,ESA,GUA,HON,MEX",,SAmN,Paulson (2009e)
-Coenagrionidae,Argia_popoluca,"CRI,HON,MEX,PAN",,SAmN,Paulson (2009f)
-Coenagrionidae,Argia_pulla,"BLZ,BRA,COL,CRI,ECU,ESA,GUA,GUF,GUY,HON,MEX,PAN,PER,SUR,TTO,VEN","Amazonas,Roraima","SAmN,SAmE",Garrison & von Ellenrieder (2015)
-Coenagrionidae,Argia_reclusa,"ARG,BOL,BRA,PAR","Amazonas,Mato Grosso,Minas Gerais,Para,Rio Grande do Sul,Sao Paulo","SAmE,SAmS,SAmC",Heckman (2008)
-Coenagrionidae,Argia_rhoadsi,"MEX,USA",TX,NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_sabino,"MEX,USA",AZ,NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_sedula,"MEX,USA","AL,AR,AZ,CA,DE,FL,GA,IN,KS,KY,LA,MD,MI,MO,MS,NC,NE,NJ,NM,NV,OH,OK,PA,SC,TN,TX,UT,VA,WV","NAmSE,NAmSW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Argia_smithiana,"BOL,BRA","Goias,Mato Grosso,Mato Grosso do Sul,Minas Gerais","SAmE,SAmS,SAmC","Heckman (2008), Rodrigues & Roque (2017)"
-Coenagrionidae,Argia_sordida,BRA,"Minas Gerais,Rio de Janeiro,Sao Paulo","SamE,SamS",Heckman (2008)
-Coenagrionidae,Argia_talamanca,"COL,CRI,ECU,PAN,VEN",,SAmN,Heckman (2008)
-Coenagrionidae,Argia_tamoyo,"BOL,BRA","Mato Grosso,Minas Gerais,Rio de Janeiro","SAmE,SAmS,SAmC",Heckman (2008)
-Coenagrionidae,Argia_tarascana,"MEX,USA",AZ,NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_terira,"CRI,PAN",,SAmN,Mauffray & Tennessen (2020a)
-Coenagrionidae,Argia_tezpi,"BLZ,CRI,ESA,GUA,HON,MEX,NIC,USA","AZ,NM","SAmN,NAmSW",Paulson (2009a)
-Coenagrionidae,Argia_tibialis,"CAN,USA","AL,AR,DE,FL,GA,IA,IL,IN,KS,KY,LA,MD,MI,MN,MO,MS,NC,NE,NJ,NY,OH,OK,Ontario,PA,SC,TN,TX,VA,WI,WV","NAmNE,NAmSE,NAmSW",Paulson (2009a)
-Coenagrionidae,Argia_tonto,"MEX,USA","AZ,NM",NAmSW,Paulson (2009a)
-Coenagrionidae,Argia_translata,"ARG,BLZ,BOL,BRA,CAN,COL,CRI,ECU,ESA,GUA,GUF,GUY,HON,MEX,NIC,PAN,PER,SUR,TTO,USA,VEN","AL,Amazonas,AR,AZ,CT,DE,GA,IN,KS,KY,MD,ME,MO,MS,NC,NJ,NM,NY,OH,OK,PA,RI,Roraima,SC,TN,TX,VA,WV","SAmN,SAmE,SAmS,SAmC,NAmNE,NAmSE,NAmSW","Garrison & von Ellenrieder (2015), Paulson (2009a)"
-Coenagrionidae,Argia_ulmeca,"BLZ,CRI,ESA,GUA,HON,MEX,NIC,PAN",,SAmN,"Dunkle (1991), Novelo-Gutiérrez (1992), Ramírez et al. (2000), Molinar et al. (2015)"
-Coenagrionidae,Argia_underwoodi,CRI,,SAmN,Paulson (2009g)
-Coenagrionidae,Argia_variabilis,"COL,CRI,MEX",,SAmN,Heckman (2008)
-Coenagrionidae,Argia_variegata,"COL,ECU,PER",,SAmN,Heckman (2008)
-Coenagrionidae,Argia_vivida,"CAN,MEX,USA","Alberta,AZ,British Columbia,CA,CO,ID,MT,NE,NM,NV,OR,SC,UT,WA,WY","NAmNW,NAmSW",Paulson (2009a)
-Coenagrionidae,Argia_westfalli,MEX,,NAmSW,Paulson (2009h)
-Coenagrionidae,Argiocnemis_rubescens_rubeola,"AUS,BGD,BRN,BTN,IDN,IND,KHM,LAO,MMR,MYS,PHL,PNG,SGP,THA,VNM","Andaman Is.,Arunachal Pradesh,Assam,Indonesia-Archipelago,Indonesia-Papua,Malaysia-Archipelago, Malaysia-Peninsular,Meghalaya,New South Wales,Northern Territory,Queensland,Western Australia","AsSE,AusW,AusE,Mly,Phl,NG","Mitra (2017), Kalkman & Gyeltshen (2016), Kosterin & Holden (2011)"
-Coenagrionidae,Argiocnemis_rubescens_rubescens,"AUS,BGD,BRN,BTN,IDN,IND,KHM,LAO,MMR,MYS,PHL,PNG,SGP,THA,VNM","Andaman Is.,Arunachal Pradesh,Assam,Indonesia-Archipelago,Indonesia-Papua,Malaysia-Archipelago, Malaysia-Peninsular,Meghalaya,New South Wales,Northern Territory,Queensland,Western Australia","AsSE,AusW,AusE,Mly,Phl,NG","Mitra (2017), Kalkman & Gyeltshen (2016), Kosterin & Holden (2011)"
-Coenagrionidae,Austroagrion_cyane,AUS,"New South Wales,Northern Territory,Queensland,South Australia,Tasmania,Victoria,Western Australia","AusW,AusE",Dow (2017a)
-Coenagrionidae,Austroagrion_exclamationis,"AUS,IDN,PNG","Indonesia-Papua,Northern Territory,Queensland,Western Australia","AusW,AusE,NG","Kalkman (2009a), Kalkman & Orr (2013)"
-Coenagrionidae,Austroagrion_watsoni,"AUS,NCL","New South Wales,Northern Territory,Queensland,Tasmania,Victoria,Western Australia","AusW,AusE,NC",Theischinger & Hawking (2006)
-Coenagrionidae,Austrocnemis_splendida,AUS,"New South Wales,Queensland,Victoria",AusE,Dow (2017b)
-Coenagrionidae,Austrocoenagrion_lyelli,AUS,"New South Wales,Queensland,Tasmania,Victoria",AusE,Hawking (2018a)
-Coenagrionidae,Azuragrion_buchholzi,"CMR,GAB,GNQ",,AfrW,Dijkstra et al. (2011)
-Coenagrionidae,Azuragrion_nigridorsum,"AGO,BTN,COD,ETH,KEN,MDG,MOZ,NAM,OMN,SSD,SWZ,TZA,UGA,YEM,ZAF,ZMB,ZWE",,"AfrS,AfrE,AfrN,Mdg",Clausnitzer et al. (2016d)
-Coenagrionidae,Azuragrion_vansomereni,"CIV,CMR,ETH,GHA,GMB,GNB,MLI,NER,NGA,SEN,TGO,UGA",,"AfrW,AfrE","Dijkstra (2017), Boudot et al. (2018)"
-Coenagrionidae,Bromeliagrion_fernandezianum,VEN,,SAmN,Marmels & Garrison (2005)
-Coenagrionidae,Bromeliagrion_rehni,"BRA,ECU,PER","Amazonas,Mato Grosso","SAmN,SAmC","Heckman (2008), Marmels & Garrison (2005)"
-Platycnemididae,Calicnemia_chaseni,"MYS,THA",Malaysia-Peninsular,AsSE,Dow (2020b)
-Platycnemididae,Calicnemia_eximia,"BGD,BTN,CHN,IND,MMR,NPL,THA,VNM","Andhra Pradesh,Assam,Guangxi,Himachal Pradesh,Jammu-Kashmir,Meghalaya,Mizoram,Nagaland,Punjab,Sichuan,Sikkim,Uttaranchal,Uttar Pradesh,West Bengal,Yunnan","AsSE,Ind",Mitra (2010b)
-Platycnemididae,Calicnemia_rectangulata,MYS,Malaysia-Peninsular,AsSE,Choong et al. (2017)
-Platycnemididae,Calicnemia_sinensis,"CHN,HKG","Fujian,Guangdong,Zhejiang","AsE,AsSE",Wilson (2013a)
-Coenagrionidae,Calvertagrion_declivatum,BOL,,SAmC,Tennessen (2015)
-Coenagrionidae,Ceriagrion_aeruginosum,"AUS,IDN,PNG","Indonesia-Archipelago,Indonesia-Papua,Northern Territory,Queensland,Western Australia","AusW,AusE,Mly,NG",Kalkman (2020a)
-Coenagrionidae,Ceriagrion_annulatum,"AGO,CMR,COD,GAB",,AfrW,Dijkstra (2017)
-Coenagrionidae,Ceriagrion_auranticum,"CHN,HKG,IDN,JPN,KOR,LAO,MMR,MYS,THA,TWN,VNM","Fujian,Guangdong,Guangxi,Hainan,Indonesia-Archipelago","AsE,AsSE,Mly",Wilson (2009a)
-Coenagrionidae,Ceriagrion_azureum,"BGD,CHN,IND,LAO,MMR,NPL,THA,VNM","Arunachal Pradesh,Fujian,Guangdong,Manipur,Meghalaya,Mizoram,West Bengal",AsSE,Dow (2009d)
-Coenagrionidae,Ceriagrion_bakeri,"AGO,BDI,CIV,COD,GHA,GIN,KEN,LBR,MWI,NGA,SEN,SLE,TGO,TZA,UGA,ZMB",,"AfrW,AfrE",Clausnitzer et al. (2017)
-Coenagrionidae,Ceriagrion_banditum,"MOZ,MWI,ZMB",,AfrE,"Dijkstra (2017), Clausnitzer (2017e)"
-Coenagrionidae,Ceriagrion_bellona,"IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago",Mly,Dow (2020c)
-Coenagrionidae,Ceriagrion_calamineum,"IDN,KHM,MYS,PHL,THA,VNM","Indonesia-Archipelago,Malaysia-Peninsular","AsSE,Phl,Mly",Phan (2011a)
-Coenagrionidae,Ceriagrion_cerinorubellum,"BGD,BRN,IDN,IND,KHM,LAO,LKA,MMR,MYS,PAK,PHL,SGP,THA,VNM","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsC,AsSE,Ind,Phl,Mly",Dow (2020d)
-Coenagrionidae,Ceriagrion_chaoi,"MMR,MYS,SGP,THA",Malaysia-Peninsular,AsSE,Dow (2011d)
-Coenagrionidae,Ceriagrion_corallinum,"AGO,BEN,BWA,CIV,CMR,COD,COG,GAB,GHA,GNB,LBR,NAM,NGA,SEN,SLE,TZA,UGA,ZMB,ZWE",,"AfrW,AfrS,AfrE",Clausnitzer et al. (2016e)
-Coenagrionidae,Ceriagrion_coromandelianum,"BGD,IND,LKA,NPL,PAK",,"AsC,AsSE,Ind,","Dow (2009e), Khan (2015)"
-Coenagrionidae,Ceriagrion_fallax,"BGD,BTN,CHN,IND,LAO,MMR,MYS,NPL,THA,TWN,VNM","Arunachal Pradesh,Assam,Guangdong,Guangxi,Hainan,Himachal Pradesh,Jiangsu,Manipur,Meghalaya,Mizoram,Sichuan,Sikkim,West Bengal,Yunnan,Zhejiang","AsE,AsSE,Ind",Subramanian (2010a)
-Coenagrionidae,Ceriagrion_glabrum,"AGO,ARE,BEN,BFA,BTN,CAF,CIV,CMR,COD,COG,ETH,GAB,GHA,GIN,GMB,GNB,GNQ,KEN,LBR,MDG,MLI,MOZ,MUS,MWI,MYT,NAM,NGA,NGA,OMN,REU,RWA,SAU,SEN,SLE,SOM,SSD,STP,SWZ,SYC,TCD,TGO,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE,AfrN",Boudot et al. (2016a)
-Coenagrionidae,Ceriagrion_indochinense,"CHN,KHM,LAO,THA,VNM",Hainan,AsSE,Phan (2011b)
-Coenagrionidae,Ceriagrion_junceum,"AGO,COD,ZMB",,AfrW,Dijkstra (2017)
-Coenagrionidae,Ceriagrion_katamborae,"BTN,NAM,ZMB",,AfrS,"Dijkstra (2017), Kipping (2017)"
-Coenagrionidae,Ceriagrion_kordofanicum,"KEN,MOZ,MWI,SSD,TZA,ZMB",,AfrE,Dijkstra (2017)
-Coenagrionidae,Ceriagrion_malaisei,"KHM,MMR,THA,VNM",,AsSE,Phan (2011c)
-Coenagrionidae,Ceriagrion_melanurum,"CHN,HKG,JPN,KOR,PKR,TWN","Fujian,Guangdong,Guangxi,Guizhou,Henan,Hubei,Hunan,Jiangxi,Shaanxi,Sichuan,Yunnan,Zhejiang","AsE,AsSE",Wilson (2013b)
-Coenagrionidae,Ceriagrion_nipponicum,"CHN,JPN,KOR","Anhui,Henan,Hubei,Hunan,Jiangxi,Shaanxi,Shanxi",AsE,Yum et al. (2010)
-Coenagrionidae,Ceriagrion_obfuscans,"COD,COG,GAB",,AfrW,Dijkstra (2017)
-Coenagrionidae,Ceriagrion_olivaceum,"BGD,IND,KHM,LAO,MMR,MYS,NPL,THA,VNM","Andhra Pradesh,Arunachal Pradesh,Assam,Chattisgarh,Karnataka,Kerala,Madhya Pradesh,Maharashtra,Manipur,Meghalaya,Mizoram,Orissa,Tamil Nadu,Tripura,West Bengal","AsSE,Ind",Mitra (2010c)
-Coenagrionidae,Ceriagrion_platystigma,"AGO,CMR,COG,GAB,NGA,RWA,UGA,ZMB",,"AfrW,AfrE","Dijkstra (2017), Clausnitzer (2016b)"
-Coenagrionidae,Ceriagrion_rubellocerinum,"BEN,CIV,COG,GHA,GIN,LBR,SLE",,AfrW,"Dijkstra (2017), Clausnitzer & Dijkstra (2018)"
-Coenagrionidae,Ceriagrion_sakejii,"AGO,COD,ZMB",,AfrW,Dijkstra (2017)
-Coenagrionidae,Ceriagrion_suave,"AGO,BEN,BFA,BTN,CMR,COD,ETH,GHA,GIN,GMB,GNB,KEN,LBR,MLI,MOZ,MRT,MWI,NAM,NGA,SEN,SLE,SOM,SSD,TGO,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE","Dijkstra (2017), Clausnitzer et al. (2016f)"
-Coenagrionidae,Ceriagrion_tenellum,"ALB,BEL,BIH,CHE,DEU,DZA,ESP,FRA,GBR,GRC,HRV,ITA,MAR,MNE,NLD,PRT,SVN,TUN,TUR",,"Eur,AsC,AfrN","Dijkstra (2016), Dijkstra & Lewington (2006), Kalkman (2005)"
-Coenagrionidae,Ceriagrion_whellani,"AGO,CIV,CMR,COD,COG,GAB,GIN,GNQ,KEN,LBR,SLE,UGA,ZMB,ZWE",,"AfrW,AfrE","Dijkstra (2017), Clausnitzer et al. (2016g)"
-Platycnemididae,Allocnemis_abbotti,"KEN,TZA",,AfrE,Dijkstra (2017)
-Platycnemididae,Allocnemis_marshalli,"COD,MWI,MOZ,ZMB,ZWE",,"AfrS,AfrE",Dijkstra (2017)
-Coenagrionidae,Chromagrion_conditum,"CAN,USA","AL,AR,CT,DE,GA,IN,KY,MA,MD,ME,MI,MO,MS,NC,NH,NJ,NY,OH,Ontario,PA,Quebec,RI,SC,TN,VA,VT,WI,WV","NAmNE,NAmSE",Paulson (2011)
-Platycnemididae,Coeliccia_albicauda,"MYS,SGP,THA",Malaysia-Peninsular,AsSE,Dow (2020e)
-Platycnemididae,Coeliccia_axinocercus,PHL,,Phl,Hämäläinen & Müller (1997)
-Platycnemididae,Coeliccia_borneensis,"BRN,MYS",Malaysia-Archipelago,Mly,Dow (2019b)
-Platycnemididae,Coeliccia_cf.kazukoae,"KHM,THA",,AsSE,Kosterin (2020)
-Platycnemididae,Coeliccia_chromothorax,"CHN,LAO,MMR,THA,VNM",Yunnan,AsSE,Dow (2020f)
-Platycnemididae,Coeliccia_cyaneothorax,MYS,Malaysia-Archipelago,Mly,"Dow et al. (2013), Dow et al. (2015)"
-Platycnemididae,Coeliccia_cyanomelas,"CHN,HKG,TWN,VNM","Fujian,Guangdong,Guangxi,Guizhou,Hainan,Sichuan,Zhejiang","AsE,AsSE",Tong (2011)
-Platycnemididae,Coeliccia_didyma,"IND,LAO,MMR,MYS,THA",Malaysia-Peninsular,AsSE,Dow (2009f)
-Platycnemididae,Coeliccia_dinoceras,PHL,,Phl,Hämäläinen & Müller (1997)
-Platycnemididae,Coeliccia_flavicauda,TWN,,AsE,Wilson (2009b)
-Platycnemididae,Coeliccia_flavostriata,MYS,"Indonesia-Archipelago,Malaysia-Archipelago",Mly,Dow (2019c)
-Platycnemididae,Coeliccia_nemoricola,MYS,Malaysia-Archipelago,Mly,Ng et al. (2008)
-Platycnemididae,Coeliccia_octogesima,"MYS,SGP",Malaysia-Peninsular,AsSE,"Cai et al. (2018), Choong (2014)"
-Platycnemididae,Coeliccia_poungyi,"CHN,MMR,THA",Yunnan,AsSE,Dow (2019d)
-Platycnemididae,Coeliccia_ryukyuensis,JPN,,AsE,Osozawa et al. (2017)
-Coenagrionidae,Coenagriocnemis_insularis,MUS,,Mdg,Schütte (2020a)
-Coenagrionidae,Coenagriocnemis_rufipes,MUS,,Mdg,Martens & Schütte (2017)
-Coenagrionidae,Coenagrion_angulatum,"CAN,USA","Alberta,British Columbia,IA,Manitoba,MN,MT,ND,Northern,Ontario,Saskatchewan,SD,WY",NAmNW,Paulson (2009a)
-Coenagrionidae,Coenagrion_caerulescens,"DZA,ESP,FRA,ITA,LBY,MAR,PRT,TUN",,"Eur,AfrN",Boudot (2020a)
-Coenagrionidae,Coenagrion_ecornutum,"CHN,CHN,JPN,KAZ,KOR,MNG,RUS","Beijing,Hebei,Heilongjiang,Jilin,Liaoning,Tianjin","AsE,AsNE","Boudot & Kalkman (2015), Clausnitzer (2020a), Yu & Bu (2011)"
-Coenagrionidae,Coenagrion_glaciale,"CHN,MNG,RUS",Heilongjiang,AsNE,"Kosterin (1999), Yu & Bu (2011)"
-Coenagrionidae,Coenagrion_hastulatum,"AUT,BEL,BGR,BIH,BLR,CZE,DEU,DNK,EST,FIN,FRA,GBR,HRV,ITA,JPN,LTU,LVA,MNE,NLD,NOR,RUS,SRB,UKR",,"Eur,AsE,AsNE",Clausnitzer (2020b)
-Coenagrionidae,Coenagrion_hylas,"AUT,CHN,JPN,KAZ,MNG,RUS","Heilongjiang,Jilin","AsC,AsE,AsNE","Chaplina et al. (2007), Boudot (2020b), Yu & Bu (2011)"
-Coenagrionidae,Coenagrion_intermedium,GRC,,Eur,"Boudot & Kalkman (2015), Boudot (2020c)"
-Coenagrionidae,Coenagrion_interrogatum,"CAN,USA","AK,Alberta,British Columbia,Manitoba,ME,MT,New Brunswick,New Foundland and Labrador,NH,Ontario,Quebec,Saskatchewan,VT,WI","NAmNE,NAmNW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Coenagrion_johanssoni,"BLR,CHN,EST,FIN,JPN,KOR,LTU,LVA,MNG,NOR,PKR,RUS,SWE",Heilongjiang,"Eur,AsNE","Dijkstra & Lewington (2006), Yu & Bu (2011)"
-Coenagrionidae,Coenagrion_lanceolatum,"CHN,JPN,KOR,MNG,RUS","Hebei,Heilongjiang,Jilin","AsE,AsNE",Yu & Bu (2011)
-Coenagrionidae,Coenagrion_lunulatum,"AUT,BEL,BLR,CHE,CHN,CZE,DEU,DNK,EST,FIN,FRA,GEO,IRL,LTU,LUX,LVA,NLD,NOR,POL,ROU,RUS,SWE,UKR","Hebei,Inner Mongolia","Eur,AsNE","Dijkstra & Lewington (2006), Schroter et al. (2015), Yu & Bu (2011)"
-Coenagrionidae,Coenagrion_mercuriale,"AUT,BEL,CHE,DEU,DZA,ESP,FRA,GBR,ITA,LIE,LUX,PRT",,"Eur,AfrN",Boudot (2020d)
-Coenagrionidae,Coenagrion_puella,"ALB,AUT,BEL,BGR,BIH,BLR,CHE,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GRC,HRV,HUN,IRL,ITA,LTU,LUX,LVA,MDA,MKD,MNE,NLD,NOR,POL,PRT,ROU,RUS,SVK,SVN,SWE,TUR,UKR",European Russia,Eur,"Boudot & Kalkman (2015), Samraoui (2010)"
-Coenagrionidae,Coenagrion_pulchellum,"ALB,AUT,BEL,BGR,BIH,BLR,CHE,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GRC,HRV,HUN,IRL,ITA,LIE,LTU,LVA,MDA,MKD,MNE,NLD,NOR,POL,PRT,ROU,RUS,SRB,SVK,SVN,SWE,TUR,UKR",European Russia,"Eur,AsC","Boudot & Kalkman (2015), Boudot (2014a)"
-Coenagrionidae,Coenagrion_resolutum,"CAN,USA","AK,Alberta,AZ,British Columbia,CA,CO,IA,ID,MA,Manitoba,ME,MI,MN,MT,ND,NE,New Foundland and Labrador,NH,Northwest Territories,Nova Scotia,NV,NY,OH,Ontario,OR,PA,Prince Edward,Quebec,Saskatchewan,SD,UT,VT,WA,WI,WY,Yukon","NAmNE,NAmNW,NAmSW",Paulson (2017b)
-Coenagrionidae,Coenagrion_scitulum,"ALB,ARM,AUT,AZE,BEL,BGR,BIH,CHE,CZE,DEU,DZA,ESP,FRA,GBR,GEO,GRC,HRV,HUN,ISR,ITA,JOR,KAZ,KGZ,LBN,LUX,MAR,MDA,MKD,MNE,NLD,PRT,ROU,RUS,SRB,SVK,SVN,SYR,TJK,TUN,TUR,UKR",Caucaus,"Eur,AsC","Boudot & Kalkman (2015), Boudot (2014b)"
-Coenagrionidae,Coenagrion_terue,JPN,,AsE,Karube (2009b)
-Platycnemididae,Pseudocopera_annulata,"CHN,JPN,KOR,PRK","Guizhou,Hebei,Henan,Hubei,Jiangsu,Shaanxi,Sichuan,Yunnan",AsE,Wilson (2018)
-Platycnemididae,Copera_congolensis,"AGO,CMR,GAB",,"AfrW,AfrE",Dijkstra (2017)
-Platycnemididae,Copera_guttifera,"CIV,GHA,LBR,NGA,SLE,TGO",,AfrW,Dijkstra (2017)
-Platycnemididae,Copera_marginipes,"BGD,CHN,HKG,IDN,IND,LAO,LKA,MAC,MMR,MYS,NPL,THA,TWN,VNM","Assam,Bihar,Goa,Guangdong,Guangxi,Hainan,Himachal Pradesh,Indonesia-Archipelago,Jiangxi,Maharashtra,Malaysia-Peninsular,Meghalaya,Tamil Nadu,Uttar Pradesh,West Bengal","AsSE,Ind,Mly",Sharma (2010a)
-Platycnemididae,Copera_nyansana,"COD,GAB,UGA",,"AfrW,AfrE",Dijkstra (2017)
-Platycnemididae,Copera_rufipes,"CMR,COD,GAB",,AfrW,Dijkstra (2017)
-Platycnemididae,Copera_sikassoensis,"BEN,CAF,CIV,GHA,GIN,GMB,LBR,MLI,NGA,SLE,TGO,UGA",,"AfrW,AfrE",Dijkstra (2017)
-Platycnemididae,Pseudocopera_rubripes,"CHN,JPN,KOR",,AsE,Yum et al. (2010)
-Platycnemididae,Copera_vittata,"BRN,IDN,IND,LAO,MMR,MYS,NPL,PHL,SGP,THA,VNM","Andaman Is.,Andhra Pradesh,Arunachal,Assam,Himachal Pradesh,Indonesia-Archipelago,Kerala,Malaysia-Archipelago,Malaysia-Peninsular,Manipur,Meghalaya,Nicobar Is.,Uttaranchal,West Bengal","AsSE,Ind,Mly,Phl",Subramanian (2010b)
-Coenagrionidae,Coryphagrion_grandis,"KEN,TZA",,AfrE,Clausnitzer (2018)
-Coenagrionidae,Cyanallagma_bonariense,"ARG,URU",,SAmS,"Heckman (2008), von Ellenrieder (2009g)"
-Coenagrionidae,Cyanallagma_interruptum,"ARG,BRA,CHL,URU",Sao Paulo,SAmS,"Heckman (2008), von Ellenrieder (2009h)"
-Platycnemididae,Cyanocnemis_aureofrons,IDN,Indonesia-Papua,NG,Richards (2019a)
-Coenagrionidae,Diceratobasis_melanogaster,DOM,,GA,von Ellenrieder & Paulson (2006a)
-Coenagrionidae,Dolonagrion_fulvellum,"BRA,PER,SUR","Amazonas,Para","SAmN,SAmE",Garrison & von Ellenrieder (2008)
-Coenagrionidae,Drepanoneura_muzoni,"ECU,PER",,SAmN,Hoffmann et al. (2016h)
-Coenagrionidae,Drepanoneura_tennesseni,ECU,,SAmN,Tennessen et al. (2016)
-Platycnemididae,Elattoneura_acuta,"AGO,CMR,COD,GAB,NGA",,AfrW,Dijkstra (2017)
-Platycnemididae,Elattoneura_analis,MYS,"Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",Dow (2016)
-Platycnemididae,Elattoneura_aurantiaca,MYS,"Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",Dow (2016)
-Platycnemididae,Elattoneura_aurifex,"COD,GAB",,AfrW,Dijkstra (2017)
-Platycnemididae,Elattoneura_balli,"BEN,CIV,CMR,GHA,GIN,GNQ,LBR,NGA,SLE,TGO",,AfrW,Dijkstra (2017)
-Platycnemididae,Elattoneura_caesia,LKA,,Ind,Bedjanič (2009)
-Platycnemididae,Elattoneura_centrafricana,"CAF,COD",,AfrW,Dijkstra (2017)
-Platycnemididae,Elattoneura_coomansi,"IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago",Mly,Dow (2016)
-Platycnemididae,Elattoneura_frenulata,ZAF,,AfrS,Dijkstra (2017)
-Platycnemididae,Elattoneura_glauca,"AGO,BWA,COD,COG,GNQ,KEN,LSO,MOZ,MWI,NAM,SWZ,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE","Dijkstra (2017), Clausnitzer & Suhling (2016c)"
-Platycnemididae,Elattoneura_josemorai,"CMR,COD,GAB,GNQ",,AfrW,Dijkstra (2017)
-Platycnemididae,Elattoneura_lapidaria,ZWE,,AfrE,Dijkstra (2017)
-Platycnemididae,Elattoneura_lliba,"AGO,CAF,COD,GAB,UGA",,"AfrW,AfrE",Dijkstra (2017)
-Platycnemididae,Elattoneura_nigra,"BFA,CAF,CIV,CMR,COD,GHA,GIN,GMB,GNB,LBR,MLI,NGA,SLE,TGO,UGA",,"AfrW,AfrE",Dijkstra (2017)
-Platycnemididae,Elattoneura_sp,--,,--,--
-Platycnemididae,Elattoneura_tarbotonorum,AGO,,AfrS,Dijkstra (2017)
-Platycnemididae,Elattoneura_tenax,LKA,,Ind,de Silva et al. (2009)
-Platycnemididae,Elattoneura_cellularis,"AGO,BWA,COD,COG,MOZ,MWI,NAM,TZA,ZMB,ZWE",,"AfrS,AfrE","Dijkstra (2017), Clausnitzer & Suhling (2010)"
-Platycnemididae,Elattoneura_tsiamae,"COD,GAB",,AfrW,Dijkstra (2017)
-Platycnemididae,Elattoneura_vittata,"CAF,CMR,COD,GAB,GNQ,NGA",,AfrW,Dijkstra (2017)
-Coenagrionidae,Enallagma_anna,"CAN,USA","CO,IA,ID,MI,MT,NE,NV,Ontario,OR,Saskatchewan,SD,UT,WI,WY",NAmNW,"FSCA, Paulson (2009a)"
-Coenagrionidae,Enallagma_annexum,"CAN,USA","AK,Alberta,AZ,British Columbia,CA,CO,CT,IA,ID,IN,MA,Manitoba,ME,MI,MN,MT,ND,NE,New Brunswick,New Foundland and Labrador,NH,NJ,Northwest Territories,Nova Scotia,NV,NY,OH,Ontario,OR,PA,Quebec,RI,Saskatchewan,SD,UT,VT,WA,WI,WV,WY,Yukon","NAmNE,NAmNW","FSCA, Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Enallagma_antennatum,"CAN,USA","IA,IL,IN,KS,MI,MN,MT,ND,NE,NH,NY,OH,OK,Ontario,PA,SD,VT,WI,WV,WY","NAmNE,NAmNW",Paulson (2011)
-Coenagrionidae,Enallagma_aspersum,USA,"AL,AR,CT,DE,GA,IA,IL,IN,KS,KY,MA,MD,ME,MI,MO,MS,NC,NE,New Brunswick,NH,NJ,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE,NAmNW,NAmSW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Enallagma_basidens,"CAN,USA","AL,AR,AZ,CA,CO,CT,GA,IA,IL,IN,KS,KY,LA,MD,MI,MO,MS,NC,NE,NJ,NM,NY,OH,OK,Ontario,PA,SC,TN,TX,VA,WI,WV,WY","NAmNE,NAmSE,NAmNW,NAmSW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Enallagma_boreale,"CAN,USA","AK,Alberta,AZ,British Columbia,CA,CO,CT,IA,ID,MA,Manitoba,ME,MI,MT,ND,New Brunswick,New Foundland and Labrador,NH,NJ,NM,Nova Scotia,NV,NY,Ontario,OR,PA,Quebec,RI,Saskatchewan,SD,UT,VT,WA,WI,WY,Yukon","NAmNE,NAmNW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Enallagma_cardenium,"CUB,USA",FL,"NAmSE,GA",Paulson (2011)
-Coenagrionidae,Enallagma_carunculatum,"CAN,USA","Alberta,AZ,British Columbia,CA,CO,CT,DE,IA,ID,IL,IN,KS,KY,MA,Manitoba,MD,ME,MI,MN,MT,ND,NE,New Brunswick,New Foundland and Labrador,NH,NJ,NM,Nova Scotia,NV,NY,OH,Ontario,OR,PA,Quebec,RI,Saskatchewan,SD,UT,VT,WA,WI,WY","NAmNE,NAmNW,NAmSW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Enallagma_circulatum,"JPN,RUS",Far East,"AsE,AsNE",Marikova (2009)
-Coenagrionidae,Enallagma_civile,"CAN,COL,CRI,ESA,GUA,HON,MEX,NIC,PAN,USA,VEN","AL,AR,AZ,CA,CO,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MO,MS,MT,NC,ND,NE,New Brunswick,NH,NJ,NM,Nova Scotia,NV,NY,OH,OK,Ontario,OR,PA,RI,SC,SD,TN,TX,UT,VA,VT,WI,WV,WY","SAmN,NAmNE,NAmSE,NAmNW,NAmSW",Paulson (2011)
-Coenagrionidae,Enallagma_clausum,"CAN,USA","Alberta,CO,IA,ID,Manitoba,MN,MT,ND,NM,NV,Ontario,OR,Quebec,Quebec,Saskatchewan,SD,UT,WA,WY","NAmNE,NAmNW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Enallagma_coecum,"DOM,HTI,JAM,PRI",,GA,GBIF (2020a)
-Coenagrionidae,Enallagma_concisum,USA,"AL,FL,GA,LA,MS,NC,SC",NAmSE,Paulson (2011)
-Coenagrionidae,Enallagma_cyathigerum,"ALB,AND,ARM,AUT,AZE,BEL,BGR,BIH,BLR,CHE,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GEO,GRC,HRV,HUN,IMN,IND,IRL,IRN,ITA,JEY,LTU,LUX,LVA,MKD,MNE,MNG,NLD,NOR,POL,PRT,ROU,RUS,SRB,SVK,SVN,SWE,TUR,UKR",,"Eur,AsNE",Clausnitzer (2020c)
-Coenagrionidae,Enallagma_daeckii,USA,"AL,AR,DE,FL,GA,LA,MA,MS,NC,NJ,RI,SC,TN,VA","NAmNE,NAmSE",Paulson (2011)
-Coenagrionidae,Enallagma_davisi,USA,"AL,FL,GA,NC,SC",NAmSE,Paulson (2011)
-Coenagrionidae,Enallagma_divagans,USA,"AL,AR,CT,DE,FL,GA,IL,IN,KS,LA,MA,MD,ME,MO,MS,NC,NH,NJ,NY,OH,OK,PA,RI,SD,TN,TX,VA,VT,WV","NAmNE,NAmSE,NAmSW",Paulson (2011)
-Coenagrionidae,Enallagma_doubledayi,USA,"AL,DE,FL,GA,MA,MD,MS,NC,NJ,RI,SC,VA","NAmNE,NAmSE",Paulson (2011)
-Coenagrionidae,Enallagma_dubium,USA,"AL,DE,FL,GA,LA,MD,MS,NC,SC,TX,VA","NAmSE,NAmSW",Paulson (2011)
-Coenagrionidae,Enallagma_durum,"MEX,USA","AL,CT,DE,FL,LA,MA,MD,MS,NC,NJ,RI,TX,VA,VT","NAmNE,NAmSE,NAmSW",Paulson (2011)
-Coenagrionidae,Enallagma_ebrium,"CAN,USA","Alberta,British Columbia,CT,IA,ID,IL,IN,KY,MA,Manitoba,ME,MI,MN,MT,ND,NE,New Brunswick,New Foundland and Labrador,NH,NH,NJ,Northwest Territories,Nova Scotia,NY,OH,Ontario,PA,Quebec,Saskatchewan,SD,VT,WA,WI,WY,Yukon","NAmNE,NAmNW",Paulson (2011)
-Coenagrionidae,Enallagma_exsulans,"CAN,MEX,USA","AL,AR,CT,DE,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,NE,New Brunswick,New Foundland and Labrador,NH,NJ,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,SC,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE,NAmSW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Enallagma_geminatum,"CAN,USA","AL,AR,CO,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,NE,NH,NJ,NY,OH,OK,Ontario,PA,Quebec,RI,SC,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE,NAmSW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Enallagma_hageni,"CAN,USA","Alberta,British Columbia,CT,IA,IL,IN,MA,Manitoba,MD,ME,MI,MN,MT,NC,ND,NE,New Brunswick,NH,NJ,Northwest Territories,Nova Scotia,NY,OH,Ontario,PA,Quebec,RI,Saskatchewan,SD,VA,VT,WI,WV,WY","NAmNE,NAmSE,NAmNW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Enallagma_minusculum,"CAN,USA","CT,MA,ME,New Brunswick,NH,Nova Scotia,RI",NAmNE,Paulson (2011)
-Coenagrionidae,Enallagma_novaehispaniae,"ARG,BLZ,BRA,COL,CRI,ECU,ESA,GUA,HON,MEX,NIC,PAN,PER,TTO,USA,VEN","Espirito Santo,Sao Paulo,TX","SAmN,SAmS,NAmSW","Heckman (2008), Paulson (2009a)"
-Coenagrionidae,Enallagma_pollutum,USA,"AL,FL,GA,MS",NAmSE,Paulson (2011)
-Coenagrionidae,Enallagma_praevarum,"GUA,HON,MEX,USA","AZ,CA,CO,MT,NE,NM,NV,SD,TX,UT,WY","NAmNW,NAmSW",Paulson (2009a)
-Coenagrionidae,Enallagma_signatum,"CAN,MEX,USA","AL,AR,CO,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,NE,New Brunswick,NH,NJ,Nova Scotia,NY,OH,OK,PA,Quebec,RI,SC,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE,NAmSW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Enallagma_sulcatum,USA,FL,NAmSE,Paulson (2011)
-Coenagrionidae,Enallagma_traviatum,USA,"AL,AR,CT,DE,GA,IA,IL,IN,KY,LA,MA,MD,MI,MO,MS,NC,NH,NJ,NY,OH,OK,PA,RI,SC,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Enallagma_vernale,"CAN,USA","ME,MI,MN,NH,Nova Scotia,NY,Ontario,Quebec,VT,WI",NAmNE,Paulson (2011)
-Coenagrionidae,Enallagma_vesperum,"CAN,USA","AL,AR,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,NE,New Brunswick,NH,NJ,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,SC,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE",Paulson (2011)
-Coenagrionidae,Enallagma_weewa,USA,"AL,CT,DE,FL,GA,MD,MS,NC,NJ,NY,RI,SC,VA","NAmNE,NAmSE",Paulson (2011)
-Coenagrionidae,Epipleoneura_fuscaenea,"GUF,GUY,SUR,VEN",,SAmE,"FSCA, Heckman (2008), von Ellenrieder (2009i)"
-Coenagrionidae,Epipleoneura_lamina,"BRA,GUY,PER,VEN","Amazonas,Rondonia","SAmE,SAmC","Heckman (2008),von Ellenrieder (2009j), Pessacq (2014)"
-Coenagrionidae,Epipleoneura_metallica,"BRA,VEN","Bahia,Goias,Maranhao,Mato Grosso,Minas Gerais,Para,Pernambuco,Rondonia,Roraima","SAmE,SAmC","FSCA, Heckman (2008),von Ellenrieder (2009k), Pessacq (2014)"
-Coenagrionidae,Epipleoneura_sp,--,,--,--
-Coenagrionidae,Epipleoneura_spatulata,"GUF,GUY,SUR",,SAmE,Heckman (2008)
-Coenagrionidae,Epipleoneura_venezuelensis,"BOL,BRA,COL,GUY,VEN","Goias,Mato Grosso,Parana,Rio de Janeiro","SAmN,SAmE,SAmC",Pessacq (2014)
-Coenagrionidae,Erythromma_humerale,"JPN,RUS",Far East,"AsE,AsNE","Haritonov & Malikova (1998), Ozono et al. (2012)"
-Coenagrionidae,Erythromma_lindenii,"ALB,ARM,AUT,AZE,BEL,BIH,BUL,CHE,CYP,CZE,DEU,DZA,ESP,FRA,GEO,GRC,HRV,IRN,ISR,ITA,LBN,MAR,MDA,MKD,MNE,NDL,POL,PTR,ROU,SRB,SYR,TUN,TUR,UKR",,"Eur,AsC,AfrN","Dijkstra & Lewington (2006), Clausnitzer (2020d)"
-Coenagrionidae,Erythromma_najas,"AUT,BEL,BIH,BLR,CHE,CZE,DEU,DNK,EST,FIN,FRA,GBR,GRC,HRV,HUN,ITA,LTU,LUX,LVA,MKD,NDL,NOR,POL,ROU,RUS,SRB,SVK,SVN,SWE,UKR",European Russia,Eur,Dijkstra & Lewington (2006)
-Coenagrionidae,Erythromma_viridulum,"ALB,ARM,AUT,AZE,BEL,BIH,BLR,BUL,CHE,CYP,CZE,DEU,DNK,DZA,ESP,FIN,FRA,GBR,GEO,GRC,HRV,HUN,IRN,ISR,ITA,KAZ,KGZ,LBN,LTU,LUX,LVA,MAR,MDA,MKD,MNE,NDL,POL,PTR,ROU,RUS,SRB,SVK,SVN,SWE,SYR,TJK,TKM,TUN,TUR,UKR,UZB","Caucaus,European Russia","Eur,AsC","Boudot & Kalkman (2015), Boudot (2014c)"
-Platycnemididae,Esme_mudiensis,IND,"Kerala,Tamil Nadu",Ind,Kakkasery (2011)
-Coenagrionidae,Forcepsioneura_sancta,BRA,"Minas Gerais,Rio de Janeiro,Sao Paulo","SAmE,SAmS",Heckman (2008)
-Coenagrionidae,Helveciagrion_simulacrum,"ARG,BOL,BRA",Rondonia,"SAmS,SAmC","Garrison (2009), Heckman (2008)"
-Coenagrionidae,Hesperagrion_heterodoxum,"MEX,USA","AZ,CO,NM,TX",NAmSW,"Paulson (2017c), Paulson (2009a)"
-Coenagrionidae,Homeoura_chelifera,"ARG,BRA,GUY,URU,VEN","Bahia,Brasilia,Espirito Santo,Minas Gerais,Parana,Rio de Janeiro,Rio Grande do Sul,Sao Paulo","SAmE,SAmS",Heckman (2008)
-Coenagrionidae,Homeoura_lindneri,"ARG,BRA,PER,PRY","Minas Gerais,Sao Paulo","SAmE,SAmS","Heckman (2008), von Ellenrieder (2008a)"
-Coenagrionidae,Homeoura_nepos,"BOL,GUF,PER,PRY,VEN","Amazonas,Mato Grosso,Para","SAmE,SAmS,SAmC","Heckman (2008), von Ellenrieder (2008a)"
-Platycnemididae,Idiocnemis_obliterata,IDN,Indonesia-Papua,NG,Kalkman & Orr (2013)
-Coenagrionidae,Idioneura_ancilla,BRA,"Bahia,Espirito Santo,Rio de Janeiro, Sao Paulo","SamE,SamS",von Ellenrieder (2009l)
-Platycnemididae,Igneocnemis_antoniae,PHL,,Phl,Villanueva (2009a)
-Platycnemididae,Igneocnemis_atripes,PHL,,Phl,Villanueva (2009b)
-Platycnemididae,Igneocnemis_flammea,PHL,,Phl,Gassman & Hämäläinen (2002)
-Platycnemididae,Indocnemis_ambigua,"CHN,VNM",Guangxi,AsSE,Wilson (2011a)
-Platycnemididae,Indocnemis_orang,"BGD,IND,LAO,MYS,THA","Malaysia-Peninsular,Meghalaya",AsSE,Subramanian (2010c)
-Coenagrionidae,Inpabasis_hubelli,PER,,SAmN,"Heckman (2008), Hoffmann et al. (2016i)"
-Coenagrionidae,Inpabasis_rosea,"BRA,GUF,SUR,VEN",Amazonas,SAmE,Heckman (2008)
-Coenagrionidae,Ischnura_asiatica,"CHN,HKG,JPN,KOR,PKR,RUS",Far East,"AsE,AsNE","GBIF (2020a), Haritonov & Malikova (1998), Seehausen & Fiebig (2016), Yu & Chen (2015)"
-Coenagrionidae,Ischnura_aurora,"AUS,BGD,BTN,CHN,COK,FJI,FSM,GUM,IDN,IND,KIR,LAO,LKA,MHL,MMR,MNP,NCL,NPL,PAK,PHL,PYF,SLB,TON,TWN,VUT,WSM","Andhra Pradesh,Arunachal Pradesh,Assam,Bihar,Fujian,Guangdong,Hainan,Himachal Pradesh,Indonesia-Archipelago,Indonesia-Papua,Kerala,Madhya Pradesh,Maharashtra,Manipur,Meghalaya,Nagaland,New South Wales,Northern Territory,Orissa,Punjab,Queensland,Rajasthan,Sikkim,Tamil Nadu,Tasmania,Uttar Pradesh,Victoria,West Bengal,Western Australia","AsC,AsSE,Ind,AusE,Slm,Mln,Mly,NZ,Phl,NG,NC,Mcr,Pln",Dow et al. (2020)
-Coenagrionidae,Ischnura_barberi,"MEX,USA","AZ,CA,NM,OK,TX,UT",NAmSW,Paulson (2009a)
-Coenagrionidae,Ischnura_capreolus,"ARG,BLZ,BRA,COL,CRI,ECU,ESA,GUA,GUF,GUY,HON,MEX,NIC,PAN,PER,PRY,SUR,TTO,VEN","Bahia,Espirito Santo,Mato Grosso,Para,Pernambuco,Rio de Janeiro,Rio Grande do Sul,Sao Paulo","SAmN,SAmE,SAmS,SAmC",Heckman (2008)
-Coenagrionidae,Ischnura_cardinalis,PYF,,Pln,Marinov (2020a)
-Coenagrionidae,Ischnura_cervula,"CAN,MEX,USA","Alberta,AZ,British Columbia,CA,CO,ID,MT,NM,NV,OR,Saskatchewan,UT,WA,WY","NAmNW,NAmSW",Paulson (2009a)
-Coenagrionidae,Ischnura_cruzi,COL,,SAmN,Heckman (2008)
-Coenagrionidae,Ischnura_damula,"CAN,USA","Alberta,AZ,British Columbia,CO,Manitoba,ND,NE,NM,Saskatchewan,TX,UT,WY,Yukon","NAmNW,NAmSW",Paulson (2009a)
-Coenagrionidae,Ischnura_demorsa,"MEX,USA","AZ,KS,NM,OK,TX",NAmSW,Paulson (2009a)
-Coenagrionidae,Ischnura_denticollis,"GUA,MEX,USA","AZ,CA,ID,KS,NM,NV,OK,OR,TX,UT","NAmNW,NAmSW",Paulson (2009a)
-Coenagrionidae,Ischnura_elegans,"ALB,AUT,BEL,BIH,BLR,BUL,CHE,CHN,CYP,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GRC,HRV,HUN,IDN,IND,IRL,IRN,ISR,ITA,JOR,JPN,KOR,LBN,LIE,LKA,LTU,LUX,LVA,MDA,MKD,MNE,MNG,MYS,NDL,NOR,NPL,PAK,PKR,POL,PSE,ROU,SRB,SVK,SVN,SWE,SYR,TUR,UKR","Himachal Pradesh,Jammu-Kashmir,Uttar Pradesh,West Bengal","Eur,AsC,AsE,AsSE,Ind,Mly","Dijkstra & Lewington (2006), Dow (2020g)"
-Coenagrionidae,Ischnura_erratica,"CAN,USA","British Columbia,CA,OR,WA",NAmNW,Paulson (2009a)
-Coenagrionidae,Ischnura_evansi,"AFG,ARE,BHR,EGY,IRN,IRQ,ISR,JOR,KAZ,KGZ,KWT,OMN,PSE,QAT,SAU,SDN,SYR,TJK,TKM,YEM",,"AsC,AfrN",Clausnitzer et al. (2013)
-Coenagrionidae,Ischnura_ezoin,JPN,,AsE,Ozono et al. (2012)
-Coenagrionidae,Ischnura_fluviatilis,"ARG,BOL,BRA,CHL,ECU,GUF,GUY,PAR,URU,VEN","Mato Grosso,Para,Rio de Janeiro,Rio Grande do Sul,Sao Paulo","SAmE,SAmS,SAmC","FSCA, Heckman (2008), von Ellenrieder (2009m)"
-Coenagrionidae,Ischnura_fountaineae,"ARE,AZE,DZA,EGY,GEO,IRN,IRQ,ISR,JOR,KAZ,KGZ,LBR,LBY,MAR,OMN,PSE,QAT,RUS,SAU,SYR,TKM,TUN,TUR",Dagestan,"AsC,AfrN","Boudot et al. (2013), Schtoter (2010), Seehausen et al. (2016)"
-Coenagrionidae,Ischnura_foylei,IDN,Indonesia-Archipelago,Mly,Kosterin (2015)
-Coenagrionidae,Ischnura_gemina,USA,CA,NAmNW,Paulson (2009a)
-Coenagrionidae,Ischnura_graellsii,"DZA,ESP,FRA,MAR,PTR,TUN",,"Eur,AsC,AfrN","Dijkstra & Lewington (2006), Clausnitzer (2020e)"
-Coenagrionidae,Ischnura_hastata,"BLZ,CAN,COL,CRI,CUB,DOM,ESA,GUA,GUY,HON,MEX,NIC,PAN,TTO,USA,VEN","AL,AR,AZ,CT,FL,GA,IL,IN,KS,KY,LA,MA,MI,MO,MS,NC,NE,NJ,NM,NY,OH,OK,PA,RI,SC,TN,TX,VA,WV","SAmN,SAmE,NAmNE,NAmSE,NAmSW,GA","Esquivel (2006), Heckman (2008), Paulson (2011)"
-Coenagrionidae,Ischnura_heterosticta,"AUS,FJI,IDN,NCL,PLW,PNG,SLB,TON,VUT","Indonesia-Papua,New South Wales,Northern Territory,Queensland,South Australia,Tasmania,Victoria,Western Australia","AusW,AusE,Slm,Mln,NG,NC",Dow (2017c)
-Coenagrionidae,Ischnura_intermedia,"CYP,IRN,IRQ,SYR,TKM,TUR",,AsC,"Boudot (2020e), Knifj et al. (2016)"
-Coenagrionidae,Ischnura_kellicotti,USA,"AL,AR,CT,DE,FL,GA,IL,IN,KY,LA,MA,MD,ME,MI,MO,MS,NC,NH,NJ,NY,OK,PA,RI,SC,TN,TX,VA,VT,WV","NAmNE,NAmSE",Paulson (2011)
-Coenagrionidae,Ischnura_pamelae,NCL,,NC,Kalkman (2020b)
-Coenagrionidae,Ischnura_perparva,"CAN,USA","Alberta,British Columbia,CA,CO,ID,MT,ND,NE,NM,NV,OR,Saskatchewan,SD,UT,WA,WY","NAmNW,NAmSW",Paulson (2009a)
-Coenagrionidae,Ischnura_posita,"BLZ,CAN,GUA,MEX,USA","AL,AR,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,Manitoba,MD,ME,MI,MN,MO,MS,NC,NE,New Foundland and Labrador,NH,NJ,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,SC,TN,TX,VA,VT,WI,WV","SAmN,NAmNE,NAmSE,NAmSW","Paulson (2017d), Paulson (2011)"
-Coenagrionidae,Ischnura_prognata,USA,"AL,FL,GA,LA,MO,NC,SC,TN,TX,VA,WV",NAmSE,Paulson (2011)
-Coenagrionidae,Ischnura_pruinescens,"AUS,IDN","Northern Territory,Queensland","AusE,NG",Dow (2017d)
-Coenagrionidae,Ischnura_pumilio,"AFG,ALB,AND,ARM,AUT,AZE,BEL,BIH,BLR,BUL,CHE,CHN,CYP,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GRE,HRV,HUN,IRL,IRN,ISR,ITA,JOR,KAZ,KGZ,LBN,LIE,LTU,LUX,LVA,MAR,MDA,MKD,MNE,MNG,NDL,NOR,POL,PTR,ROU,RUS,SRB,SVK,SVN,SWE,SYR,TJK,TKM,TUN,TUR,UKR,UZB","Nei Mongol,Shanxi","Eur,AsC,AsNE,AfrN","Dijkstra & Lewington (2006), Boudot (2014d)"
-Coenagrionidae,Ischnura_ramburii,"BHS,BLZ,BRA,CHL,COL,CRI,CUB,CYM,DOM,ECU,ESA,GLP,GUA,GUF,HON,HTI,JAM,MEX,MTQ,NIC,PAN,PER,PRI,PRY,SUR,TTO,USA,VEN","AL,AR,AZ,CT,DE,FL,GA,IL,KY,LA,MA,MD,ME,MO,MS,NC,NJ,NY,OK,PA,RI,SC,TX,VA","SAmN,SAmE,SAmS,SAmC,NAmNE,NAmSE,NAmSW,GA",Paulson (2017e)
-Coenagrionidae,Ischnura_rufostigma,"BGD,CHN,HKG,IND,LAO,MMR,NPL,THA,VNM","Assam,Bihar,Guangdong,Guizhou,Himachal Pradesh,Hunan,Madhya Pradesh,Manipur,Meghalaya,Nagaland,Sichuan,Uttaranchal,West Bengal,Yunnan","AsSE,Ind","Mitra (2010d), Sanmartin-Villar et al. (2016)"
-Coenagrionidae,Ischnura_saharensis,"DZA,LBY,MAR,MRT,NER,TUN",,AfrN,Samraoui & Dijkstra (2020)
-Coenagrionidae,Ischnura_senegalensis,"AFG,AGO,ARE,BEN,BFA,BGD,BRN,BWA,CHN,CMR,COD,CPV,DJI,EGY,ESH,GAB,GHA,GMB,GNB,GNQ,HKG,IDN,IND,IRN,IRQ,ISR,JOR,JPN,KEN,KHM,LAO,LBR,LBY,LKA,LSO,MAC,MDG,MLI,MMR,MOZ,MRT,MUS,MWI,MYS,NAM,NER,NGA,OMN,PAK,PHL,PLW,PNG,PSE,REU,RWA,SAU,SDN,SEN,SGP,SLE,SOM,SSD,SWZ,SYC,TCD,TGO,THA,TKM,TLS,TWN,TZA,UGA,UZB,VNM,YEM,ZAF,ZMB,ZWE",Nei Mongol,"AsC,AsE,AsSE,AfrW,AfrS,AfrE,AfrN,Ind,Mdg,Mly,Phl,NG",Sharma & Clausnitzer (2016)
-Coenagrionidae,Ischnura_taitensis,PYF,,Pln,Marinov (2020b)
-Coenagrionidae,Ischnura_ultima,"ARG,CHL",,SAmS,Heckman (2008)
-Coenagrionidae,Ischnura_verticalis,"CAN,USA","AR,CO,CT,DE,GA,IA,IL,IN,KS,KY,MA,MD,ME,MI,MN,MO,MT,NC,ND,NE,New Brunswick,New Foundland and Labrador,NH,NJ,NM,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,SC,SD,TN,TX,VA,VT,WI,WV,WY","NAmNE,NAmSE,NAmSW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Leptagrion_elongatum,BRA,"Espirito Santo,Rio de Janeiro,Sao Paulo",SAmS,Heckman (2008)
-Coenagrionidae,Leptagrion_macrurum,BRA,"Espirito Santo,Rio de Janeiro,Santa Catarina,Sao Paulo","SamE,SamS",Heckman (2008)
-Coenagrionidae,Leptagrion_perlongum,BRA,"Bahia,Espirito Santo,Minas Gerais,Parana,Rio de Janeiro,Santa Catarina,Sao Paulo","SamE,SamS",Heckman (2008)
-Coenagrionidae,Leptobasis_lucifer,USA,FL,NAmSE,"Paulson (2018), Paulson (2011)"
-Coenagrionidae,Leptobasis_vacillans,"BLZ,BRA,COL,CRI,CUB,CYM,DOM,ECU,ESA,GUA,GUF,GUY,HON,HTI,MEX,NIC,PAN,SUR,VEN",Espirito Santo,"SAmN,SAmE,GA","FSCA, Paulson & von Ellenrieder (2018)"
-Coenagrionidae,Leptocnemis_cyanops,SYC,,Mdg,Schütte (2017a)
-Platycnemididae,Lieftinckia_lairdi,SLB,,Slm,Kalkman (2020c)
-Platycnemididae,Lochmaeocnemis_malacodora,IDN,Indonesia-Papua,NG,Kalkman & Orr (2013)
-Platycnemididae,Matticnemis_doi,VNM,,AsSE,Hämäläinen (2012)
-Coenagrionidae,Platystigma_astictum,BRA,"Minas Gerais,Parana,Rio de Janeiro,Sao Paulo","SAmE,SAmS",von Ellenrieder & Paulson (2006b)
-Coenagrionidae,Platystigma_jocaste,"BOL,BRA,ECU,PER",,"SAmN,SAmE,SAmC",FSCA
-Coenagrionidae,Mecistogaster_linearis,"ARG,BOL,BRA,COL,CRI,ECU,GUA,GUF,GUY,HON,MEX,PAN,PER,SUR,VEN","Mato Grosso,Roraima,Sao Paulo","SAmN,SAmE,SAmS,SAmC",FSCA
-Coenagrionidae,Mecistogaster_lucretia,"ARG,BOL,BRA,COL,ECU,GUF,GUY,PER,SUR,VEN",,"SAmN,SAmE,SAmS,SAmC","FSCA, GBIF (2020c), Heckman (2008)"
-Coenagrionidae,Platystigma_martinezi,BOL,,SAmC,Hoffmann et al. (2016j)
-Coenagrionidae,Mecistogaster_modesta,"BLZ,CRI,ECU,GUA,HON,MEX,PAN",,SAmN,FSCA
-Coenagrionidae,Megalagrion_blackburni,USA,HI,Hwi,Polhemus (1997)
-Coenagrionidae,Megalagrion_calliphya,USA,HI,Hwi,Polhemus (1997)
-Coenagrionidae,Megalagrion_eudytum,USA,HI,Hwi,Polhemus (1997)
-Coenagrionidae,Megalagrion_hawaiiense,USA,HI,Hwi,Polhemus (1997)
-Coenagrionidae,Megalagrion_heterogamias,USA,HI,Hwi,Polhemus (1997)
-Coenagrionidae,Megalagrion_nigrohamatum,USA,HI,Hwi,Polhemus (2020a)
-Coenagrionidae,Megalagrion_oahuense,USA,HI,Hwi,Polhemus (2020b)
-Coenagrionidae,Megalagrion_oresitrophum,USA,HI,Hwi,Polhemus (1997)
-Coenagrionidae,Megalagrion_paludicola,USA,HI,Hwi,Polhemus (1997)
-Coenagrionidae,Megalagrion_vagabundum,USA,HI,Hwi,Polhemus (1997)
-Coenagrionidae,Megaloprepus_caerulatus,"BLZ,BOL,COL,CRI,ECU,ESA,GUA,GUF,GUY,HON,MEX,NIC,PAN,PER,SUR,VEN",,"SAmN,SAmE,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Melanesobasis_corniculata,FJI,,Mln,NZAC
-Coenagrionidae,Melanesobasis_flavilabris,FJI,,Mln,NZAC
-Coenagrionidae,Melanesobasis_mcleani,FJI,,Mln,NZAC
-Coenagrionidae,Mesamphiagrion_demarmelsi,COL,,SAmN,Bota-Sierra (2016)
-Coenagrionidae,Mesamphiagrion_dunklei,ECU,,SAmN,Tennessen & Mauffray (2016)
-Platycnemididae,Mesocnemis_robusta,"BEN,EGY,GHA,NGA,SDN,SSD",,"AfrW,AfrE",Dijkstra (2017)
-Platycnemididae,Mesocnemis_singularis,"BEN,BWA,CAF,CIV,CMR,COD,ETH,GHA,GIN,KEN,LBR,MLI,MOZ,MWI,NAM,NGA,SLE,SSD,SWZ,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE","Dijkstra (2017), Clausnitzer et al. (2016h)"
-Coenagrionidae,Mesoleptobasis_acuminata,"BRA,GUY,PER","Amazonas,Rondonia","SAmN,SAmE,SAmC","Heckman (2008), von Ellenrieder et al. (2017)"
-Coenagrionidae,Mesoleptobasis_cantralli,"BRA,PER","Amazonas,Rondonia","SamN,SAmE,SAmC","Garrison  & von Ellenrieder (2009), Heckman (2008)"
-Coenagrionidae,Mesoleptobasis_elongata,"BRA,SUR",Amazonas,SAmE,Garrison & von Ellenrieder (2009)
-Platycnemididae,Metacnemis_valida,ZAF,,AfrS,"Dijkstra (2017), Samways (2018a)"
-Coenagrionidae,Metaleptobasis_byrsonima,"BOL,BRA,GUY,PER,SUR,TTO,VEN","Amazonas,Rondonia","SAmE,SAmC",von Ellenrieder (2013)
-Coenagrionidae,Metaleptobasis_mauffrayi,"COL,ECU",,SAmN,von Ellenrieder (2013)
-Coenagrionidae,Metaleptobasis_bicornis,"BRA,GUF,GUY,SUR,TTO","Ceara,Para,Roraima",SAmE,von Ellenrieder (2013)
-Coenagrionidae,Metaleptobasis_minteri,"COL,ECU,PER",,SAmN,von Ellenrieder (2013)
-Coenagrionidae,Metaleptobasis_quadricornis,"BRA,GUF,SUR,VEN",Para,SAmE,"Heckman (2008), von Ellenrieder (2013)"
-Coenagrionidae,Metaleptobasis_sp,--,,--,--
-Coenagrionidae,Microstigma_anomalum,"ARG,BOL,BRA,GUF,GUY,PER,VEN","Amazonas,Para","SAmE,SAmS,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Microstigma_maculatum,"BRA,GUF,GUY,SUR,VEN",Amazonas,SAmE,Heckman (2008)
-Coenagrionidae,Microstigma_rotundatum,"BOL,BRA,COL,ECU,GUY,PER,SUR,VEN","Amazonas,Rondonia","SAmN,SAmE,SAmC","FSCA, Heckman (2008)"
-Coenagrionidae,Minagrion_mecistogastrum,BRA,"Parana,Rio de Janeiro,Rio Grande do Sul, Santa Catarina,Sao Paulo",SamS,"Heckman (2008), von Ellenrieder (2009n)"
-Coenagrionidae,Minagrion_waltheri,BRA,"Minas Gerais,Sao Paulo","SAmE,SAmS",Heckman (2008)
-Coenagrionidae,Mortonagrion_aborense,"BGD,IDN,IND,KHM,LAO,MYS,THA,VNM","Assam,Indonesia-Archipelago,Malaysia-Peninsular,Mizoram,Nagaland,West Bengal","AsSE,Mly","Subramanian (2010d), Kosterin (2011)"
-Coenagrionidae,Mortonagrion_arthuri,"IDN,MMR,MYS,SGP,THA","Indonesia-Archipelago,Malaysia-Peninsular","AsSE,Mly",Dow (2020h)
-Coenagrionidae,Mortonagrion_hirosei,"CHN,HKG,JPN,TWN",Guangdong,"AsE,AsSE",Wilson & Reels (2011)
-Coenagrionidae,Mortonagrion_martini,PNG,,NG,"Gassmann (2015), Richards et al. (2015)"
-Coenagrionidae,Mortonagrion_selenion,"CHN,JPN,KOR,RUS,TWN",Far East,"AsE,AsNE","Haritonov & Malikova (1998), Yum et al. (2010)"
-Coenagrionidae,Mortonagrion_stygium,"COD,GAB",,AfrW,Dijkstra (2017)
-Coenagrionidae,Nehalennia_gracilis,"CAN,USA","AL,DE,FL,GA,IN,MA,MD,ME,MI,MO,MS,NC,New Brunswick,NH,NJ,Nova Scotia,NY,OH,Ontario,PA,Prince Edward,RI,SC,VA,VT,WI,WV","NAmNE,NAmSE",Paulson (2011)
-Coenagrionidae,Nehalennia_integricollis,USA,"AL,AR,CT,DE,FL,GA,LA,MD,MS,NC,NJ,NY,RI,SC,VA","NAmNE,NAmSE",Paulson (2011)
-Coenagrionidae,Nehalennia_irene,"CAN,USA","AK,Alberta,British Columbia,CT,DE,IA,IL,IN,KY,MA,Manitoba,MD,ME,MI,MN,MT,ND,NE,New Brunswick,NH,NJ,Northwest Territories,Nova Scotia,NY,OH,Ontario,PA,Quebec,RI,Saskatchewan,SD,VT,WA,WV","NAmNE,NAmSE,NAmNW","Paulson (2009a), Paulson (2011)"
-Coenagrionidae,Nehalennia_minuta,"BLZ,BRA,CRI,CUB,DOM,ESA,GUA,GUF,GUY,HON,MEX,NIC,PAN,SUR,SUR,TTO,USA","Bahia,FL,Maranhao,Minas Gerais,Sao Paulo","SAmN,SAmE,NAmSE,GA","Heckman (2008), Paulson (2017f)"
-Coenagrionidae,Nehalennia_pallidula,USA,FL,NAmSE,Paulson (2011)
-Coenagrionidae,Nehalennia_speciosa,"AUT,BLR,CHE,CZE,DEU,DNK,EST,FIN,ITA,JPN,KOR,LTU,LVA,PKR,POL,ROU,RUS,SWE,UKR",,"Eur,AsE,AsNE","Boudot & Kalkman (2015), Bernard & Wildermuth (2020), Ozono et al. (2012)"
-Coenagrionidae,Neoerythromma_cultellatum,"BLZ,CRI,CUB,DOM,ESA,GUA,HON,MEX,NIC,PAN,TTO,USA,VEN","FL,TX","SAmN,NAmSW,GA","Heckman (2008), Paulson (2011)"
-Coenagrionidae,Neoneura_aaroni,"MEX,USA",TX,NAmSW,Paulson (2009a)
-Coenagrionidae,Neoneura_amelia,"BLZ,CRI,ESA,GUA,HON,MEX,NIC,PAN,USA",TX,"SAmN,NAmSW",Paulson (2017g)
-Coenagrionidae,Neoneura_bilinearis,"BOL,BRA,COL,GUF,GUY,PER,SUR,VEN","Para,Rondonia","SAmN,SAmE,SAmC","Heckman (2008), von Ellenrieder (2009o), Wasscher (2013)"
-Coenagrionidae,Neoneura_confundens,"ARG,BRA,COL,ECU,GUF,GUY,PER,SUR,TTO,VEN",,"SAmN,SAmE,SAmS",Wasscher (2013)
-Coenagrionidae,Neoneura_denticulata,"BRA,ECU,GUY,PER,VEN","Amazonas,Para,Rondonia,Roraima","SAmE,SAmC","Heckman (2008), von Ellenrieder et al. (2017)"
-Coenagrionidae,Neoneura_esthera,"COL,CRI,PAN,TTO,VEN",,SAmN,Garrison (1999)
-Coenagrionidae,Neoneura_fulvicollis,"ARG,BRA,SUR,VEN","Mato Grosso,Para,Sao Paulo","SAmE,SAmS,SAmC","Heckman (2008), von Ellenrieder (2009p)"
-Coenagrionidae,Neoneura_joana,"BRA,GUF,GUY,SUR,VEN","Amapa,Para,Roraima",SAmE,Heckman (2008)
-Coenagrionidae,Neoneura_kiautai,BRA,"Minas Gerais,Rio de Janeiro",SAmE,Anjos-Santos et al. (2011)
-Coenagrionidae,Neoneura_leonardoi,BRA,"Rio Grande do Sul,Santa Catarina",SAmS,Heckman (2008)
-Coenagrionidae,Neoneura_maria,CUB,,GA,Paulson & von Ellenrieder (2006)
-Coenagrionidae,Neoneura_myrthea,"BRA,COL,GUF,GUY,SUR,VEN",Roraima,"SAmN,SAmE",Heckman (2008)
-Coenagrionidae,Neoneura_rubriventris,"BOL,BRA,ECU,GUF,GUY,PER,SUR,VEN","Para,Rio Grande do Sul,Rondonia,Roraima","SAmN,SAmE,SAmS,SAmC","Garrison (1999), Heckman (2008)"
-Coenagrionidae,Neoneura_sp,--,,--,--
-Coenagrionidae,Neoneura_sylvatica,"ARG,BOL,BRA,VEN","Bahia,Mato Grosso,Minas Gerais,Rio de Janeiro,Rondonia,Sao Paulo","SAmE,SAmS,SAmC",Heckman (2008)
-Coenagrionidae,Nesobasis_sp4,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_sp5,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_campioni,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_sp1,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_erythrops,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_flavifrons,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_sp2,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_sp7,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_longistyla,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_sp6,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_sp3,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_sp8,FJI,,Mln,NZAC
-Coenagrionidae,Nesobasis_telegastrum,FJI,,Mln,NZAC
-Platycnemididae,Nososticta_erythrura,"IDN,PNG",Indonesia-Papua,NG,"Kalkman(2009b), Kalkman & Orr (2013)"
-Platycnemididae,Nososticta_finisterrae,PNG,,NG,Kalkman & Orr (2013)
-Platycnemididae,Nososticta_fraterna,AUS,"Northern Territory,Queensland","AusE,AusW",Dow (2017e)
-Platycnemididae,Nososticta_kalumburu,AUS,Western Australia,AusW,Dow (2017f)
-Platycnemididae,Nososticta_liveringa,AUS,"Northern Territory,Western Australia",AusW,Dow (2017g)
-Platycnemididae,Nososticta_salomonis,"IDN,PNG",Indonesia-Papua,"Slm,NG",Kalkman & Orr (2013)
-Platycnemididae,Nososticta_solida,AUS,"New South Wales,Queensland,Victoria",AusE,Dow (2017h)
-Platycnemididae,Nososticta_solitaria,AUS,Queensland,AusE,Hawking (2018b)
-Platycnemididae,Onychargia_atrocyana,"BGD,BRN,CHN,HKG,IDN,IND,LKA,MMR,MYS,NPL,PHL,SGP,THA,TWN,VNM","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular,Yunnan","AsSE,Ind,Mly,Phl",Dow (2020i)
-Coenagrionidae,Oreocnemis_phoenix,MWI,,AfrE,Dijkstra (2017)
-Coenagrionidae,Oxyagrion_chapadense,"ARG,BRA,PRY","Bahia,Goias,Mato Grosso,Minas Gerais,Parana,Sao Paulo","SAmE,SAmS,SAmC",Heckman (2008)
-Coenagrionidae,Oxyagrion_hempeli,"ARG,BRA,PRY,URU","Brasilia,Espirito Santo,Goias,Minas Gerais,Parana,Rio de Janeiro,Rio Grande do Sul,Santa Catarina,Sao Paulo","SAmE,SAmS",Heckman (2008)
-Coenagrionidae,Oxyagrion_miniopsis,"BOL,COL,PER",,"SAmN,SAmC","Heckman (2008), von Ellenrieder (2009q)"
-Coenagrionidae,Oxyagrion_rubidum,"ARG,CHL,PRY,URU",,SAmS,Heckman (2008)
-Coenagrionidae,Oxyagrion_simile,BRA,"Espirito Santo,Goias,Minas Gerais,Parana,Rio de Janeiro,Rio Grande do Sul,Sao Paulo","SAmE,SAmS",Heckman (2008)
-Coenagrionidae,Oxyagrion_sulmatogrossense,BRA,Mato Grosso do Sul,SamC,Heckman (2008)
-Coenagrionidae,Oxyagrion_tennesseni,ECU,,SAmN,Heckman (2008)
-Coenagrionidae,Oxyagrion_terminale,"ARG,BOL,BRA,PRY,URU","Amazonas,Espirito Santo,Goias,Minas Gerais,Parana,Rio de Janeiro,Rio Grande do Sul,Santa Catarina,Sao Paulo","SAmE,SAmS,SAmC",Heckman (2008)
-Coenagrionidae,Oxyallagma_dissidens,"COL,ECU,PER",,SAmN,"Bota-Sierra (2014), Heckman (2008)"
-Coenagrionidae,Pacificagrion_lachrymosa,ASM,,Mln,NZAC
-Coenagrionidae,Pacificagrion_sp,ASM,,Mln,NZAC
-Platycnemididae,Palaiargia_charmosyna,"IDN,PNG",Indonesia-Papua,NG,Kalkman & Orr (2013)
-Coenagrionidae,Pandanobasis_cantuga,PHL,,Phl,Villanueva (2012)
-Coenagrionidae,Papuagrion_marijanmatoki,PNG,,NG,Orr & Richards (2016)
-Coenagrionidae,Papuagrion_occipitale,PNG,,NG,Kalkman & Orr (2013)
-Coenagrionidae,Papuagrion_prothoracale,PNG,,NG,Kalkman & Orr (2013)
-Coenagrionidae,Paracercion_ambiguum,VNM,,AsSE,Ning et al. (2016)
-Coenagrionidae,Paracercion_calamorum,"CHN,IDN,IND,JPN,KOR,MYS,NPL,PRK,RUS,THA","Anhui,Far East,Hebei,Henan,Hubei,Jiangsu","AsE,AsSE,AsNE,Ind,Mly",Wilson (2009c)
-Coenagrionidae,Paracercion_dorothea,CHN,Yunnan,AsSE,Dow (2013)
-Coenagrionidae,Paracercion_hieroglyphicum,"CHN,HKG,JPN,KOR,MNG,PKR,TWN",,"AsE,AsNE","Dumont (2004), Ozono et al. (2012), Seehausen and Fiebig (2016), Yum et al. (2010)"
-Coenagrionidae,Paracercion_melanotum,"CHN,JPN,KOR,PKR,TWN,VNM","Guangdong,Guangxi,Hainan,Henan,Jiangsu,Shaanxi,Shandong,Zhejiang","AsE,AsSE","Wilson (2009d), Seehausen and Fiebig (2016), Yum et al. (2010)"
-Coenagrionidae,Paracercion_plagiosum,"CHN,JPN,KOR",Inner Mongolia,AsE,"Dumont (2004), Ozono et al. (2012), Seehausen and Fiebig (2016), Yum et al. (2010)"
-Coenagrionidae,Paracercion_sieboldii,"JPN,KOR,TWN",,AsE,"Ozono et al. (2012), Yum et al. (2010)"
-Coenagrionidae,Paracercion_vnigrum,"CHN,KOR,RUS","Far East,Guizhou,Hubei,Jiangsu,Shaanxi,Sichuan","AsE,AsNE",Wilson (2009e)
-Platycnemididae,Paracnemis_alluaudi,MDG,,Mdg,Schütte (2020b)
-Platycnemididae,Paramecocnemis_erythrostigma,"IDN,PNG",Indonesia-Papua,NG,"Kalkman (2009c), Kalkman & Orr (2013)"
-Platycnemididae,Paramecocnemis_stillacruoris,"IDN,PNG",Indonesia-Papua,NG,Kalkman & Orr (2013)
-Coenagrionidae,Pericnemis_lestoides,PHL,,Phl,Villanueva (2011)
-Coenagrionidae,Pericnemis_sp1,--,,--,--
-Coenagrionidae,Pericnemis_sp2,--,,--,--
-Coenagrionidae,Pericnemis_triangularis,"BRN,IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago",Mly,"Dow (2019e), Orr (2001)"
-Coenagrionidae,Peristicta_aenoviridis,"ARG,BRA,PRY,URU","Mato Grosso,Minas Gerais,Sao Paulo","SAmE,SAmS,SAmC","Heckman (2008), Pessacq (2007), Schmidt Dalzochio et al. (2011)"
-Coenagrionidae,Peristicta_sp,--,,--,--
-Coenagrionidae,Phasmoneura_exigua,"BRA,GUF,GUY,PER,SUR,VEN",Amazonas,SAmE,"Heckman (2008), von Ellenrieder & Garrison (2011)"
-Coenagrionidae,Phoenicagrion_flammeum,"BOL,BRA,GUY,PER,VEN","Amapa,Amazonas,Para,Rondonia,Roraima","SAmE,SAmC","Heckman (2008), von Ellenrieder (2008b)"
-Coenagrionidae,Phoenicagrion_sp,--,,--,--
-Coenagrionidae,Phoenicagrion_spn,--,,--,--
-Platycnemididae,Phylloneura_westermanni,IND,"Karnataka,Kerala,Tamil Nadu",Ind,Subramanian (2011)
-Platycnemididae,Platycnemis_acutipennis,"ESP,FRA,PTR",,Eur,Boudot (2020f)
-Platycnemididae,Platycnemis_echigoana,JPN,,AsE,Ozono et al. (2012)
-Platycnemididae,Platycnemis_foliacea,"CHN,JPN","Beijing,Hebei,Shanxi",AsE,"Zhu (1989), Xinyu et al. (2004), Ozono et al. (2012)"
-Platycnemididae,Platycnemis_latipes,"ESP,FRA,PTR",,Eur,Boudot (2020g)
-Platycnemididae,Platycnemis_pennipes,"ALB,ARM,AZE,BEL,BGR,BIH,BLR,CHE,CZE,DEU,DNK,EST,FIN,FRA,GBR,GEO,GRC,HRV,IRQ,KAZ,KIR,LBN,LIE,LTU,LUX,MCO,MDA,MKD,MNE,NOR,POL,ROU,RUS,SRB,SVK,SVN,SWE,SYR,TUR,UKR",European Russia,"Eur,AsC",Clausnitzer (2020f)
-Platycnemididae,Platycnemis_phyllopoda,"JPN,KOR,PKR,RUS",Far East,AsE,"Haritonov & Malikova (1998), Seehause & Fiebig (2016), Yum et al. (2010)"
-Platycnemididae,Prodasineura_autumnalis,"CHN,HKG,IDN,IND,LAO,MAC,MMR,MYS,NPL,SGP,THA,VNM","Assam,Fujian,Guangdong,Guangxi,Hainan,Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular,Yunnan,Zhejiang","AsSE,Mly",Dow (2020j)
-Platycnemididae,Prodasineura_collaris,"BRN,IDN,MMR,MYS,SGP,THA","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",Dow (2020k)
-Platycnemididae,Prodasineura_croconota,"CHN,HKG,TWN,VNM","Guangdong,Guangxi,Hainan",AsSE,Wilson (2011b)
-Platycnemididae,Prodasineura_dorsalis,"BRN,MYS",Malaysia-Archipelago,Mly,"Dow (2012), Orr (2001)"
-Platycnemididae,Prodasineura_hyperythra,"BRN,MYS",Malaysia-Archipelago,Mly,"Dow & Ngiam (2012), Ng et al. (2008), Orr (2001)"
-Platycnemididae,Prodasineura_integra,PHL,,Phl,Hämäläinen & Müller (1997)
-Platycnemididae,Prodasineura_interrupta,"MYS,SGP",Malaysia-Peninsular,AsSE,"Choong et al. (2016), Tang et al. (2010)"
-Platycnemididae,Prodasineura_notostigma,"MYS,SGP","Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly","Dow & Reels (2013), Ngiam et al. (2011), Wilson & Gibert (2006)"
-Platycnemididae,Prodasineura_sita,LKA,,Ind,Bedjanic (2006)
-Platycnemididae,Prodasineura_verticalis,"BRN,CHN,IDN,IND,LAO,MMR,MYS,THA","Andaman Is.,Andhra Pradesh,Guangxi,Indonesia-Archipelago,Karnataka,Kerala,Maharashtra,Malaysia-Archipelago,Malaysia-Peninsular,Mizoram,Tamil Nadu","AsSE,Ind,Mly",Dow (2010a)
-Coenagrionidae,Proischnura_subfurcata,"CMR,COD,ERI,ETH,KEN,MOZ,MWI,NGA,RWA,SDN,SOM,TZA,UGA,ZMB,ZWE",,"AfrW,AfrS,AfrE","Dijkstra (2017), Clausnitzer & Suhling (2016d)"
-Platycnemididae,Proplatycnemis_hova,MDG,,Mdg,Schütte (2017b)
-Platycnemididae,Proplatycnemis_malgassica,MDG,,Mdg,Schütte (2017c)
-Platycnemididae,Proplatycnemis_pembipes,TZA,,AfrE,"Dijkstra (2017), Clausnitzer (2007)"
-Platycnemididae,Proplatycnemis_sanguinipes,MDG,,Mdg,Schütte (2017d)
-Platycnemididae,Proplatycnemis_spn.poodle,--,,--,--
-Coenagrionidae,Protoneura_ailsa,"DMA,GLP,LCA,MTQ",,SAmN,Meurgey (2008)
-Coenagrionidae,Protoneura_amatoria,"BEL,BRA,COL,CRI,ECU,ESA,GUA,HON,NIC,PAN,PER,TTO,VEN",Roraima,"SAmN,SAmE",Heckman (2008)
-Coenagrionidae,Protoneura_calverti,"GUF,GUY,SUR,TTO,VEN",,SAmE,"Heckman (2008), von Ellenrieder & Garrison (2011)"
-Coenagrionidae,Protoneura_cara,"BEL,ESA,GUA,HON,MEX,NIC,USA",TX,"SAmN,NAmSW",Paulson (2009a)
-Coenagrionidae,Protoneura_macintyrei,ECU,,SAmN,Heckman (2008)
-Coenagrionidae,Protoneura_paucinervis,"BRA,ECU,PER",Amazonas,SAmN,"Heckman (2008), Tennessen & Mauffray (2020)"
-Coenagrionidae,Protoneura_romanae,"GLP,MTQ",,SAmN,GBIF (2020d)
-Coenagrionidae,Protoneura_scintilla,"BRA,ECU,PER","Mato Grosso,Rondonia","SAmN,SAmC","Gloyd (1939), Heckman (2008), Vilela & Guillermo-Ferreira (2020)"
-Coenagrionidae,Protoneura_sulfurata,"CRI,NIC",,SAmN,Paulson (2009i)
-Coenagrionidae,Protoneura_viridis,"CUB,DOM,HTI,JAM,PRI,VGB,VIR",,GA,Meurgey (2013)
-Coenagrionidae,Protoneura_woytkowskii,"BOL,ECU,PER",,"SAmN,SAmC",Heckman (2008)
-Coenagrionidae,Psaironeura_bifurcata,"BRA,ECU,PER,VEN","Amazonas,Para","SAmN,SAmE","Garrison (2004), Heckman (2008)"
-Coenagrionidae,Psaironeura_remissa,"COL,CRI,ECU,PAN,VEN",,SAmN,Tennessen (2016)
-Coenagrionidae,Psaironeura_tenuissima,"BRA,ECU,GUF,GUY,PER,SUR","Amazonas,Para,Rondonia","SAmE,SAmC","Garrisson (2004), Heckman (2008), von Ellenrieder & Garrison (2011)"
-Coenagrionidae,Pseudagrion_acaciae,"AGO,BWA,COD,MOZ,MWI,NAM,TZA,ZAF,ZMB,ZWE",,"AfrS,AfrE","Dijkstra (2017), Clausnitzer & Suhling (2016e)"
-Coenagrionidae,Pseudagrion_aureofrons,AUS,"New South Wales,Northern Territory,Queensland,Victoria,Western Australia","AusW,AusE",Dow (2017i)
-Coenagrionidae,Pseudagrion_aureolum,GAB,,AfrW,Dijkstra (2017)
-Coenagrionidae,Pseudagrion_australasiae,"CHN,IDN,IND,KHM,MMR,MYS,NPL,SGP,THA","Hainan,Indonesia-Archipelago,Malaysia-Peninsular","AsSE,Ind,Mly",Dow (2009g)
-Coenagrionidae,Pseudagrion_bicoerulans,"KEN,TZA,UGA",,AfrE,"Dijkstra (2017), Dijkstra & Clausnitzer (2016)"
-Coenagrionidae,Pseudagrion_caffrum,ZAF,,AfrS,"Dijkstra (2017), Suhling (2010b)"
-Coenagrionidae,Pseudagrion_citricola,ZAF,,AfrS,Dijkstra (2017)
-Coenagrionidae,Pseudagrion_dactylidium,GAB,,AfrW,Dijkstra (2017)
-Coenagrionidae,Pseudagrion_deningi,"AGO,BWA,COD,NAM,ZMB,ZWE",,AfrS,Dijkstra (2017)
-Coenagrionidae,Pseudagrion_epiphonematicum,"BEN,CMR,GAB,GHA,GIN,GNB,GNQ,LBR,NGA,SLE,TGO",,AfrW,Dijkstra (2017)
-Coenagrionidae,Pseudagrion_sp,"CAF,CIV,CMR,GHA,GIN,MLI,NGA,SLE,TGO",,AfrW,"Dijkstra (2017), Clausnitzer & Dijkstra (2010a)"
-Coenagrionidae,Pseudagrion_glaucescens,"AGO,BEN,BFA,BWA,CAF,CMR,COD,COG,CPV,GAB,GHA,GMB,KEN,LBR,MLI,MOZ,MWI,NAM,NGA,SEN,SLE,TCD,TGO,TZA,UGA,ZMB,ZWE",,"AfrW,AfrS,AfrE","Dijkstra (2017), Clausnitzer et al. (2016i)"
-Coenagrionidae,Pseudagrion_glaucoideum,"BEN,CIV,CMR,COD,COG,GAB,GHA,GNQ,LBR,NGA,TGO,UGA,ZMB",,AfrW,"Dijkstra (2017), Clausnitzer & Suhling (2019)"
-Coenagrionidae,Pseudagrion_glaucum,"CAF,CIV,CMR,COD,COG,GAB,GHA,GIN,GNB,GNQ,LBR,NGA,SLE,TGO",,AfrW,"Dijkstra (2017), Clausnitzer & Dijkstra (2017a)"
-Coenagrionidae,Pseudagrion_hageni,"BDI,BWA,COD,KEN,MOZ,MWI,SWZ,TZA,UGA,ZAF,ZMB,ZWE",,"AfrS,AfrE","Dijkstra (2017), Clausnitzer & Suhling (2016f)"
-Coenagrionidae,Pseudagrion_hamoni,"AGO,BEN,BFA,BWA,CAF,CIV,CMR,COD,COG,DZA,ETH,GAB,GHA,GIN,GMB,KEN,LBR,LBY,MOZ,MRT,MWI,NAM,NER,NGA,RWA,SAU,SDN,SEN,SLE,SSD,SWZ,TCD,TGO,TZA,UGA,YEM,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE,AfrN","Dijkstra (2017), Boudot et al. (2016b)"
-Coenagrionidae,Pseudagrion_ignifer,AUS,"New South Wales,Queensland",AusE,Hawking (2009)
-Coenagrionidae,Pseudagrion_incisurum,SLB,,Slm,Marinov & Pikacha (2013)
-Coenagrionidae,Pseudagrion_kersteni,"AGO,BEN,BFA,BWA,CAF,CMR,COD,COG,ERI,ETH,GHA,GNQ,KEN,LBR,MLI,MOZ,MWI,NAM,NGA,RWA,SDN,SLE,SOM,SWZ,TCD,TGO,TZA,UGA,YEM,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE,AfrN","Dijkstra (2017), Boudot et al. (2016c)"
-Coenagrionidae,Pseudagrion_kibalense,"AGO,CMR,COD,COG,GAB,GNQ,KEN,UGA,ZMB",,"AfrW,AfrE","Dijkstra (2017), Clausnitzer & Suhling (2016g)"
-Coenagrionidae,Pseudagrion_makabusiense,"AGO,MOZ,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE",Dijkstra (2017)
-Coenagrionidae,Pseudagrion_malagasoides,"CIV,CMR,COG,GHA,LBR,NGA,SLE",,AfrW,"Dijkstra (2017), Dijkstra (2010)"
-Coenagrionidae,Pseudagrion_massaicum,"AGO,BWA,COD,ETH,KEN,MOZ,MWI,NAM,RWA,SDN,SSD,SWZ,TZA,ZAF,ZMB,ZWE",,"AfrS,AfrE","Dijkstra (2017), Clausnitzer et al. (2016j)"
-Coenagrionidae,Pseudagrion_melanicterum,"AGO,BEN,BFA,CAF,CIV,CMR,COD,COG,GAB,GHA,GIN,GNB,GNQ,KEN,LBR,NGA,SDN,SEN,SLE,TGO,TZA,UGA,ZMB",,"AfrW,AfrE","Dijkstra (2017), Clausnitzer et al. (2016k)"
-Coenagrionidae,Pseudagrion_microcephalum,"AUS,BGD,BRN,CHN,HKG,IDN,IND,JPN,KHM,LAO,LKA,MMR,MYS,NPL,PHL,PNG,SGP,SLB,THA,TON,TWN,VNM","New South Wales,Northern Territory,Queensland,Western Australia","AsSE,AusW,AusE,Ind,Slm,Mln,Mly,Phl,NG",Dow & Wilson (2017)
-Coenagrionidae,Pseudagrion_munte,COD,,"AfrW,AfrS",Dijkstra (2017)
-Coenagrionidae,Pseudagrion_niloticum,"ETH,KEN,SDN,SSD,YEM",,"AfrE,AfrN","Dijkstra (2017), Boudot et al. (2016d), Schneider & Naser (2013)"
-Coenagrionidae,Pseudagrion_nubicum,"BEN,BFA,BWA,CMR,COD,EGY,ETH,GHA,GMB,KEN,LBR,MLI,NAM,NER,NGA,RWA,SDN,SEN,SSD,TCD,TGO,TZA,UGA,ZMB,ZWE",,"AfrW,AfrS,AfrE,AfrN","Dijkstra (2017), Boudot et al. (2016e)"
-Coenagrionidae,Pseudagrion_pacale,SLE,,AfrW,Dijkstra (2017)
-Coenagrionidae,Pseudagrion_pilidorsum,"IDN,IND,JPN,MYS,PHL,TLS,TWN","Andaman Is.,Indonesia-Archipelago,Malaysia-Archipelago,Nicobar Is.","AsSE,Mly,Phl","GBIF (2020e), Mitra & Babu (2010), Ozono et al. (2012)"
-Coenagrionidae,Pseudagrion_pruinosum,"BRN,CHN,HKG,IDN,IND,KHM,LAO,MYS,SGP,THA,VNM","Guangdong,Guangxi,Guizhou,Hainan,Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Ind,Mly",Dow (2020l)
-Coenagrionidae,Pseudagrion_rubriceps,"BGD,CHN,HKG,IDN,IND,KHM,LAO,MMR,MYS,NPL,PAK,PHL,THA,TWN","Assam,Guangdong,Guangxi,Hainan,Himachal Pradesh,Indonesia-Archipelago,Kerala,Madhya Pradesh,Maharashtra,Meghalaya,Punjab,Tamil Nadu,Uttar Pradesh,West Bengal","AsSE,Ind,Mly,Phl",Pal (2011)
-Coenagrionidae,Pseudagrion_salisburyense,"AGO,BWA,COD,ETH,KEN,MOZ,MWI,NAM,SWZ,TZA,UGA,ZAF,ZMB,ZWE",,"AfrS,AfrE","Dijkstra (2017), Clausnitzer & Suhling (2016h)"
-Coenagrionidae,Pseudagrion_samoense,WSM,,Mln,"Harding & Beatty (2020), NZAC"
-Coenagrionidae,Pseudagrion_sarepi,AGO,,"AfrW,AfrS",Dijkstra (2017)
-Coenagrionidae,Pseudagrion_serrulatum,"CAF,CMR,GAB,GNQ,NGA",,AfrW,"Dijkstra (2017), Clausnitzer & Dijkstra (2010b)"
-Coenagrionidae,Pseudagrion_sjoestedti,"AGO,BEN,BFA,BWA,CAF,CIV,CMR,COD,COG,GAB,GHA,GMB,GNB,GNQ,KEN,LBR,MLI,MOZ,MWI,NAM,NGA,RWA,SDN,SLE,SSD,TGO,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE","Dijkstra (2017), Clausnitzer & Suhling (2016i)"
-Coenagrionidae,Pseudagrion_spencei,"BGD,CHN,HKG,IND,MMR,NPL,PAK","Andhra Pradesh,Assam,Bihar,Guangdong,Guangxi,Madhya Pradesh,Meghalaya,Uttar Pradesh,West Bengal","AsSE,Ind",Sharma (2010b)
-Coenagrionidae,Pseudagrion_spernatum,"BDI,COD,ETH,KEN,MOZ,MWI,RWA,SWZ,TZA,UGA,ZAF,ZMB,ZWE",,"AfrS,AfrE","Dijkstra (2017), Clausnitzer & Suhling (2016j)"
-Coenagrionidae,Pseudagrion_sublacteum,"AGO,BEN,BWA,CIV,CMR,COD,COG,ETH,GHA,GIN,GMB,ISR,JOR,KEN,LBR,MAR,MLI,MOZ,MWI,MYT,NAM,NER,NGA,OMN,RWA,SDN,SEN,SLE,SOM,SWZ,SYR,TGO,TZA,UGA,YEM,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE,AfrN","Dijkstra (2017), Clausnitzer (2016c)"
-Coenagrionidae,Pseudagrion_tanganyicum,"TZA,ZMB",,AfrE,Dijkstra (2017)
-Coenagrionidae,Pseudagrion_torridum,"BFA,COD,EGY,ETH,GAB,GHA,ISR,KEN,MLI,NGA,SDN,SEN,SSD,TCD,UGA",,"AfrW,AfrE,AfrN","Dijkstra (2017), Clausnitzer (2016d)"
-Platycnemididae,Pseudocopera_ciliata,"BGD,CHN,HKG,IDN,IND,KHM,MMR,MYS,THA,TWN,VNM","Assam,Fujian,Guangdong,Guangxi,Himachal Pradesh,Indonesia-Archipelago,Meghalaya,Uttar Pradesh,West Bengal",AsSE,Dow (2018)
-Coenagrionidae,Pyrrhosoma_elisabethae,"ALB,GRC",,Eur,"Boudot & Kalkman (2015), Kalkman (2020d)"
-Coenagrionidae,Pyrrhosoma_nymphula,"ALB,AND,AUT,BEL,BGR,BIH,BLR,CHE,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GEO,GGY,GRC,HRV,HUN,IMN,IRL,IRN,ITA,JEY,LTU,LUX,LVA,MAR,MKD,MNE,NDL,NOR,POL,PTR,ROU,RUS,SRB,SVK,SVN,SWE,TUR,UKR",European Russia,"Eur,AfrN","Boudot & Kalkman (2015), Kalkman (2014)"
-Coenagrionidae,Ischnura_nursei,"BGD,IND,IRN,OMN,PAK","Chandigarh,Chattisgarh,Madhya Pradesh,Maharashtra,Orissa,Punjab,Rajasthan,Tamil Nadu,Uttaranchal,Uttar Pradesh,West Bengal","AsC,AsSE,AfrN,Ind","Dumont et al. (2011), Subramanian (2010e)"
-Platycnemididae,Risiocnemis_appendiculata,PHL,,Phl,Hämäläinen (1991)
-Platycnemididae,Risiocnemis_erythrura,PHL,,Phl,Hämäläinen (1991)
-Platycnemididae,Risiocnemis_praeusta,PHL,,Phl,Hämäläinen (1991)
-Platycnemididae,Salomocnemis_gerdae,SLB,,Slm,"Marinov & Pikacha (2013), NZAC"
-Coenagrionidae,Sangabasis_dentifer,PHL,,Phl,Villanueva & Dow (2014)
-Coenagrionidae,Schistolobos_boliviensis,"BOL,PER",,SAmC,"Hoffmann et al. (2016j), von Ellenrieder & Garrison (2008)"
-Platycnemididae,Spesbona_angusta,ZAF,,AfrS,"Dijkstra (2017), Samways (2018b)"
-Coenagrionidae,Stenagrion_dubium,"BRN,MYS",Malaysia-Archipelago,Mly,Dow (2020m)
-Platycnemididae,Stenocnemis_pachystigma,"CMR,COD,GAB,NGA",,AfrW,"Dijkstra (2017), Clausnitzer & Dijkstra (2017b)"
-Coenagrionidae,Teinobasis_aeridis,FSM,,Mcr,Paulson & Buden (2003)
-Coenagrionidae,Teinobasis_alluaudi,"KEN,MDG,MWI,SYC,TZA",,"AfrE,Mdg","Clausnitzer (2003), Clausnitzer (2019)"
-Coenagrionidae,Teinobasis_ariel,FSM,,Mcr,Paulson & Buden (2003)
-Coenagrionidae,Teinobasis_bradleyi,SLB,,Slm,Marinov & Pikacha (2013)
-Coenagrionidae,Teinobasis_carolinensis,FSM,,Mcr,"FSCA, Flint (1991)"
-Coenagrionidae,Teinobasis_cryptica,"MYS,SGP","Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly","Dow (2010b), Dow & Ngiam (2011)"
-Coenagrionidae,Teinobasis_filamenta,PHL,,Phl,Villanueva (2009c)
-Coenagrionidae,Teinobasis_fortis,FSM,,Mcr,Paulson & Buden (2003)
-Coenagrionidae,Teinobasis_laidlawi,"IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago",Mly,Dow (2010b)
-Coenagrionidae,Teinobasis_nigrolutea,FSM,,Mcr,Paulson & Buden (2003)
-Coenagrionidae,Teinobasis_rajah,"BRN,IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly","Dow (2010b), Dow (2019f)"
-Coenagrionidae,Teinobasis_ruficollis,"IDN,MYS,SGP","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly","Dow (2010b), Tang et al. (2010), Choong et al. (2017)"
-Coenagrionidae,Teinobasis_rufithorax,"AUS,IDN,PNG,SLB","Indonesia-Papua,Queensland","AusE,Slm,NG",Dow (2017j)
-Coenagrionidae,Teinobasis_scintillans,PNG,,NG,Kalkman & Orr (2013)
-Coenagrionidae,Teinobasis_sjupp,IDN,Indonesia-Papua,NG,"Kalkman (2008), Kalkman & Orr (2013)"
-Coenagrionidae,Telagrion_longum,"ARG,BRA","Espirito Santo,Rio de Janeiro,Rio Grande do Sul,Sao Paulo",SAmS,Heckman (2008)
-Coenagrionidae,Telebasis_brevis,ECU,,SAmN,Heckman (2008)
-Coenagrionidae,Telebasis_byersi,USA,"AL,AR,DE,FL,GA,LA,MD,MS,NC,SC,TX,VA",NAmSE,Paulson (2011)
-Coenagrionidae,Telebasis_carmesina,"ARG,BOL,BRA,PRY","Mato Grosso,Minas Gerais,Sao Paulo","SAmE,SAmS,SAmC","Heckman (2008), von Ellenrieder (2009r)"
-Coenagrionidae,Telebasis_carota,"ECU,PER",,SAmN,Heckman (2008)
-Coenagrionidae,Telebasis_collopistes,"BLZ,CRI,GUA,HON,MEX",,SAmN,"Paulson (1984), Dunkle (1991), Garrison (2009) "
-Coenagrionidae,Telebasis_corallina,"BRA,CRI,CUB,DMA,GLP,TTO,VEN","Bahia,Minas Gerais,Parana,Rio de Janeiro,Rio Grande do Sul,Sao Paulo","SAmN,SAmE,GA","Garrison (2009), Heckman (2008), von Ellenrieder (2009s)"
-Coenagrionidae,Telebasis_demarara,"BRA,GUF,GUY,SUR,TTO,VEN",Roraima,SAmE,"Heckman (2008), von Ellenrieder (2009t)"
-Coenagrionidae,Telebasis_digiticollis,"BLZ,CRI,ESA,GUA,HON,MEX,NIC,PAN,VEN",,SAmN,"Esquivel (2006), Garrison (2009)"
-Coenagrionidae,Telebasis_dominicana,"CUB,DOM,HTI,JAM,PRI,VGB",,GA,"Bick and Bick (1995), Garrison (2009)"
-Coenagrionidae,Telebasis_dunklei,"BOL,ECU,PER",,"SAmN,SAmC",Garrison (2009)
-Coenagrionidae,Telebasis_filiola,"BLZ,BRA,COL,CRI,ESA,GUA,HON,MEX,NIC,PAN,VEN","Bahia,Espirito Santo,Mato Grosso,Para,Pernambuco,Rio de Janeiro,Sao Paulo","SAmN,SAmE,SAmC","Garrison (2009), Heckman (2008)"
-Coenagrionidae,Telebasis_garleppi,"COL,CRI,ECU",,SAmN,Garrison (2009)
-Coenagrionidae,Telebasis_gigantea,"BOL,BRA",Mato Grosso,SAmC,"Calvao et al. (2014), Daigle (2002)"
-Coenagrionidae,Telebasis_griffinii,"ARG,BOL,BRA,COL,ECU,PAN,PER,TTO,VEN","Minas Gerais,Sao Paulo","SAmN,SAmE,SAmS,SAmC","Garrison (2009), Paulson (2009j), Kompier (2015), Magalhaes de Souza et al. (2017)"
-Coenagrionidae,Telebasis_inalata,"ARG,BOL,ECU,PER,PRY",,"SAmN,SAmE,SAmS","Garrison (2009), Heckman (2008)"
-Coenagrionidae,Telebasis_levis,"BLZ,CRI,ESA,GUA,HON,MEX,NIC",,SAmN,Garrison (2009)
-Coenagrionidae,Telebasis_livida,"ECU,PER",,SAmN,"Heckman (2008), von Ellenrieder (2009u)"
-Coenagrionidae,Telebasis_obsoleta,"ARG,BOL,BRA,ECU,PER,PRY","Acre,Amazonas,Mato Grosso,Para,Sao Paulo","SAmS,SAmC","Garrison (2009), Heckman (2008)"
-Coenagrionidae,Telebasis_rubricauda,"BOL,BRA,ECU,PER,VEN","Acre,Rondonia","SAmE,SAmC","Garrison (2009), Heckman (2008), von Ellenrieder (2009v)"
-Coenagrionidae,Telebasis_salva,"BEL,COL,CRI,ESA,GUA,HON,MEX,NIC,PAN,USA,VEN","AZ,CA,NM,OK,TX","SAmN,NAmSW","Garrison (2009), Heckman (2008), Paulson (2009a)"
-Coenagrionidae,Telebasis_sanguinalis,"BOL,BRA","Amazonas,Mato Grosso",SAmC,"Garrison (2009), Heckman (2008), Tennessen (2002)"
-Coenagrionidae,Telebasis_simulata,"DMA,GUF,GUY,SUR,TTO,VEN",,SAmE,"Garrison (2009), Tennessen (2002)"
-Coenagrionidae,Telebasis_theodori,"ARG,BRA",Rio Grande do Sul,SAmS,"Garrison (2009), Heckman (2008)"
-Coenagrionidae,Telebasis_vulnerata,"DOM,HTI,PRI",,GA,Garrison (2009)
-Coenagrionidae,Telebasis_willinki,"ARG,BOL,BRA,PRY,URU","Rio Grande do Sul,Sao Paulo","SAmS,SAmC","Garrison (2009), Heckman (2008), von Ellenrieder (2009w)"
-Coenagrionidae,Tepuibasis_spn,--,,--,--
-Coenagrionidae,Thaumatagrion_funereum,IDN,Indonesia-Papua,Mly,Richards (2019b)
-Coenagrionidae,Tigriagrion_aurantinigrum,"ARG,BOL,BRA","Mato Grosso,Mato Grosso do Sul,Minas Gerais,Sao Paulo","SAmE,SAmS,SAmC","Heckman (2008), Rodrigues & Roque (2017)"
-Platycnemididae,Torrenticnemis_filicornis,"IDN,PNG",Indonesia-Papua,NG,Kalkman & Orr (2013)
-Coenagrionidae,Tuberculobasis_geijskesi,SUR,,SAmE,Machado (2009)
-Coenagrionidae,Tuberculobasis_sp,--,,--,--
-Coenagrionidae,Vanuatubasis_sp,VUT,,Mln,--
-Coenagrionidae,Xanthagrion_erythroneura,"AUS,FJI,NCL","New South Wales,Northern Territory,Queensland,South Australia,Tasmania,Victoria,Western Australia","AusW,AusE,Mln,NC",Dow (2017k)
-Coenagrionidae,Xanthocnemis_tuanuii,NZL,,NZ,Rowe and Marinov (2020)
-Coenagrionidae,Xanthocnemis_zealandica,NZL,,NZ,Rowe (2020)
-Coenagrionidae,Xiphiagrion_cyanomelas,"BRN,IDN,MYS,PHL,PNG,SLB,TLS","Indonesia-Papua,Malaysia-Archipelago","Slm,Mly,Phl,NG","Kalkman & Orr (2013), Ng et al. (2008), Orr (2001), Seehausen (2017), Villanueva et al. (2012)"
-Coenagrionidae,Zoniagrion_exclamationis,USA,CA,"NAmNW,NAmSW",Paulson (2009a)
+Family,Taxon,Countries,Provinces/States/Regions,Areas,Biome_region,Sources
+Coenagrionidae,Acanthagrion_adustum,"BRA,COL,GUF,GUY,PAR,SUR,VEN","Amazonas,Para,Rondonia,Roraima","SAmN,SAmE",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Acanthagrion_amazonicum,BRA,"Amazonas,Rondonia","SAmN,SAmE,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Acanthagrion_apicale,"BOL,BRA,COL,ECU,GUF,GUY,PER,SUR,VEN","Amazonas,Para,Rondonia","SAmN,SAmE,SAmC",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Acanthagrion_cf.abunae,"BOL,BRA,COL,GUY,PAN,PAR","Mato Grosso,Rondonia","SAmN,SAmE,SAmC",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Acanthagrion_cf.chararum,"BOL,BRA,PER",Mato Grosso,"SAmN,SAmE,SAmC",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Acanthagrion_cuyabae,"ARG,BOL,BRA","Mato Grosso,Rio Grande do Sul,Sao Paulo","SAmS,SAmC",S_Am,"Heckman (2008), von Ellenrieder (2009a)"
+Coenagrionidae,Acanthagrion_floridense,"COL,ECU",,SAmN,S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Acanthagrion_fluviatile,"GUY,VEN",,SAmE,S_Am,"FSCA, Heckman (2008), von Ellenrieder et al. (2017)"
+Coenagrionidae,Acanthagrion_gracile,"ARG,BOL,BRA,COL,CRI,ECU,MEX,PAR,PER,URU",,"SAmN,SAmE,SAmS,SAmC","C_Am,S_Am",Heckman (2008)
+Coenagrionidae,Acanthagrion_inexpectum,"COL,CRI,GUA,GUF,GUY,HON,MEX,PAN,SUR,VEN",,"SAmN,SAmE","C_Am,S_Am","FSCA, Heckman (2008),von Ellenrieder (2009b), von Ellenrieder et al. (2017)"
+Coenagrionidae,Acanthagrion_lancea,"ARG,BOL,BRA,COL,ECU,PAR,PER,URU","Rio Grande do Sul,Santa Catarina,Sao Paulo","SAmN,SAmE,SAmS,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Acanthagrion_minutum,"ARG,BOL,BRA,GUY,PER,VEN",Sao Paulo,"SAmE,SAmS,SAmC",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Acanthagrion_obsoletum,"BOL,COL,ECU,PER",,"SAmN,SAmC",S_Am,"FSCA, Heckman (2008), Hoffmann et al. (2016a)"
+Coenagrionidae,Acanthagrion_phallicorne,"BRA,ECU,PER,VEN","Mato Grosso,Rondonia","SAmN,SAmC",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Acanthagrion_rubrifrons,"BRA,ECU,GUF,GUY,PER,SUR,VEN","Amazonas,Para","SAmN,SAmE",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Acanthagrion_sp1,--,,--,,--
+Coenagrionidae,Acanthagrion_sp2,"ARG,BRA,ECU,PER",,"SAmN,SAmC",S_Am,Lozano & Muz??n (2020)
+Coenagrionidae,Acanthagrion_sp3,ECU,,SAmN,S_Am,von Ellenrieder & Tennessen (2016)
+Coenagrionidae,Acanthagrion_temporale,"ARG,BRA,VEN","Bahia,Mato Grosso,Minas Gerais,Rio de Janeiro,Roraima,Sao Paulo","SAmE,SAmS,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Acanthagrion_trilobatum,"COL,CRI,ECU,ESA,HON,NIC,PAN,VEN",,SAmN,"C_Am,S_Am","FSCA, Heckman (2008)"
+Coenagrionidae,Acanthagrion_vidua,"BOL,TTO,VEN",,"SAmN,SAmC",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Acanthagrion_yungarum,"BOL,ECU,PER",,"SAmN,SAmC",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Aciagrion_africanum,"AGO,CIV,CMR,COD,COG,GAB,GIN,LBR,MWI,NGA,UGA,ZMB",,"AfrW,AfrE",Afr,"Dijkstra (2017), Clausnitzer et al. (2016a)"
+Coenagrionidae,Aciagrion_approximans,"CHN,HKG,IDN,IND,KHM,THA","Arunachal Pradesh,Guangdong,Guangxi,Hainan,Indonesia-Archipelago,Manipur,Meghalaya,Nagaland,Sikkim,West Bengal","AsSE,Mly",SE_As,"Dow (2009b), Kosterin (2012)"
+Coenagrionidae,Aciagrion_bapepe,"CMR,COG",,AfrW,Afr,"Dijkstra (2017), Clausnitzer (2017a)"
+Coenagrionidae,Aciagrion_borneense,"BRN,IDN,IND,KHM,MYS,THA,VNM","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular,Mizoram","AsSE,Mly",SE_As,"Dow & Silvius (2014), FSCA, Dow (2011a)"
+Coenagrionidae,Aciagrion_brosseti,"COD,GAB",,AfrW,Afr,"Dijkstra (2017),Dijkstra & Clausnitzer (2014)"
+Coenagrionidae,Aciagrion_hisopa,"IDN,IND,KHM,MMR,MYS,NPL,SGP,THA,VNM","Indonesia-Archipelago,Karnataka,Kerala,Maharashtra,Malaysia-Archipelago","AsSE,Ind,Mly","Ind,SE_As",Dow (2009a)
+Coenagrionidae,Aciagrion_migratum,"CHN,JPN,KOR,TWN,VNM",,"AsE,AsSE","E_As,SE_As",Karube (2009a)
+Coenagrionidae,Aciagrion_nodosum,"AGO,CMR,COG,GAB,ZMB",,AfrW,Afr,"Dijkstra (2017), Clausnitzer & Suhling (2018a)"
+Coenagrionidae,Aciagrion_occidentale,"IND,KHM,LKA,VNM",Madras,"AsSE,Ind","Ind,SE_As",Mitra (2010a)
+Coenagrionidae,Aeolagrion_dorsale,"BOL,BRA,ECU,GUF,GUY,PER,SUR,SUR,TTO,VEN","Amazonas,Para","SAmN,SAmE,SAmC",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Aeolagrion_inca,"BOL,BRA,ECU,PER",Amazonas,"SAmN,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Aeolagrion_philipi,"ARG,BOL",,SAmC,S_Am,Tennessen (2009)
+Coenagrionidae,Africallagma_elongatum,"AGO,COD,ERI,ETH,KEN,MWI,TZA,UGA,ZWE",,"AfrS,AfrE",Afr,"FSCA, Clausnitzer & Suhling (2016a)"
+Coenagrionidae,Africallagma_glaucum,"BWA,GAB,GHA,KEN,LSO,MOZ,MWI,NAM,NGA,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE",Afr,"FSCA, Clausnitzer et al. (2016b)"
+Coenagrionidae,Africallagma_pseudelongatum,"COD,KEN,RWA,UGA",,AfrE,Afr,Dijkstra & Clausnitzer (2014)
+Coenagrionidae,Africallagma_quingentum,"COD,KEN,UGA",,AfrE,Afr,"Dijkstra (2017), Clausnitzer (2017b)"
+Coenagrionidae,Africallgama_vaginale,"AGO,CMR,COD,GAB,GHA,KEN,TZA,UGA,ZMB",,"AfrW,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2016b)"
+Coenagrionidae,Agriocnemis_argentea,AUS,"Northern Territory,Queensland,Western Australia","AusW,AusE",Aus,"Atlas of living Australia (2017), FSCA"
+Coenagrionidae,Agriocnemis_canuango,AGO,,AfrW,Afr,"Dijkstra (2017), Clausnitzer (2017c)"
+Coenagrionidae,Agriocnemis_exilis,"AGO,BEN,BFA,CAF,CMR,COD,COG,ETH,GAB,GMB,GNB,KEN,LBR,MDG,MLI,MOZ,MUS,MWI,NAM,NGA,REU,SEN,SLE,SOM,SSD,TCD,TGO,TZA,ZAF,ZMB",,"AfrW,AfrS,AfrE,Mdg",Afr,Dijkstra (2017)
+Coenagrionidae,Agriocnemis_exsudans,"ASM,AUS,COK,FJI,NCL,SLB,TON,VUT",Queensland,AusE,Aus,"FSCA, Marinov & Waqa-Sakiti (2013), Papazian et al. (2007)"
+Coenagrionidae,Agriocnemis_femina,"AUS,BGD,BRN,CHN,FSM,GUM,HKG,IDN,IND,JPN,LAO,LKA,MMR,MYS,PHL,PLW,PNG,SGP,SLB,THA,TMS,TWN,VNM","Andaman Is.,Assam,Fujian,Guangdong,Guangxi,Hainan,Henan,Hubei,Hunan,Indonesia-Archipelago,Indonesia-Papua,Malaysia-Archipelago,Malaysia-Peninsular,Manipur,Nicobar Is.,Queensland,Sichuan,West Bengal,Yunnan","AsE,AsSE,AusE,Ind,Mly","Aus,E_As,Ind,SE_As",Dow (2020a)
+Coenagrionidae,Agriocnemis_forcipata,"AGO,CAF,CMR,COD,COG,GAB,SSD",,"AfrW,AfrE",Afr,"Dijkstra (2017),Clausnitzer et al. (2016c)"
+Coenagrionidae,Agriocnemis_inversa,"COD,DJI,ETH,KEN,MWI,SSD,TZA,UGA",,AfrE,Afr,Clausnitzer & Dijkstra (2016a)
+Coenagrionidae,Agriocnemis_kalinga,"BGD,IND","Odisha,West Bengal","AsSE,Ind","Ind,SE_As",Nair and Subramanian (2014)
+Coenagrionidae,Agriocnemis_keralensis,IND,"Goa,Kerala",Ind,Ind,"Dow (2009c), Kakkasery (2011)"
+Coenagrionidae,Agriocnemis_lacteola,"BGD,CHN,HKG,IND,KHM,NPL,THA,VNM","Arunachal Pradesh,Assam,Bihar,Fujian,Guangdong,Guangxi,Guizhou,Hainan,Henan,Hubei,Jiangsu,Jiangxi,Meghalaya,Orissa,Sichuan,Sikkim,West Bengal,Yunnan,Zhejiang","AsE,AsSE","E_As,SE_As",Kosterin & Holden (2011)
+Coenagrionidae,Agriocnemis_maclachlani,"BEN,CIV,CMR,GIN,GMB,GNB,LBR,NGA,SEN,SLE,UGA",,"AfrW,AfrE",Afr,Clausnitzer & Dijkstra (2016b)
+Coenagrionidae,Agriocnemis_nana,"CHN,KHM,LAO,MMR,MYS,SGP,THA,VNM","Malaysia-Peninsular,Yunnan",AsSE,SE_As,Dow (2011b)
+Coenagrionidae,Agriocnemis_pinheyi,"BDI,COD,KEN,MOZ,MWI,TZA,UGA,ZAF,ZMB,ZWE",,"AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2018b)"
+Coenagrionidae,Agriocnemis_pygmaea,"AFG,AUS,BGD,BRN,BTN,CHN,HKG,IDN,IND,IRN,JPN,KHM,LAO,LKA,MMR,MYS,OMN,PAK,PHL,PNG,SGP,SLB,SYC,THA,TWN,VNM","Andaman Is.,Andhra Pradesh,Arunachal Pradesh,Bihar,Chandigarh,Chattisgarh,Dadra-Nagar-Haveli,Daman,Darjiling,Delhi,Diu,Goa,Guangdong,Guangxi,Gujarat,Hainan,Haryana,Himachal Pradesh,Indonesia-Archipelago,Indonesia-Papua,Jammu-Kashmir,Jharkand,Karaikal,Karnataka,Kerala,Laccadive Is.,Madhya Pradesh,Madras,Maharashtra,Malaysia-Peninsular,Manipur,Meghalaya,Mizoram,Nagaland,New South Wales,Nicobar Is.,Northern,Orissa,Pondicherry,Punjab,Queensland,Rajasthan,Sichuan,Sikkim,Tamil Nadu,Tripura,Uttaranchal,Uttar Pradesh,West Bengal,Western Australia,Yanam","AsC,AsSE,AfrN,AusW,AusE,Ind,Mly","Afr,Aus,E_As,Ind,SE_As",Subramanian (2020)
+Coenagrionidae,Agriocnemis_salomonis,SLB,,AusE,Aus,"NZAC, Polhemus et al. (2008)"
+Coenagrionidae,Agriocnemis_toto,AGO,,AfrW,Afr,"Dijkstra (2017), Clausnitzer (2017d)"
+Coenagrionidae,Agriocnemis_victoria,"AGO,BTN,CAF,CMR,COD,GAB,UGA,ZMB",,"AfrW,AfrE",Afr,"Dijkstra (2017), Clausnitzer (2016a)"
+Platycnemididae,Allocnemis_abbotti,"KEN,TZA",,AfrE,Afr,Dijkstra (2017)
+Platycnemididae,Allocnemis_cyanura,"CAF,CMR,COD,GAB",,AfrW,Afr,Dijkstra (2017)
+Platycnemididae,Allocnemis_leucosticta,ZAF,,AfrS,Afr,"Dijkstra (2017), Suhling (2010a)"
+Platycnemididae,Allocnemis_marshalli,"COD,MWI,MOZ,ZMB,ZWE",,"AfrS,AfrE",Afr,Dijkstra (2017)
+Platycnemididae,Allocnemis_nigripes,"AGO,CAF,CMR,COD,GAB,GNQ,NGA,UGA",,"AfrW,AfrE",Afr,Dijkstra (2017)
+Platycnemididae,Allocnemis_pauli,"AGO,COD,GAB,KEN,RWA,UGA",,"AfrW,AfrE",Afr,Dijkstra (2017)
+Platycnemididae,Allocnemis_vicki,"CMR,NGA",,AfrW,Afr,Dijkstra (2017)
+Coenagrionidae,Amazoneura_ephippigera,"BRA,ECU,PER",Amazonas,SAmN,S_Am,Heckman (2008)
+Coenagrionidae,Amazoneura_westfalli,"ECU,PER",,SAmN,S_Am,Hoffmann et al. (2016b)
+Coenagrionidae,Amphiagrion_abbreviatum,"CAN,USA","Alberta,AZ,British Columbia,CA,CO,IA,ID,KS,Manitoba,MN,MO,MT,ND,NE,NM,NV,OK,OR,SD,UT,WA,WI,WY","NAmNW,NAmSW",N_Am,Paulson (2009a)
+Coenagrionidae,Amphiagrion_saucium,"CAN,USA","AL,CT,GA,IA,IL,IN,KS,MA,ME,MI,MO,NC,NE,NH,NJ,NY,OH,OK,Ontario,PA,Quebec,RI,SC,SD,VA,VT,WI,WV","NAmNE,NAmSE",N_Am,Paulson (2011)
+Coenagrionidae,Amphicnemis_ecornuta,"IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,Dow et al. (2010)
+Coenagrionidae,Amphicnemis_gracilis,"MYS,SGP,THA","Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,Tang et al. (2010)
+Coenagrionidae,Amphicnemis_martini,"BRN,IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago",Mly,SE_As,"Dow (2019a), Orr (2001)"
+Coenagrionidae,Amphicnemis_triplex,IDN,Indonesia-Archipelago,Mly,SE_As,Dow (2014)
+Coenagrionidae,Amphicnemis_wallacii,"BRN,MYS",Malaysia-Archipelago,Mly,SE_As,"Dow (2012), Orr (2001)"
+Coenagrionidae,Andinagrion_garrisoni,ARG,,SAmS,S_Am,von Ellenrieder & Garrison (2007)
+Coenagrionidae,Anisagrion_allopterum,"CRI,GUA,HON,MEX,NIC",,SAmN,C_Am,Paulson (2009b)
+Coenagrionidae,Anisagrion_inornatum,"ECU,VEN",,SAmN,S_Am,von Ellenrieder (2009c)
+Coenagrionidae,Anisagrion_kennedyi,"CRI,PAN",,SAmN,C_Am,"FSCA, Ram??rez et al. (2000)"
+Coenagrionidae,Anomisma_abnorme,"COL,ECU,PER,VEN",,SAmN,S_Am,Heckman (2008)
+Coenagrionidae,Apanisagrion_lais,"CRI,GUA,HON,MEX,PAN,USA",AZ,"SAmN,NAmSW","C_Am,N_Am",Paulson (2009a)
+Platycnemididae,Arabicnemis_caerulea,"ARE,OMN,YEM",,AfrN,Afr,Schneider et al. (2013)
+Coenagrionidae,Archibasis_melanocyana,"BRN,MYS","Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,"Tang et al. (2010), Kemp (1989), Orr (2001)"
+Coenagrionidae,Archibasis_rebeccae,"MYS,SGP","Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,"Kemp (1989), Ngiam (2009)"
+Coenagrionidae,Archibasis_viola,"BRN,IDN,MMR,MYS,PHL,SGP,THA,VNM","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,Dow (2011c)
+Coenagrionidae,Argentagrion_ambiguum,"ARG,BOL,BRA,PRY,URU",Sao Paulo,"SAmS,SAmC",S_Am,von Ellenrieder (2008a)
+Coenagrionidae,Argia_adamsi,"BOL,COL,CRI,ECU,HON,MEX,NIC,PAN,PER,VEN",,"SAmN,SAmC","C_Am,S_Am",Heckman (2008)
+Coenagrionidae,Argia_agrioides,"MEX,USA","AZ,CA,NV,OR","NAmNW,NAmSW",N_Am,Paulson (2009a)
+Coenagrionidae,Argia_alberta,"MEX,USA","AZ,CA,CO,ID,KS,MT,NE,NM,NV,OK,OR,SD,TX,UT,WY","NAmNW,NAmSW",N_Am,Paulson (2009a)
+Coenagrionidae,Argia_albistigma,"ARG,BRA,PRY,URU","Rio Grande do Sul,Santa Catarina",SAmS,S_Am,Heckman (2008)
+Coenagrionidae,Argia_anceps,"BLZ,CRI,ESA,GUA,HON,MEX,NIC",,SAmN,C_Am,"FSCA, Ram??rez et al. (2000)"
+Coenagrionidae,Argia_apicalis,"CAN,MEX,USA","AL,AR,CO,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,ND,NE,NH,NJ,NM,NY,OH,OK,Ontario,PA,SC,SD,TN,TX,UT,VA,VT,WA,WI,WV,WY","NAmNE,NAmSE,NAmNW,NAmSW",N_Am,"Paulson (2017a), Paulson (2011)"
+Coenagrionidae,Argia_barretti,"MEX,USA",TX,NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_bipunctulata,USA,"AL,AR,DE,FL,GA,KY,LA,MD,MO,MS,NC,NJ,PA,SC,TN,TX,VA","NAmSE,NAmSW",N_Am,Paulson (2011)
+Coenagrionidae,Argia_botacudo,BRA,"Mato Grosso,Mato Grosso do Sul",SAmC,S_Am,"Heckman (2008), Rodrigues & Roque (2017)"
+Coenagrionidae,Argia_calida,"GUA,MEX",,"SAmN,NAmSW",C_Am,Abbott (2011)
+Coenagrionidae,Argia_cf.serva,"ARG,BRA,URU",Santa Catarina,SamS,S_Am,"Heckman (2008), von Ellenrieder & Muz??n (2008)"
+Coenagrionidae,Argia_chapadae,BRA,"Mato Grosso,Mato Grosso do Sul",SAmC,S_Am,"Heckman (2008), Rodrigues & Roque (2017)"
+Coenagrionidae,Argia_chelata,"BLZ,CRI,GUA,HON,MEX,NIC,PAN",,SAmN,C_Am,Ram??rez et al. (2000)
+Coenagrionidae,Argia_claussenii,"ARG,BRA,PRY,URU","Bahia,Minas Gerais","SAmE,SAmS",S_Am,Heckman (2008)
+Coenagrionidae,Argia_collata,"BOL,BRA,COL,ECU,PER,VEN","Amazonas,Bahia,Para","SAmN,SAmE,SAmC",S_Am,"Garrison & von Ellenrieder (2015), Heckman (2008)"
+Coenagrionidae,Argia_concinna,"DMA,GLP,MTQ",,SAmN,C_Am,Meurgey (2009)
+Coenagrionidae,Argia_croceipennis,"ARG,BRA,PRY,URU","Rio de Janeiro,Rio Grande do Sul,Santa Catarina,Sao Paulo",SAmS,S_Am,Heckman (2008)
+Coenagrionidae,Argia_cupraurea,"COL,CRI,GUA,HON,PAN,VEN",,SAmN,"C_Am,S_Am",Heckman (2008)
+Coenagrionidae,Argia_cuprea,"MEX,USA",TX,NAmSW,"C_Am,N_Am",Paulson (2009a)
+Coenagrionidae,Argia_difficilis,"BRA,COL,CRI,ECU,PER,VEN",Mato Grosso,"SAmN,SAmC","C_Am,S_Am","Garrison & von Ellenrieder (2007), Heckman (2008)"
+Coenagrionidae,Argia_dives,"BOL,BRA,COL,ECU,PER",Mato Grosso,"SAmN,SAmC",S_Am,"Heckman (2008), Hoffmann et al. (2016c)"
+Coenagrionidae,Argia_emma,"CAN,USA","British Columbia,CA,CO,ID,MT,NE,NV,OR,SD,UT,WA,WY",NAmNW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_euphorbia,"BRA,COL,ECU,PER,VEN","Amazonas,Rondonia","SAmN,SAmC",S_Am,Garrison & von Ellenrieder (2015)
+Coenagrionidae,Argia_extranea,"BLZ,COL,CRI,ESA,GUA,HON,MEX,NIC,PAN,USA",AZ,"SAmN,NAmSW","C_Am,N_Am","FSCA, Paulson (2009a)"
+Coenagrionidae,Argia_fissa,"COL,CRI,GUA,PAN,PER",,SAmN,C_Am,Garrison (1996)
+Coenagrionidae,Argia_fraudatricula,"BOL,ECU,PER",,"SAmN,SAmC",S_Am,Hoffmann et al. (2016d)
+Coenagrionidae,Argia_frequentula,"BLZ,CRI,GUA,HON,MEX,NIC,PAN",,SAmN,C_Am,Paulson (2009c)
+Coenagrionidae,Argia_fulgida,"COL,ECU",,SAmN,S_Am,Mauffray & Tennessen (2020a)
+Coenagrionidae,Argia_fumigata,"BRA,GUF,GUY,SUR,VEN","Amazonas,Mato Grosso,Rondonia","SAmE,SAmC",S_Am,Garrison & von Ellenrieder (2015)
+Coenagrionidae,Argia_fumipennis,"CAN,MEX,USA","AL,AR,AZ,CO,CT,DE,FL,GA,IL,IN,KS,LA,MA,MD,ME,MI,MO,MS,MT,NC,NE,NH,NJ,NM,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,SC,SD,TN,TX,VA,VT,WI,WV,WY","NAmNE,NAmSE,NAmNW,NAmSW",N_Am,Paulson (2011)
+Coenagrionidae,Argia_funcki,MEX,,NAmSW,N_Am,Paulson (2002)
+Coenagrionidae,Argia_garrisoni,MEX,,NAmSW,N_Am,Paulson (2009d)
+Coenagrionidae,Argia_gaumeri,"CRI,GUA,HON,MEX,NIC",,"SAmN,NAmSW",C_Am,Esquivel (2006)
+Coenagrionidae,Argia_gerhardi,"BOL,COL,ECU,PER",,"SAmN,SAmC",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Argia_hamulata,"BOL,PER",,SAmC,S_Am,Hoffmann et al. (2016e)
+Coenagrionidae,Argia_harknessi,"GUA,MEX,USA",AZ,NAmSW,N_Am,"Heckman (2008), Paulson (2009a)"
+Coenagrionidae,Argia_herberti,MEX,,NAmSW,N_Am,Calvert (1908)
+Coenagrionidae,Argia_hinei,"MEX,USA","AZ,CA,NM,TX",NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_huanacina,"BOL,COL,ECU,PER",,"SAmN,SAmC",S_Am,von Ellenrieder (2009d)
+Coenagrionidae,Argia_immunda,"BLZ,GUA,HON,MEX,USA","AR,AZ,NM,TX","SAmN,NAmSW","C_Am,N_Am",Paulson (2009a)
+Coenagrionidae,Argia_inculta,"ECU,PER",,SamN,S_Am,"FSCA, Heckman (2008), von Ellenrieder (2009e)"
+Coenagrionidae,Argia_indicatrix,"BLZ,BRA,COL,CRI,ECU,ESA,GUA,HON,MEX,NIC,PAN,PER,VEN","Amazonas,Para,Rondonia","SAmN,SAmE,SAmC","C_Am,S_Am",Garrison & von Ellenrieder (2015)
+Coenagrionidae,Argia_infrequentula,"BOL,COL,ECU,PER",,"SAmN,SAmC",S_Am,"Heckman (2008), Bota-Sierra et al. (2016)"
+Coenagrionidae,Argia_insipida,"BRA,COL,CRI,GUF,GUY,NIC,SUR,TTO,VEN","Amapa,Amazonas","SAmN,SAmE","C_Am,S_Am",Garrison & von Ellenrieder (2015)
+Coenagrionidae,Argia_jocosa,"COL,ECU,VEN",,SAmN,S_Am,Heckman (2008)
+Coenagrionidae,Argia_joergenseni,"ARG,BOL",,"SAmS,SAmC",S_Am,FSCA
+Coenagrionidae,Argia_johanella,"CRI,HON,NIC,PAN",,SAmN,C_Am,FSCA
+Coenagrionidae,Argia_jujuya,ARG,,SAmS,S_Am,Heckman (2008)
+Coenagrionidae,Argia_kokama,"COL,ECU,PER",,SAmN,S_Am,"Heckman (2008), Hoffmann et al. (2016f)"
+Coenagrionidae,Argia_lacrimans,"BLZ,GUA,HON,MEX,USA",AZ,"SAmN,NAmSW","C_Am,N_Am",Paulson (2009a)
+Coenagrionidae,Argia_leonorae,"MEX,USA","AZ,TX",NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_lilacina,"ARG,BRA,PRY,URU","Mato Grosso,Minas Gerais,Sao Paulo","SAmE,SAmS,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Argia_limitata,"BOL,ECU,PER",,"SAmN,SAmC",S_Am,"Heckman (2008), Hoffmann et al. (2016g)"
+Coenagrionidae,Argia_lugens,"MEX,USA","AZ,CA,NM,TX",NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_medullaris,"BLZ,COL,CRI,ECU,ESA,GUA,HON,MEX,NIC,PAN,VEN",,SAmN,C_Am,Heckman (2008)
+Coenagrionidae,Argia_meioura,"BRA,GUF,GUY,SUR,VEN",Amazonas,SAmE,S_Am,Garrison & von Ellenrieder (2015)
+Coenagrionidae,Argia_modesta,BRA,"Minas Gerais,Rio de Janeiro,Sao Paulo","SAmE,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Argia_moesta,"CAN,MEX,USA","AL,AR,AZ,CA,CO,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,NE,New Brunswick,NH,NJ,NM,Nova Scotia,NV,NY,OH,OK,Ontario,PA,Quebec,RI,SC,TN,TX,UT,VA,VT,WI,WV","NAmNE,NAmSE,NAmSW",N_Am,Paulson (2009a)
+Coenagrionidae,Argia_mollis,"ARG,BOL,BRA,PAR","Amazonas,Mato Grosso,Minas Gerais,Rondonia,Sao Paulo","SAmE,SAmS,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Argia_munda,"MEX,USA","AZ,NM,TX",NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_nahuana,"MEX,USA","CA,CO,KS,NM,NV,OK,TX,UT",NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_nigrior,"BOL,BRA,ECU,PER",,"SAmN,SAmC",S_Am,von Ellenrieder (2009f)
+Coenagrionidae,Argia_oculata,"BLZ,BOL,BRA,COL,CRI,ECU,ESA,GUA,GUF,GUY,HON,MEX,NIC,PAN,PER,SUR,TTO,VEN","Acre,Amazonas,Pernambuco,Rondonia,Roraima","SAmN,SAmE,SAmC","C_Am,S_Am",Garrison & von Ellenrieder (2015)
+Coenagrionidae,Argia_oenea,"BLZ,COL,CRI,ESA,GUA,HON,MEX,NIC,PAN,USA","AZ,NM,TX","SAmN,NAmSW","C_Am,N_Am","Heckman (2008), Paulson (2009a)"
+Coenagrionidae,Argia_orichalcea,"COL,PAN,TTO,VEN",,SAmN,S_Am,Heckman (2008)
+Coenagrionidae,Argia_pallens,"GUA,MEX,USA","AZ,NM,TX","SAmN,NAmSW","C_Am,N_Am",Paulson (2009a)
+Coenagrionidae,Argia_pima,"MEX,USA",AZ,NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_plana,"GUA,MEX,USA","AR,AZ,CO,IA,IL,KS,MO,NM,OK,SD,TX,WI","SAmN,NAmSW","C_Am,N_Am",Paulson (2009a)
+Coenagrionidae,Argia_pocomana,"COL,CRI,ESA,GUA,HON,MEX",,SAmN,"C_Am,S_Am",Paulson (2009e)
+Coenagrionidae,Argia_popoluca,"CRI,HON,MEX,PAN",,SAmN,C_Am,Paulson (2009f)
+Coenagrionidae,Argia_pulla,"BLZ,BRA,COL,CRI,ECU,ESA,GUA,GUF,GUY,HON,MEX,PAN,PER,SUR,TTO,VEN","Amazonas,Roraima","SAmN,SAmE","C_Am,S_Am",Garrison & von Ellenrieder (2015)
+Coenagrionidae,Argia_reclusa,"ARG,BOL,BRA,PAR","Amazonas,Mato Grosso,Minas Gerais,Para,Rio Grande do Sul,Sao Paulo","SAmE,SAmS,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Argia_rhoadsi,"MEX,USA",TX,NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_sabino,"MEX,USA",AZ,NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_sedula,"MEX,USA","AL,AR,AZ,CA,DE,FL,GA,IN,KS,KY,LA,MD,MI,MO,MS,NC,NE,NJ,NM,NV,OH,OK,PA,SC,TN,TX,UT,VA,WV","NAmSE,NAmSW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Argia_smithiana,"BOL,BRA","Goias,Mato Grosso,Mato Grosso do Sul,Minas Gerais","SAmE,SAmS,SAmC",S_Am,"Heckman (2008), Rodrigues & Roque (2017)"
+Coenagrionidae,Argia_sordida,BRA,"Minas Gerais,Rio de Janeiro,Sao Paulo","SamE,SamS",S_Am,Heckman (2008)
+Coenagrionidae,Argia_talamanca,"COL,CRI,ECU,PAN,VEN",,SAmN,"C_Am,S_Am",Heckman (2008)
+Coenagrionidae,Argia_tamoyo,"BOL,BRA","Mato Grosso,Minas Gerais,Rio de Janeiro","SAmE,SAmS,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Argia_tarascana,"MEX,USA",AZ,NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_terira,"CRI,PAN",,SAmN,C_Am,Mauffray & Tennessen (2020a)
+Coenagrionidae,Argia_tezpi,"BLZ,CRI,ESA,GUA,HON,MEX,NIC,USA","AZ,NM","SAmN,NAmSW","C_Am,N_Am",Paulson (2009a)
+Coenagrionidae,Argia_tibialis,"CAN,USA","AL,AR,DE,FL,GA,IA,IL,IN,KS,KY,LA,MD,MI,MN,MO,MS,NC,NE,NJ,NY,OH,OK,Ontario,PA,SC,TN,TX,VA,WI,WV","NAmNE,NAmSE,NAmSW",N_Am,Paulson (2009a)
+Coenagrionidae,Argia_tonto,"MEX,USA","AZ,NM",NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Argia_translata,"ARG,BLZ,BOL,BRA,CAN,COL,CRI,ECU,ESA,GUA,GUF,GUY,HON,MEX,NIC,PAN,PER,SUR,TTO,USA,VEN","AL,Amazonas,AR,AZ,CT,DE,GA,IN,KS,KY,MD,ME,MO,MS,NC,NJ,NM,NY,OH,OK,PA,RI,Roraima,SC,TN,TX,VA,WV","SAmN,SAmE,SAmS,SAmC,NAmNE,NAmSE,NAmSW","C_Am,N_Am,S_Am","Garrison & von Ellenrieder (2015), Paulson (2009a)"
+Coenagrionidae,Argia_ulmeca,"BLZ,CRI,ESA,GUA,HON,MEX,NIC,PAN",,SAmN,C_Am,"Dunkle (1991), Novelo-Guti??rrez (1992), Ram??rez et al. (2000), Molinar et al. (2015)"
+Coenagrionidae,Argia_underwoodi,CRI,,SAmN,C_Am,Paulson (2009g)
+Coenagrionidae,Argia_variabilis,"COL,CRI,MEX",,SAmN,"C_Am,S_Am",Heckman (2008)
+Coenagrionidae,Argia_variegata,"COL,ECU,PER",,SAmN,S_Am,Heckman (2008)
+Coenagrionidae,Argia_vivida,"CAN,MEX,USA","Alberta,AZ,British Columbia,CA,CO,ID,MT,NE,NM,NV,OR,SC,UT,WA,WY","NAmNW,NAmSW",N_Am,Paulson (2009a)
+Coenagrionidae,Argia_westfalli,MEX,,NAmSW,N_Am,Paulson (2009h)
+Coenagrionidae,Argiocnemis_rubescens_rubeola,"AUS,BGD,BRN,BTN,IDN,IND,KHM,LAO,MMR,MYS,PHL,PNG,SGP,THA,VNM","Andaman Is.,Arunachal Pradesh,Assam,Indonesia-Archipelago,Indonesia-Papua,Malaysia-Archipelago, Malaysia-Peninsular,Meghalaya,New South Wales,Northern Territory,Queensland,Western Australia","AsSE,AusW,AusE,Mly","Aus,SE_As","Mitra (2017), Kalkman & Gyeltshen (2016), Kosterin & Holden (2011)"
+Coenagrionidae,Argiocnemis_rubescens_rubescens,"AUS,BGD,BRN,BTN,IDN,IND,KHM,LAO,MMR,MYS,PHL,PNG,SGP,THA,VNM","Andaman Is.,Arunachal Pradesh,Assam,Indonesia-Archipelago,Indonesia-Papua,Malaysia-Archipelago, Malaysia-Peninsular,Meghalaya,New South Wales,Northern Territory,Queensland,Western Australia","AsSE,AusW,AusE,Mly","Aus,SE_As","Mitra (2017), Kalkman & Gyeltshen (2016), Kosterin & Holden (2011)"
+Coenagrionidae,Austroagrion_cyane,AUS,"New South Wales,Northern Territory,Queensland,South Australia,Tasmania,Victoria,Western Australia","AusW,AusE",Aus,Dow (2017a)
+Coenagrionidae,Austroagrion_exclamationis,"AUS,IDN,PNG","Indonesia-Papua,Northern Territory,Queensland,Western Australia","AusE,AusW",Aus,"Kalkman (2009a), Kalkman & Orr (2013)"
+Coenagrionidae,Austroagrion_watsoni,"AUS,NCL","New South Wales,Northern Territory,Queensland,Tasmania,Victoria,Western Australia","AusE,AusW",Aus,Theischinger & Hawking (2006)
+Coenagrionidae,Austrocnemis_splendida,AUS,"New South Wales,Queensland,Victoria",AusE,Aus,Dow (2017b)
+Coenagrionidae,Austrocoenagrion_lyelli,AUS,"New South Wales,Queensland,Tasmania,Victoria",AusE,Aus,Hawking (2018a)
+Coenagrionidae,Azuragrion_buchholzi,"CMR,GAB,GNQ",,AfrW,Afr,Dijkstra et al. (2011)
+Coenagrionidae,Azuragrion_nigridorsum,"AGO,BTN,COD,ETH,KEN,MDG,MOZ,NAM,OMN,SSD,SWZ,TZA,UGA,YEM,ZAF,ZMB,ZWE",,"AfrS,AfrE,AfrN,Mdg",Afr,Clausnitzer et al. (2016d)
+Coenagrionidae,Azuragrion_vansomereni,"CIV,CMR,ETH,GHA,GMB,GNB,MLI,NER,NGA,SEN,TGO,UGA",,"AfrW,AfrE",Afr,"Dijkstra (2017), Boudot et al. (2018)"
+Coenagrionidae,Bromeliagrion_fernandezianum,VEN,,SAmN,S_Am,Marmels & Garrison (2005)
+Coenagrionidae,Bromeliagrion_rehni,"BRA,ECU,PER","Amazonas,Mato Grosso","SAmN,SAmC",S_Am,"Heckman (2008), Marmels & Garrison (2005)"
+Platycnemididae,Calicnemia_chaseni,"MYS,THA",Malaysia-Peninsular,AsSE,SE_As,Dow (2020b)
+Platycnemididae,Calicnemia_eximia,"BGD,BTN,CHN,IND,MMR,NPL,THA,VNM","Andhra Pradesh,Assam,Guangxi,Himachal Pradesh,Jammu-Kashmir,Meghalaya,Mizoram,Nagaland,Punjab,Sichuan,Sikkim,Uttaranchal,Uttar Pradesh,West Bengal,Yunnan","AsSE,Ind","Ind,SE_As",Mitra (2010b)
+Platycnemididae,Calicnemia_rectangulata,MYS,Malaysia-Peninsular,AsSE,SE_As,Choong et al. (2017)
+Platycnemididae,Calicnemia_sinensis,"CHN,HKG","Fujian,Guangdong,Zhejiang","AsE,AsSE","E_As,SE_As",Wilson (2013a)
+Coenagrionidae,Calvertagrion_declivatum,BOL,,SAmC,S_Am,Tennessen (2015)
+Coenagrionidae,Ceriagrion_aeruginosum,"AUS,IDN,PNG","Indonesia-Archipelago,Indonesia-Papua,Northern Territory,Queensland,Western Australia","AusE,AusW",Aus,Kalkman (2020a)
+Coenagrionidae,Ceriagrion_annulatum,"AGO,CMR,COD,GAB",,AfrW,Afr,Dijkstra (2017)
+Coenagrionidae,Ceriagrion_auranticum,"CHN,HKG,IDN,JPN,KOR,LAO,MMR,MYS,THA,TWN,VNM","Fujian,Guangdong,Guangxi,Hainan,Indonesia-Archipelago","AsE,AsSE,Mly","E_As,SE_As",Wilson (2009a)
+Coenagrionidae,Ceriagrion_azureum,"BGD,CHN,IND,LAO,MMR,NPL,THA,VNM","Arunachal Pradesh,Fujian,Guangdong,Manipur,Meghalaya,Mizoram,West Bengal",AsSE,SE_As,Dow (2009d)
+Coenagrionidae,Ceriagrion_bakeri,"AGO,BDI,CIV,COD,GHA,GIN,KEN,LBR,MWI,NGA,SEN,SLE,TGO,TZA,UGA,ZMB",,"AfrW,AfrE",Afr,Clausnitzer et al. (2017)
+Coenagrionidae,Ceriagrion_banditum,"MOZ,MWI,ZMB",,AfrE,Afr,"Dijkstra (2017), Clausnitzer (2017e)"
+Coenagrionidae,Ceriagrion_bellona,"IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago",Mly,SE_As,Dow (2020c)
+Coenagrionidae,Ceriagrion_calamineum,"IDN,KHM,MYS,PHL,THA,VNM","Indonesia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,Phan (2011a)
+Coenagrionidae,Ceriagrion_cerinorubellum,"BGD,BRN,IDN,IND,KHM,LAO,LKA,MMR,MYS,PAK,PHL,SGP,THA,VNM","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsC,AsSE,Ind,Mly","Ind,SE_As",Dow (2020d)
+Coenagrionidae,Ceriagrion_chaoi,"MMR,MYS,SGP,THA",Malaysia-Peninsular,AsSE,SE_As,Dow (2011d)
+Coenagrionidae,Ceriagrion_corallinum,"AGO,BEN,BWA,CIV,CMR,COD,COG,GAB,GHA,GNB,LBR,NAM,NGA,SEN,SLE,TZA,UGA,ZMB,ZWE",,"AfrW,AfrS,AfrE",Afr,Clausnitzer et al. (2016e)
+Coenagrionidae,Ceriagrion_coromandelianum,"BGD,IND,LKA,NPL,PAK",,"AsC,AsSE,Ind,","Ind,SE_As","Dow (2009e), Khan (2015)"
+Coenagrionidae,Ceriagrion_fallax,"BGD,BTN,CHN,IND,LAO,MMR,MYS,NPL,THA,TWN,VNM","Arunachal Pradesh,Assam,Guangdong,Guangxi,Hainan,Himachal Pradesh,Jiangsu,Manipur,Meghalaya,Mizoram,Sichuan,Sikkim,West Bengal,Yunnan,Zhejiang","AsE,AsSE,Ind","E_As,Ind,SE_As",Subramanian (2010a)
+Coenagrionidae,Ceriagrion_glabrum,"AGO,ARE,BEN,BFA,BTN,CAF,CIV,CMR,COD,COG,ETH,GAB,GHA,GIN,GMB,GNB,GNQ,KEN,LBR,MDG,MLI,MOZ,MUS,MWI,MYT,NAM,NGA,NGA,OMN,REU,RWA,SAU,SEN,SLE,SOM,SSD,STP,SWZ,SYC,TCD,TGO,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE,AfrN",Afr,Boudot et al. (2016a)
+Coenagrionidae,Ceriagrion_indochinense,"CHN,KHM,LAO,THA,VNM",Hainan,AsSE,SE_As,Phan (2011b)
+Coenagrionidae,Ceriagrion_junceum,"AGO,COD,ZMB",,AfrW,Afr,Dijkstra (2017)
+Coenagrionidae,Ceriagrion_katamborae,"BTN,NAM,ZMB",,AfrS,Afr,"Dijkstra (2017), Kipping (2017)"
+Coenagrionidae,Ceriagrion_kordofanicum,"KEN,MOZ,MWI,SSD,TZA,ZMB",,AfrE,Afr,Dijkstra (2017)
+Coenagrionidae,Ceriagrion_malaisei,"KHM,MMR,THA,VNM",,AsSE,SE_As,Phan (2011c)
+Coenagrionidae,Ceriagrion_melanurum,"CHN,HKG,JPN,KOR,PKR,TWN","Fujian,Guangdong,Guangxi,Guizhou,Henan,Hubei,Hunan,Jiangxi,Shaanxi,Sichuan,Yunnan,Zhejiang","AsE,AsSE","E_As,SE_As",Wilson (2013b)
+Coenagrionidae,Ceriagrion_nipponicum,"CHN,JPN,KOR","Anhui,Henan,Hubei,Hunan,Jiangxi,Shaanxi,Shanxi",AsE,E_As,Yum et al. (2010)
+Coenagrionidae,Ceriagrion_obfuscans,"COD,COG,GAB",,AfrW,Afr,Dijkstra (2017)
+Coenagrionidae,Ceriagrion_olivaceum,"BGD,IND,KHM,LAO,MMR,MYS,NPL,THA,VNM","Andhra Pradesh,Arunachal Pradesh,Assam,Chattisgarh,Karnataka,Kerala,Madhya Pradesh,Maharashtra,Manipur,Meghalaya,Mizoram,Orissa,Tamil Nadu,Tripura,West Bengal","AsSE,Ind","Ind,SE_As",Mitra (2010c)
+Coenagrionidae,Ceriagrion_platystigma,"AGO,CMR,COG,GAB,NGA,RWA,UGA,ZMB",,"AfrW,AfrE",Afr,"Dijkstra (2017), Clausnitzer (2016b)"
+Coenagrionidae,Ceriagrion_rubellocerinum,"BEN,CIV,COG,GHA,GIN,LBR,SLE",,AfrW,Afr,"Dijkstra (2017), Clausnitzer & Dijkstra (2018)"
+Coenagrionidae,Ceriagrion_sakejii,"AGO,COD,ZMB",,AfrW,Afr,Dijkstra (2017)
+Coenagrionidae,Ceriagrion_suave,"AGO,BEN,BFA,BTN,CMR,COD,ETH,GHA,GIN,GMB,GNB,KEN,LBR,MLI,MOZ,MRT,MWI,NAM,NGA,SEN,SLE,SOM,SSD,TGO,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer et al. (2016f)"
+Coenagrionidae,Ceriagrion_tenellum,"ALB,BEL,BIH,CHE,DEU,DZA,ESP,FRA,GBR,GRC,HRV,ITA,MAR,MNE,NLD,PRT,SVN,TUN,TUR",,"Eur,AsC,AfrN","Afr,Eur","Dijkstra (2016), Dijkstra & Lewington (2006), Kalkman (2005)"
+Coenagrionidae,Ceriagrion_whellani,"AGO,CIV,CMR,COD,COG,GAB,GIN,GNQ,KEN,LBR,SLE,UGA,ZMB,ZWE",,"AfrW,AfrE",Afr,"Dijkstra (2017), Clausnitzer et al. (2016g)"
+Coenagrionidae,Chromagrion_conditum,"CAN,USA","AL,AR,CT,DE,GA,IN,KY,MA,MD,ME,MI,MO,MS,NC,NH,NJ,NY,OH,Ontario,PA,Quebec,RI,SC,TN,VA,VT,WI,WV","NAmNE,NAmSE",N_Am,Paulson (2011)
+Platycnemididae,Coeliccia_albicauda,"MYS,SGP,THA",Malaysia-Peninsular,AsSE,SE_As,Dow (2020e)
+Platycnemididae,Coeliccia_axinocercus,PHL,,Mly,SE_As,H??m??l??inen & M??ller (1997)
+Platycnemididae,Coeliccia_borneensis,"BRN,MYS",Malaysia-Archipelago,Mly,SE_As,Dow (2019b)
+Platycnemididae,Coeliccia_cf.kazukoae,"KHM,THA",,AsSE,SE_As,Kosterin (2020)
+Platycnemididae,Coeliccia_chromothorax,"CHN,LAO,MMR,THA,VNM",Yunnan,AsSE,SE_As,Dow (2020f)
+Platycnemididae,Coeliccia_cyaneothorax,MYS,Malaysia-Archipelago,Mly,SE_As,"Dow et al. (2013), Dow et al. (2015)"
+Platycnemididae,Coeliccia_cyanomelas,"CHN,HKG,TWN,VNM","Fujian,Guangdong,Guangxi,Guizhou,Hainan,Sichuan,Zhejiang","AsE,AsSE","E_As,SE_As",Tong (2011)
+Platycnemididae,Coeliccia_didyma,"IND,LAO,MMR,MYS,THA",Malaysia-Peninsular,AsSE,SE_As,Dow (2009f)
+Platycnemididae,Coeliccia_dinoceras,PHL,,Mly,SE_As,H??m??l??inen & M??ller (1997)
+Platycnemididae,Coeliccia_flavicauda,TWN,,AsE,E_As,Wilson (2009b)
+Platycnemididae,Coeliccia_flavostriata,MYS,"Indonesia-Archipelago,Malaysia-Archipelago",Mly,SE_As,Dow (2019c)
+Platycnemididae,Coeliccia_nemoricola,MYS,Malaysia-Archipelago,Mly,SE_As,Ng et al. (2008)
+Platycnemididae,Coeliccia_octogesima,"MYS,SGP",Malaysia-Peninsular,AsSE,SE_As,"Cai et al. (2018), Choong (2014)"
+Platycnemididae,Coeliccia_poungyi,"CHN,MMR,THA",Yunnan,AsSE,SE_As,Dow (2019d)
+Platycnemididae,Coeliccia_ryukyuensis,JPN,,AsE,E_As,Osozawa et al. (2017)
+Coenagrionidae,Coenagriocnemis_insularis,MUS,,Mdg,Afr,Sch??tte (2020a)
+Coenagrionidae,Coenagriocnemis_rufipes,MUS,,Mdg,Afr,Martens & Sch??tte (2017)
+Coenagrionidae,Coenagrion_angulatum,"CAN,USA","Alberta,British Columbia,IA,Manitoba,MN,MT,ND,Northern,Ontario,Saskatchewan,SD,WY",NAmNW,N_Am,Paulson (2009a)
+Coenagrionidae,Coenagrion_caerulescens,"DZA,ESP,FRA,ITA,LBY,MAR,PRT,TUN",,"Eur,AfrN","Afr,Eur",Boudot (2020a)
+Coenagrionidae,Coenagrion_ecornutum,"CHN,CHN,JPN,KAZ,KOR,MNG,RUS","Beijing,Hebei,Heilongjiang,Jilin,Liaoning,Tianjin","AsE,AsNE",E_As,"Boudot & Kalkman (2015), Clausnitzer (2020a), Yu & Bu (2011)"
+Coenagrionidae,Coenagrion_glaciale,"CHN,MNG,RUS",Heilongjiang,AsNE,E_As,"Kosterin (1999), Yu & Bu (2011)"
+Coenagrionidae,Coenagrion_hastulatum,"AUT,BEL,BGR,BIH,BLR,CZE,DEU,DNK,EST,FIN,FRA,GBR,HRV,ITA,JPN,LTU,LVA,MNE,NLD,NOR,RUS,SRB,UKR",,"Eur,AsE,AsNE","E_As,Eur",Clausnitzer (2020b)
+Coenagrionidae,Coenagrion_hylas,"AUT,CHN,JPN,KAZ,MNG,RUS","Heilongjiang,Jilin","AsC,AsE,AsNE",E_As,"Chaplina et al. (2007), Boudot (2020b), Yu & Bu (2011)"
+Coenagrionidae,Coenagrion_intermedium,GRC,,Eur,Eur,"Boudot & Kalkman (2015), Boudot (2020c)"
+Coenagrionidae,Coenagrion_interrogatum,"CAN,USA","AK,Alberta,British Columbia,Manitoba,ME,MT,New Brunswick,New Foundland and Labrador,NH,Ontario,Quebec,Saskatchewan,VT,WI","NAmNE,NAmNW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Coenagrion_johanssoni,"BLR,CHN,EST,FIN,JPN,KOR,LTU,LVA,MNG,NOR,PKR,RUS,SWE",Heilongjiang,"Eur,AsNE","E_As,Eur","Dijkstra & Lewington (2006), Yu & Bu (2011)"
+Coenagrionidae,Coenagrion_lanceolatum,"CHN,JPN,KOR,MNG,RUS","Hebei,Heilongjiang,Jilin","AsE,AsNE",E_As,Yu & Bu (2011)
+Coenagrionidae,Coenagrion_lunulatum,"AUT,BEL,BLR,CHE,CHN,CZE,DEU,DNK,EST,FIN,FRA,GEO,IRL,LTU,LUX,LVA,NLD,NOR,POL,ROU,RUS,SWE,UKR","Hebei,Inner Mongolia","Eur,AsNE","E_As,Eur","Dijkstra & Lewington (2006), Schroter et al. (2015), Yu & Bu (2011)"
+Coenagrionidae,Coenagrion_mercuriale,"AUT,BEL,CHE,DEU,DZA,ESP,FRA,GBR,ITA,LIE,LUX,PRT",,"Eur,AfrN","Afr,Eur",Boudot (2020d)
+Coenagrionidae,Coenagrion_puella,"ALB,AUT,BEL,BGR,BIH,BLR,CHE,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GRC,HRV,HUN,IRL,ITA,LTU,LUX,LVA,MDA,MKD,MNE,NLD,NOR,POL,PRT,ROU,RUS,SVK,SVN,SWE,TUR,UKR",European Russia,Eur,Eur,"Boudot & Kalkman (2015), Samraoui (2010)"
+Coenagrionidae,Coenagrion_pulchellum,"ALB,AUT,BEL,BGR,BIH,BLR,CHE,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GRC,HRV,HUN,IRL,ITA,LIE,LTU,LVA,MDA,MKD,MNE,NLD,NOR,POL,PRT,ROU,RUS,SRB,SVK,SVN,SWE,TUR,UKR",European Russia,"Eur,AsC",Eur,"Boudot & Kalkman (2015), Boudot (2014a)"
+Coenagrionidae,Coenagrion_resolutum,"CAN,USA","AK,Alberta,AZ,British Columbia,CA,CO,IA,ID,MA,Manitoba,ME,MI,MN,MT,ND,NE,New Foundland and Labrador,NH,Northwest Territories,Nova Scotia,NV,NY,OH,Ontario,OR,PA,Prince Edward,Quebec,Saskatchewan,SD,UT,VT,WA,WI,WY,Yukon","NAmNE,NAmNW,NAmSW",N_Am,Paulson (2017b)
+Coenagrionidae,Coenagrion_scitulum,"ALB,ARM,AUT,AZE,BEL,BGR,BIH,CHE,CZE,DEU,DZA,ESP,FRA,GBR,GEO,GRC,HRV,HUN,ISR,ITA,JOR,KAZ,KGZ,LBN,LUX,MAR,MDA,MKD,MNE,NLD,PRT,ROU,RUS,SRB,SVK,SVN,SYR,TJK,TUN,TUR,UKR",Caucaus,"Eur,AsC",Eur,"Boudot & Kalkman (2015), Boudot (2014b)"
+Coenagrionidae,Coenagrion_terue,JPN,,AsE,E_As,Karube (2009b)
+Platycnemididae,Copera_congolensis,"AGO,CMR,GAB",,"AfrW,AfrE",Afr,Dijkstra (2017)
+Platycnemididae,Copera_guttifera,"CIV,GHA,LBR,NGA,SLE,TGO",,AfrW,Afr,Dijkstra (2017)
+Platycnemididae,Copera_marginipes,"BGD,CHN,HKG,IDN,IND,LAO,LKA,MAC,MMR,MYS,NPL,THA,TWN,VNM","Assam,Bihar,Goa,Guangdong,Guangxi,Hainan,Himachal Pradesh,Indonesia-Archipelago,Jiangxi,Maharashtra,Malaysia-Peninsular,Meghalaya,Tamil Nadu,Uttar Pradesh,West Bengal","AsSE,Ind,Mly","Ind,SE_As",Sharma (2010a)
+Platycnemididae,Copera_nyansana,"COD,GAB,UGA",,"AfrW,AfrE",Afr,Dijkstra (2017)
+Platycnemididae,Copera_rufipes,"CMR,COD,GAB",,AfrW,Afr,Dijkstra (2017)
+Platycnemididae,Copera_sikassoensis,"BEN,CAF,CIV,GHA,GIN,GMB,LBR,MLI,NGA,SLE,TGO,UGA",,"AfrW,AfrE",Afr,Dijkstra (2017)
+Platycnemididae,Copera_vittata,"BRN,IDN,IND,LAO,MMR,MYS,NPL,PHL,SGP,THA,VNM","Andaman Is.,Andhra Pradesh,Arunachal,Assam,Himachal Pradesh,Indonesia-Archipelago,Kerala,Malaysia-Archipelago,Malaysia-Peninsular,Manipur,Meghalaya,Nicobar Is.,Uttaranchal,West Bengal","AsSE,Ind,Mly","Ind,SE_As",Subramanian (2010b)
+Coenagrionidae,Coryphagrion_grandis,"KEN,TZA",,AfrE,Afr,Clausnitzer (2018)
+Coenagrionidae,Cyanallagma_bonariense,"ARG,URU",,SAmS,S_Am,"Heckman (2008), von Ellenrieder (2009g)"
+Coenagrionidae,Cyanallagma_interruptum,"ARG,BRA,CHL,URU",Sao Paulo,SAmS,S_Am,"Heckman (2008), von Ellenrieder (2009h)"
+Platycnemididae,Cyanocnemis_aureofrons,IDN,Indonesia-Papua,AusE,Aus,Richards (2019a)
+Coenagrionidae,Diceratobasis_melanogaster,DOM,,GA,C_Am,von Ellenrieder & Paulson (2006a)
+Coenagrionidae,Dolonagrion_fulvellum,"BRA,PER,SUR","Amazonas,Para","SAmN,SAmE",S_Am,Garrison & von Ellenrieder (2008)
+Coenagrionidae,Drepanoneura_muzoni,"ECU,PER",,SAmN,S_Am,Hoffmann et al. (2016h)
+Coenagrionidae,Drepanoneura_tennesseni,ECU,,SAmN,S_Am,Tennessen et al. (2016)
+Platycnemididae,Elattoneura_acuta,"AGO,CMR,COD,GAB,NGA",,AfrW,Afr,Dijkstra (2017)
+Platycnemididae,Elattoneura_analis,MYS,"Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,Dow (2016)
+Platycnemididae,Elattoneura_aurantiaca,MYS,"Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,Dow (2016)
+Platycnemididae,Elattoneura_aurifex,"COD,GAB",,AfrW,Afr,Dijkstra (2017)
+Platycnemididae,Elattoneura_balli,"BEN,CIV,CMR,GHA,GIN,GNQ,LBR,NGA,SLE,TGO",,AfrW,Afr,Dijkstra (2017)
+Platycnemididae,Elattoneura_caesia,LKA,,Ind,Ind,Bedjani?� (2009)
+Platycnemididae,Elattoneura_cellularis,"AGO,BWA,COD,COG,MOZ,MWI,NAM,TZA,ZMB,ZWE",,"AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2010)"
+Platycnemididae,Elattoneura_centrafricana,"CAF,COD",,AfrW,Afr,Dijkstra (2017)
+Platycnemididae,Elattoneura_coomansi,"IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago",Mly,SE_As,Dow (2016)
+Platycnemididae,Elattoneura_frenulata,ZAF,,AfrS,Afr,Dijkstra (2017)
+Platycnemididae,Elattoneura_glauca,"AGO,BWA,COD,COG,GNQ,KEN,LSO,MOZ,MWI,NAM,SWZ,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2016c)"
+Platycnemididae,Elattoneura_josemorai,"CMR,COD,GAB,GNQ",,AfrW,Afr,Dijkstra (2017)
+Platycnemididae,Elattoneura_lapidaria,ZWE,,AfrE,Afr,Dijkstra (2017)
+Platycnemididae,Elattoneura_lliba,"AGO,CAF,COD,GAB,UGA",,"AfrW,AfrE",Afr,Dijkstra (2017)
+Platycnemididae,Elattoneura_nigra,"BFA,CAF,CIV,CMR,COD,GHA,GIN,GMB,GNB,LBR,MLI,NGA,SLE,TGO,UGA",,"AfrW,AfrE",Afr,Dijkstra (2017)
+Platycnemididae,Elattoneura_sp,--,,--,,--
+Platycnemididae,Elattoneura_tarbotonorum,AGO,,AfrS,Afr,Dijkstra (2017)
+Platycnemididae,Elattoneura_tenax,LKA,,Ind,Ind,de Silva et al. (2009)
+Platycnemididae,Elattoneura_tsiamae,"COD,GAB",,AfrW,Afr,Dijkstra (2017)
+Platycnemididae,Elattoneura_vittata,"CAF,CMR,COD,GAB,GNQ,NGA",,AfrW,Afr,Dijkstra (2017)
+Coenagrionidae,Enallagma_anna,"CAN,USA","CO,IA,ID,MI,MT,NE,NV,Ontario,OR,Saskatchewan,SD,UT,WI,WY",NAmNW,N_Am,"FSCA, Paulson (2009a)"
+Coenagrionidae,Enallagma_annexum,"CAN,USA","AK,Alberta,AZ,British Columbia,CA,CO,CT,IA,ID,IN,MA,Manitoba,ME,MI,MN,MT,ND,NE,New Brunswick,New Foundland and Labrador,NH,NJ,Northwest Territories,Nova Scotia,NV,NY,OH,Ontario,OR,PA,Quebec,RI,Saskatchewan,SD,UT,VT,WA,WI,WV,WY,Yukon","NAmNE,NAmNW",N_Am,"FSCA, Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Enallagma_antennatum,"CAN,USA","IA,IL,IN,KS,MI,MN,MT,ND,NE,NH,NY,OH,OK,Ontario,PA,SD,VT,WI,WV,WY","NAmNE,NAmNW",N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_aspersum,USA,"AL,AR,CT,DE,GA,IA,IL,IN,KS,KY,MA,MD,ME,MI,MO,MS,NC,NE,New Brunswick,NH,NJ,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE,NAmNW,NAmSW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Enallagma_basidens,"CAN,USA","AL,AR,AZ,CA,CO,CT,GA,IA,IL,IN,KS,KY,LA,MD,MI,MO,MS,NC,NE,NJ,NM,NY,OH,OK,Ontario,PA,SC,TN,TX,VA,WI,WV,WY","NAmNE,NAmSE,NAmNW,NAmSW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Enallagma_boreale,"CAN,USA","AK,Alberta,AZ,British Columbia,CA,CO,CT,IA,ID,MA,Manitoba,ME,MI,MT,ND,New Brunswick,New Foundland and Labrador,NH,NJ,NM,Nova Scotia,NV,NY,Ontario,OR,PA,Quebec,RI,Saskatchewan,SD,UT,VT,WA,WI,WY,Yukon","NAmNE,NAmNW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Enallagma_cardenium,"CUB,USA",FL,"NAmSE,GA","N_Am,C_Am",Paulson (2011)
+Coenagrionidae,Enallagma_carunculatum,"CAN,USA","Alberta,AZ,British Columbia,CA,CO,CT,DE,IA,ID,IL,IN,KS,KY,MA,Manitoba,MD,ME,MI,MN,MT,ND,NE,New Brunswick,New Foundland and Labrador,NH,NJ,NM,Nova Scotia,NV,NY,OH,Ontario,OR,PA,Quebec,RI,Saskatchewan,SD,UT,VT,WA,WI,WY","NAmNE,NAmNW,NAmSW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Enallagma_circulatum,"JPN,RUS",Far East,"AsE,AsNE",E_As,Marikova (2009)
+Coenagrionidae,Enallagma_civile,"CAN,COL,CRI,ESA,GUA,HON,MEX,NIC,PAN,USA,VEN","AL,AR,AZ,CA,CO,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MO,MS,MT,NC,ND,NE,New Brunswick,NH,NJ,NM,Nova Scotia,NV,NY,OH,OK,Ontario,OR,PA,RI,SC,SD,TN,TX,UT,VA,VT,WI,WV,WY","SAmN,NAmNE,NAmSE,NAmNW,NAmSW","C_Am,N_Am,S_Am",Paulson (2011)
+Coenagrionidae,Enallagma_clausum,"CAN,USA","Alberta,CO,IA,ID,Manitoba,MN,MT,ND,NM,NV,Ontario,OR,Quebec,Quebec,Saskatchewan,SD,UT,WA,WY","NAmNE,NAmNW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Enallagma_coecum,"DOM,HTI,JAM,PRI",,GA,C_Am,GBIF (2020a)
+Coenagrionidae,Enallagma_concisum,USA,"AL,FL,GA,LA,MS,NC,SC",NAmSE,N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_cyathigerum,"ALB,AND,ARM,AUT,AZE,BEL,BGR,BIH,BLR,CHE,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GEO,GRC,HRV,HUN,IMN,IND,IRL,IRN,ITA,JEY,LTU,LUX,LVA,MKD,MNE,MNG,NLD,NOR,POL,PRT,ROU,RUS,SRB,SVK,SVN,SWE,TUR,UKR",,"Eur,AsNE","E_As,Eur",Clausnitzer (2020c)
+Coenagrionidae,Enallagma_daeckii,USA,"AL,AR,DE,FL,GA,LA,MA,MS,NC,NJ,RI,SC,TN,VA","NAmNE,NAmSE",N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_davisi,USA,"AL,FL,GA,NC,SC",NAmSE,N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_divagans,USA,"AL,AR,CT,DE,FL,GA,IL,IN,KS,LA,MA,MD,ME,MO,MS,NC,NH,NJ,NY,OH,OK,PA,RI,SD,TN,TX,VA,VT,WV","NAmNE,NAmSE,NAmSW",N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_doubledayi,USA,"AL,DE,FL,GA,MA,MD,MS,NC,NJ,RI,SC,VA","NAmNE,NAmSE",N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_dubium,USA,"AL,DE,FL,GA,LA,MD,MS,NC,SC,TX,VA","NAmSE,NAmSW",N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_durum,"MEX,USA","AL,CT,DE,FL,LA,MA,MD,MS,NC,NJ,RI,TX,VA,VT","NAmNE,NAmSE,NAmSW",N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_ebrium,"CAN,USA","Alberta,British Columbia,CT,IA,ID,IL,IN,KY,MA,Manitoba,ME,MI,MN,MT,ND,NE,New Brunswick,New Foundland and Labrador,NH,NH,NJ,Northwest Territories,Nova Scotia,NY,OH,Ontario,PA,Quebec,Saskatchewan,SD,VT,WA,WI,WY,Yukon","NAmNE,NAmNW",N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_exsulans,"CAN,MEX,USA","AL,AR,CT,DE,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,NE,New Brunswick,New Foundland and Labrador,NH,NJ,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,SC,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE,NAmSW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Enallagma_geminatum,"CAN,USA","AL,AR,CO,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,NE,NH,NJ,NY,OH,OK,Ontario,PA,Quebec,RI,SC,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE,NAmSW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Enallagma_hageni,"CAN,USA","Alberta,British Columbia,CT,IA,IL,IN,MA,Manitoba,MD,ME,MI,MN,MT,NC,ND,NE,New Brunswick,NH,NJ,Northwest Territories,Nova Scotia,NY,OH,Ontario,PA,Quebec,RI,Saskatchewan,SD,VA,VT,WI,WV,WY","NAmNE,NAmSE,NAmNW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Enallagma_minusculum,"CAN,USA","CT,MA,ME,New Brunswick,NH,Nova Scotia,RI",NAmNE,N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_novaehispaniae,"ARG,BLZ,BRA,COL,CRI,ECU,ESA,GUA,HON,MEX,NIC,PAN,PER,TTO,USA,VEN","Espirito Santo,Sao Paulo,TX","SAmN,SAmS,NAmSW","C_Am,N_Am,S_Am","Heckman (2008), Paulson (2009a)"
+Coenagrionidae,Enallagma_pollutum,USA,"AL,FL,GA,MS",NAmSE,N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_praevarum,"GUA,HON,MEX,USA","AZ,CA,CO,MT,NE,NM,NV,SD,TX,UT,WY","NAmNW,NAmSW",N_Am,Paulson (2009a)
+Coenagrionidae,Enallagma_signatum,"CAN,MEX,USA","AL,AR,CO,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,NE,New Brunswick,NH,NJ,Nova Scotia,NY,OH,OK,PA,Quebec,RI,SC,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE,NAmSW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Enallagma_sulcatum,USA,FL,NAmSE,N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_traviatum,USA,"AL,AR,CT,DE,GA,IA,IL,IN,KY,LA,MA,MD,MI,MO,MS,NC,NH,NJ,NY,OH,OK,PA,RI,SC,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Enallagma_vernale,"CAN,USA","ME,MI,MN,NH,Nova Scotia,NY,Ontario,Quebec,VT,WI",NAmNE,N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_vesperum,"CAN,USA","AL,AR,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,MD,ME,MI,MN,MO,MS,NC,NE,New Brunswick,NH,NJ,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,SC,TN,TX,VA,VT,WI,WV","NAmNE,NAmSE",N_Am,Paulson (2011)
+Coenagrionidae,Enallagma_weewa,USA,"AL,CT,DE,FL,GA,MD,MS,NC,NJ,NY,RI,SC,VA","NAmNE,NAmSE",N_Am,Paulson (2011)
+Coenagrionidae,Epipleoneura_fuscaenea,"GUF,GUY,SUR,VEN",,SAmE,S_Am,"FSCA, Heckman (2008), von Ellenrieder (2009i)"
+Coenagrionidae,Epipleoneura_lamina,"BRA,GUY,PER,VEN","Amazonas,Rondonia","SAmE,SAmC",S_Am,"Heckman (2008),von Ellenrieder (2009j), Pessacq (2014)"
+Coenagrionidae,Epipleoneura_metallica,"BRA,VEN","Bahia,Goias,Maranhao,Mato Grosso,Minas Gerais,Para,Pernambuco,Rondonia,Roraima","SAmE,SAmC",S_Am,"FSCA, Heckman (2008),von Ellenrieder (2009k), Pessacq (2014)"
+Coenagrionidae,Epipleoneura_sp,--,,--,,--
+Coenagrionidae,Epipleoneura_spatulata,"GUF,GUY,SUR",,SAmE,S_Am,Heckman (2008)
+Coenagrionidae,Epipleoneura_venezuelensis,"BOL,BRA,COL,GUY,VEN","Goias,Mato Grosso,Parana,Rio de Janeiro","SAmN,SAmE,SAmC",S_Am,Pessacq (2014)
+Coenagrionidae,Erythromma_humerale,"JPN,RUS",Far East,"AsE,AsNE",E_As,"Haritonov & Malikova (1998), Ozono et al. (2012)"
+Coenagrionidae,Erythromma_lindenii,"ALB,ARM,AUT,AZE,BEL,BIH,BUL,CHE,CYP,CZE,DEU,DZA,ESP,FRA,GEO,GRC,HRV,IRN,ISR,ITA,LBN,MAR,MDA,MKD,MNE,NDL,POL,PTR,ROU,SRB,SYR,TUN,TUR,UKR",,"Eur,AsC,AfrN","Afr,Eur","Dijkstra & Lewington (2006), Clausnitzer (2020d)"
+Coenagrionidae,Erythromma_najas,"AUT,BEL,BIH,BLR,CHE,CZE,DEU,DNK,EST,FIN,FRA,GBR,GRC,HRV,HUN,ITA,LTU,LUX,LVA,MKD,NDL,NOR,POL,ROU,RUS,SRB,SVK,SVN,SWE,UKR",European Russia,Eur,Eur,Dijkstra & Lewington (2006)
+Coenagrionidae,Erythromma_viridulum,"ALB,ARM,AUT,AZE,BEL,BIH,BLR,BUL,CHE,CYP,CZE,DEU,DNK,DZA,ESP,FIN,FRA,GBR,GEO,GRC,HRV,HUN,IRN,ISR,ITA,KAZ,KGZ,LBN,LTU,LUX,LVA,MAR,MDA,MKD,MNE,NDL,POL,PTR,ROU,RUS,SRB,SVK,SVN,SWE,SYR,TJK,TKM,TUN,TUR,UKR,UZB","Caucaus,European Russia","Eur,AsC",Eur,"Boudot & Kalkman (2015), Boudot (2014c)"
+Platycnemididae,Esme_mudiensis,IND,"Kerala,Tamil Nadu",Ind,Ind,Kakkasery (2011)
+Coenagrionidae,Forcepsioneura_sancta,BRA,"Minas Gerais,Rio de Janeiro,Sao Paulo","SAmE,SAmS",S_Am,Heckman (2008)
+Coenagrionidae,Helveciagrion_simulacrum,"ARG,BOL,BRA",Rondonia,"SAmS,SAmC",S_Am,"Garrison (2009), Heckman (2008)"
+Coenagrionidae,Hesperagrion_heterodoxum,"MEX,USA","AZ,CO,NM,TX",NAmSW,N_Am,"Paulson (2017c), Paulson (2009a)"
+Coenagrionidae,Homeoura_chelifera,"ARG,BRA,GUY,URU,VEN","Bahia,Brasilia,Espirito Santo,Minas Gerais,Parana,Rio de Janeiro,Rio Grande do Sul,Sao Paulo","SAmE,SAmS",S_Am,Heckman (2008)
+Coenagrionidae,Homeoura_lindneri,"ARG,BRA,PER,PRY","Minas Gerais,Sao Paulo","SAmE,SAmS",S_Am,"Heckman (2008), von Ellenrieder (2008a)"
+Coenagrionidae,Homeoura_nepos,"BOL,GUF,PER,PRY,VEN","Amazonas,Mato Grosso,Para","SAmE,SAmS,SAmC",S_Am,"Heckman (2008), von Ellenrieder (2008a)"
+Platycnemididae,Idiocnemis_obliterata,IDN,Indonesia-Papua,AusE,Aus,Kalkman & Orr (2013)
+Coenagrionidae,Idioneura_ancilla,BRA,"Bahia,Espirito Santo,Rio de Janeiro, Sao Paulo","SamE,SamS",S_Am,von Ellenrieder (2009l)
+Platycnemididae,Igneocnemis_antoniae,PHL,,Mly,SE_As,Villanueva (2009a)
+Platycnemididae,Igneocnemis_atripes,PHL,,Mly,SE_As,Villanueva (2009b)
+Platycnemididae,Igneocnemis_flammea,PHL,,Mly,SE_As,Gassman & H??m??l??inen (2002)
+Platycnemididae,Indocnemis_ambigua,"CHN,VNM",Guangxi,AsSE,SE_As,Wilson (2011a)
+Platycnemididae,Indocnemis_orang,"BGD,IND,LAO,MYS,THA","Malaysia-Peninsular,Meghalaya",AsSE,SE_As,Subramanian (2010c)
+Coenagrionidae,Inpabasis_hubelli,PER,,SAmN,S_Am,"Heckman (2008), Hoffmann et al. (2016i)"
+Coenagrionidae,Inpabasis_rosea,"BRA,GUF,SUR,VEN",Amazonas,SAmE,S_Am,Heckman (2008)
+Coenagrionidae,Ischnura_armstrongi,"ASM,WSM",,AusE,Aus,NZAC
+Coenagrionidae,Ischnura_asiatica,"CHN,HKG,JPN,KOR,PKR,RUS",Far East,"AsE,AsNE",E_As,"GBIF (2020a), Haritonov & Malikova (1998), Seehausen & Fiebig (2016), Yu & Chen (2015)"
+Coenagrionidae,Ischnura_aurora,"AUS,BGD,BTN,CHN,COK,FJI,FSM,GUM,IDN,IND,KIR,LAO,LKA,MHL,MMR,MNP,NCL,NPL,PAK,PHL,PYF,SLB,TON,TWN,VUT,WSM","Andhra Pradesh,Arunachal Pradesh,Assam,Bihar,Fujian,Guangdong,Hainan,Himachal Pradesh,Indonesia-Archipelago,Indonesia-Papua,Kerala,Madhya Pradesh,Maharashtra,Manipur,Meghalaya,Nagaland,New South Wales,Northern Territory,Orissa,Punjab,Queensland,Rajasthan,Sikkim,Tamil Nadu,Tasmania,Uttar Pradesh,Victoria,West Bengal,Western Australia","AsC,AsSE,Ind,AusE,Mly,NZ","Aus,Ind,SE_As",Dow et al. (2020)
+Coenagrionidae,Ischnura_barberi,"MEX,USA","AZ,CA,NM,OK,TX,UT",NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Ischnura_capreolus,"ARG,BLZ,BRA,COL,CRI,ECU,ESA,GUA,GUF,GUY,HON,MEX,NIC,PAN,PER,PRY,SUR,TTO,VEN","Bahia,Espirito Santo,Mato Grosso,Para,Pernambuco,Rio de Janeiro,Rio Grande do Sul,Sao Paulo","SAmN,SAmE,SAmS,SAmC","C_Am,S_Am",Heckman (2008)
+Coenagrionidae,Ischnura_cardinalis,PYF,,,,Marinov (2020a)
+Coenagrionidae,Ischnura_cervula,"CAN,MEX,USA","Alberta,AZ,British Columbia,CA,CO,ID,MT,NM,NV,OR,Saskatchewan,UT,WA,WY","NAmNW,NAmSW",N_Am,Paulson (2009a)
+Coenagrionidae,Ischnura_cruzi,COL,,SAmN,S_Am,Heckman (2008)
+Coenagrionidae,Ischnura_damula,"CAN,USA","Alberta,AZ,British Columbia,CO,Manitoba,ND,NE,NM,Saskatchewan,TX,UT,WY,Yukon","NAmNW,NAmSW",N_Am,Paulson (2009a)
+Coenagrionidae,Ischnura_demorsa,"MEX,USA","AZ,KS,NM,OK,TX",NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Ischnura_denticollis,"GUA,MEX,USA","AZ,CA,ID,KS,NM,NV,OK,OR,TX,UT","NAmNW,NAmSW",N_Am,Paulson (2009a)
+Coenagrionidae,Ischnura_elegans,"ALB,AUT,BEL,BIH,BLR,BUL,CHE,CHN,CYP,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GRC,HRV,HUN,IDN,IND,IRL,IRN,ISR,ITA,JOR,JPN,KOR,LBN,LIE,LKA,LTU,LUX,LVA,MDA,MKD,MNE,MNG,MYS,NDL,NOR,NPL,PAK,PKR,POL,PSE,ROU,SRB,SVK,SVN,SWE,SYR,TUR,UKR","Himachal Pradesh,Jammu-Kashmir,Uttar Pradesh,West Bengal","Eur,AsC,AsE,AsSE,Ind,Mly","E_As,Eur,Ind,SE_As","Dijkstra & Lewington (2006), Dow (2020g)"
+Coenagrionidae,Ischnura_erratica,"CAN,USA","British Columbia,CA,OR,WA",NAmNW,N_Am,Paulson (2009a)
+Coenagrionidae,Ischnura_evansi,"AFG,ARE,BHR,EGY,IRN,IRQ,ISR,JOR,KAZ,KGZ,KWT,OMN,PSE,QAT,SAU,SDN,SYR,TJK,TKM,YEM",,"AsC,AfrN",Afr,Clausnitzer et al. (2013)
+Coenagrionidae,Ischnura_ezoin,JPN,,AsE,E_As,Ozono et al. (2012)
+Coenagrionidae,Ischnura_fluviatilis,"ARG,BOL,BRA,CHL,ECU,GUF,GUY,PAR,URU,VEN","Mato Grosso,Para,Rio de Janeiro,Rio Grande do Sul,Sao Paulo","SAmE,SAmS,SAmC",S_Am,"FSCA, Heckman (2008), von Ellenrieder (2009m)"
+Coenagrionidae,Ischnura_fountaineae,"ARE,AZE,DZA,EGY,GEO,IRN,IRQ,ISR,JOR,KAZ,KGZ,LBR,LBY,MAR,OMN,PSE,QAT,RUS,SAU,SYR,TKM,TUN,TUR",Dagestan,"AsC,AfrN",Afr,"Boudot et al. (2013), Schtoter (2010), Seehausen et al. (2016)"
+Coenagrionidae,Ischnura_foylei,IDN,Indonesia-Archipelago,Mly,SE_As,Kosterin (2015)
+Coenagrionidae,Ischnura_gemina,USA,CA,NAmNW,N_Am,Paulson (2009a)
+Coenagrionidae,Ischnura_graellsii,"DZA,ESP,FRA,MAR,PTR,TUN",,"Eur,AsC,AfrN","Afr,Eur","Dijkstra & Lewington (2006), Clausnitzer (2020e)"
+Coenagrionidae,Ischnura_hastata,"BLZ,CAN,COL,CRI,CUB,DOM,ESA,GUA,GUY,HON,MEX,NIC,PAN,TTO,USA,VEN","AL,AR,AZ,CT,FL,GA,IL,IN,KS,KY,LA,MA,MI,MO,MS,NC,NE,NJ,NM,NY,OH,OK,PA,RI,SC,TN,TX,VA,WV","SamN,SamE,NamNE,NamSE,NamSW","C_Am,N_Am,S_Am","Esquivel (2006), Heckman (2008), Paulson (2011)"
+Coenagrionidae,Ischnura_heterosticta,"AUS,FJI,IDN,NCL,PLW,PNG,SLB,TON,VUT","Indonesia-Papua,New South Wales,Northern Territory,Queensland,South Australia,Tasmania,Victoria,Western Australia","AusE,AusW",Aus,Dow (2017c)
+Coenagrionidae,Ischnura_intermedia,"CYP,IRN,IRQ,SYR,TKM,TUR",,AsC,,"Boudot (2020e), Knifj et al. (2016)"
+Coenagrionidae,Ischnura_kellicotti,USA,"AL,AR,CT,DE,FL,GA,IL,IN,KY,LA,MA,MD,ME,MI,MO,MS,NC,NH,NJ,NY,OK,PA,RI,SC,TN,TX,VA,VT,WV","NAmNE,NAmSE",N_Am,Paulson (2011)
+Coenagrionidae,Ischnura_nursei,"BGD,IND,IRN,OMN,PAK","Chandigarh,Chattisgarh,Madhya Pradesh,Maharashtra,Orissa,Punjab,Rajasthan,Tamil Nadu,Uttaranchal,Uttar Pradesh,West Bengal","AsC,AsSE,AfrN,Ind",Ind,"Dumont et al. (2011), Subramanian (2010e)"
+Coenagrionidae,Ischnura_pamelae,NCL,,AusE,Aus,Kalkman (2020b)
+Coenagrionidae,Ischnura_perparva,"CAN,USA","Alberta,British Columbia,CA,CO,ID,MT,ND,NE,NM,NV,OR,Saskatchewan,SD,UT,WA,WY","NAmNW,NAmSW",N_Am,Paulson (2009a)
+Coenagrionidae,Ischnura_posita,"BLZ,CAN,GUA,MEX,USA","AL,AR,CT,DE,FL,GA,IA,IL,IN,KS,KY,LA,MA,Manitoba,MD,ME,MI,MN,MO,MS,NC,NE,New Foundland and Labrador,NH,NJ,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,SC,TN,TX,VA,VT,WI,WV","SAmN,NAmNE,NAmSE,NAmSW","C_Am,N_Am","Paulson (2017d), Paulson (2011)"
+Coenagrionidae,Ischnura_prognata,USA,"AL,FL,GA,LA,MO,NC,SC,TN,TX,VA,WV",NAmSE,N_Am,Paulson (2011)
+Coenagrionidae,Ischnura_pruinescens,"AUS,IDN","Northern Territory,Queensland",AusE,Aus,Dow (2017d)
+Coenagrionidae,Ischnura_pumilio,"AFG,ALB,AND,ARM,AUT,AZE,BEL,BIH,BLR,BUL,CHE,CHN,CYP,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GRE,HRV,HUN,IRL,IRN,ISR,ITA,JOR,KAZ,KGZ,LBN,LIE,LTU,LUX,LVA,MAR,MDA,MKD,MNE,MNG,NDL,NOR,POL,PTR,ROU,RUS,SRB,SVK,SVN,SWE,SYR,TJK,TKM,TUN,TUR,UKR,UZB","Nei Mongol,Shanxi","Eur,AsC,AsNE,AfrN","E_As,Eur,Afr","Dijkstra & Lewington (2006), Boudot (2014d)"
+Coenagrionidae,Ischnura_ramburii,"BHS,BLZ,BRA,CHL,COL,CRI,CUB,CYM,DOM,ECU,ESA,GLP,GUA,GUF,HON,HTI,JAM,MEX,MTQ,NIC,PAN,PER,PRI,PRY,SUR,TTO,USA,VEN","AL,AR,AZ,CT,DE,FL,GA,IL,KY,LA,MA,MD,ME,MO,MS,NC,NJ,NY,OK,PA,RI,SC,TX,VA","SAmN,SAmE,SAmS,SAmC,NAmNE,NAmSE,NAmSW","C_Am,N_Am,S_Am",Paulson (2017e)
+Coenagrionidae,Ischnura_rufostigma,"BGD,CHN,HKG,IND,LAO,MMR,NPL,THA,VNM","Assam,Bihar,Guangdong,Guizhou,Himachal Pradesh,Hunan,Madhya Pradesh,Manipur,Meghalaya,Nagaland,Sichuan,Uttaranchal,West Bengal,Yunnan","AsSE,Ind","Ind,SE_As","Mitra (2010d), Sanmartin-Villar et al. (2016)"
+Coenagrionidae,Ischnura_saharensis,"DZA,LBY,MAR,MRT,NER,TUN",,AfrN,Afr,Samraoui & Dijkstra (2020)
+Coenagrionidae,Ischnura_senegalensis,"AFG,AGO,ARE,BEN,BFA,BGD,BRN,BWA,CHN,CMR,COD,CPV,DJI,EGY,ESH,GAB,GHA,GMB,GNB,GNQ,HKG,IDN,IND,IRN,IRQ,ISR,JOR,JPN,KEN,KHM,LAO,LBR,LBY,LKA,LSO,MAC,MDG,MLI,MMR,MOZ,MRT,MUS,MWI,MYS,NAM,NER,NGA,OMN,PAK,PHL,PLW,PNG,PSE,REU,RWA,SAU,SDN,SEN,SGP,SLE,SOM,SSD,SWZ,SYC,TCD,TGO,THA,TKM,TLS,TWN,TZA,UGA,UZB,VNM,YEM,ZAF,ZMB,ZWE",Nei Mongol,"AsC,AsE,AsSE,AfrW,AfrS,AfrE,AfrN,Ind,Mdg,Mly","Afr,E_As,Ind,SE_A",Sharma & Clausnitzer (2016)
+Coenagrionidae,Ischnura_sp,ASM,,AusE,Aus,NZAC
+Coenagrionidae,Ischnura_taitensis,PYF,,,,Marinov (2020b)
+Coenagrionidae,Ischnura_ultima,"ARG,CHL",,SAmS,S_Am,Heckman (2008)
+Coenagrionidae,Ischnura_verticalis,"CAN,USA","AR,CO,CT,DE,GA,IA,IL,IN,KS,KY,MA,MD,ME,MI,MN,MO,MT,NC,ND,NE,New Brunswick,New Foundland and Labrador,NH,NJ,NM,Nova Scotia,NY,OH,OK,Ontario,PA,Quebec,RI,SC,SD,TN,TX,VA,VT,WI,WV,WY","NAmNE,NAmSE,NAmSW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Leptagrion_elongatum,BRA,"Espirito Santo,Rio de Janeiro,Sao Paulo",SAmS,S_Am,Heckman (2008)
+Coenagrionidae,Leptagrion_macrurum,BRA,"Espirito Santo,Rio de Janeiro,Santa Catarina,Sao Paulo","SamE,SamS",S_Am,Heckman (2008)
+Coenagrionidae,Leptagrion_perlongum,BRA,"Bahia,Espirito Santo,Minas Gerais,Parana,Rio de Janeiro,Santa Catarina,Sao Paulo","SamE,SamS",S_Am,Heckman (2008)
+Coenagrionidae,Leptobasis_lucifer,USA,FL,NAmSE,N_Am,"Paulson (2018), Paulson (2011)"
+Coenagrionidae,Leptobasis_vacillans,"BLZ,BRA,COL,CRI,CUB,CYM,DOM,ECU,ESA,GUA,GUF,GUY,HON,HTI,MEX,NIC,PAN,SUR,VEN",Espirito Santo,"SAmN,SAmE","C_Am,S_Am","FSCA, Paulson & von Ellenrieder (2018)"
+Coenagrionidae,Leptocnemis_cyanops,SYC,,Mdg,Afr,Sch??tte (2017a)
+Platycnemididae,Lieftinckia_lairdi,SLB,,AusE,Aus,Kalkman (2020c)
+Platycnemididae,Lochmaeocnemis_malacodora,IDN,Indonesia-Papua,AusE,Aus,Kalkman & Orr (2013)
+Platycnemididae,Matticnemis_doi,VNM,,AsSE,SE_As,H??m??l??inen (2012)
+Coenagrionidae,Mecistogaster_linearis,"ARG,BOL,BRA,COL,CRI,ECU,GUA,GUF,GUY,HON,MEX,PAN,PER,SUR,VEN","Mato Grosso,Roraima,Sao Paulo","SAmN,SAmE,SAmS,SAmC","C_Am,S_Am",FSCA
+Coenagrionidae,Mecistogaster_lucretia,"ARG,BOL,BRA,COL,ECU,GUF,GUY,PER,SUR,VEN",,"SAmN,SAmE,SAmS,SAmC",S_Am,"FSCA, GBIF (2020c), Heckman (2008)"
+Coenagrionidae,Mecistogaster_modesta,"BLZ,CRI,ECU,GUA,HON,MEX,PAN",,SAmN,C_Am,FSCA
+Coenagrionidae,Megalagrion_blackburni,USA,HI,,,Polhemus (1997)
+Coenagrionidae,Megalagrion_calliphya,USA,HI,,,Polhemus (1997)
+Coenagrionidae,Megalagrion_eudytum,USA,HI,,,Polhemus (1997)
+Coenagrionidae,Megalagrion_hawaiiense,USA,HI,,,Polhemus (1997)
+Coenagrionidae,Megalagrion_heterogamias,USA,HI,,,Polhemus (1997)
+Coenagrionidae,Megalagrion_nigrohamatum,USA,HI,,,Polhemus (2020a)
+Coenagrionidae,Megalagrion_oahuense,USA,HI,,,Polhemus (2020b)
+Coenagrionidae,Megalagrion_oresitrophum,USA,HI,,,Polhemus (1997)
+Coenagrionidae,Megalagrion_paludicola,USA,HI,,,Polhemus (1997)
+Coenagrionidae,Megalagrion_vagabundum,USA,HI,,,Polhemus (1997)
+Coenagrionidae,Megaloprepus_caerulatus,"BLZ,BOL,COL,CRI,ECU,ESA,GUA,GUF,GUY,HON,MEX,NIC,PAN,PER,SUR,VEN",,"SAmN,SAmE,SAmC","C_Am,S_Am","FSCA, Heckman (2008)"
+Coenagrionidae,Melanesobasis_corniculata,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Melanesobasis_flavilabris,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Melanesobasis_mcleani,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Mesamphiagrion_demarmelsi,COL,,SAmN,S_Am,Bota-Sierra (2016)
+Coenagrionidae,Mesamphiagrion_dunklei,ECU,,SAmN,S_Am,Tennessen & Mauffray (2016)
+Platycnemididae,Mesocnemis_robusta,"BEN,EGY,GHA,NGA,SDN,SSD",,"AfrW,AfrE",Afr,Dijkstra (2017)
+Platycnemididae,Mesocnemis_singularis,"BEN,BWA,CAF,CIV,CMR,COD,ETH,GHA,GIN,KEN,LBR,MLI,MOZ,MWI,NAM,NGA,SLE,SSD,SWZ,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer et al. (2016h)"
+Coenagrionidae,Mesoleptobasis_acuminata,"BRA,GUY,PER","Amazonas,Rondonia","SAmN,SAmE,SAmC",S_Am,"Heckman (2008), von Ellenrieder et al. (2017)"
+Coenagrionidae,Mesoleptobasis_cantralli,"BRA,PER","Amazonas,Rondonia","SamN,SAmE,SAmC",S_Am,"Garrison  & von Ellenrieder (2009), Heckman (2008)"
+Coenagrionidae,Mesoleptobasis_elongata,"BRA,SUR",Amazonas,SAmE,S_Am,Garrison & von Ellenrieder (2009)
+Platycnemididae,Metacnemis_valida,ZAF,,AfrS,Afr,"Dijkstra (2017), Samways (2018a)"
+Coenagrionidae,Metaleptobasis_bicornis,"BRA,GUF,GUY,SUR,TTO","Ceara,Para,Roraima",SAmE,S_Am,von Ellenrieder (2013)
+Coenagrionidae,Metaleptobasis_byrsonima,"BOL,BRA,GUY,PER,SUR,TTO,VEN","Amazonas,Rondonia","SAmE,SAmC",S_Am,von Ellenrieder (2013)
+Coenagrionidae,Metaleptobasis_mauffrayi,"COL,ECU",,SAmN,S_Am,von Ellenrieder (2013)
+Coenagrionidae,Metaleptobasis_minteri,"COL,ECU,PER",,SAmN,S_Am,von Ellenrieder (2013)
+Coenagrionidae,Metaleptobasis_quadricornis,"BRA,GUF,SUR,VEN",Para,SAmE,S_Am,"Heckman (2008), von Ellenrieder (2013)"
+Coenagrionidae,Metaleptobasis_sp,--,,--,,--
+Coenagrionidae,Microstigma_anomalum,"ARG,BOL,BRA,GUF,GUY,PER,VEN","Amazonas,Para","SAmE,SAmS,SAmC",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Microstigma_maculatum,"BRA,GUF,GUY,SUR,VEN",Amazonas,SAmE,S_Am,Heckman (2008)
+Coenagrionidae,Microstigma_rotundatum,"BOL,BRA,COL,ECU,GUY,PER,SUR,VEN","Amazonas,Rondonia","SAmN,SAmE,SAmC",S_Am,"FSCA, Heckman (2008)"
+Coenagrionidae,Minagrion_mecistogastrum,BRA,"Parana,Rio de Janeiro,Rio Grande do Sul, Santa Catarina,Sao Paulo",SamS,S_Am,"Heckman (2008), von Ellenrieder (2009n)"
+Coenagrionidae,Minagrion_waltheri,BRA,"Minas Gerais,Sao Paulo","SAmE,SAmS",S_Am,Heckman (2008)
+Coenagrionidae,Mortonagrion_aborense,"BGD,IDN,IND,KHM,LAO,MYS,THA,VNM","Assam,Indonesia-Archipelago,Malaysia-Peninsular,Mizoram,Nagaland,West Bengal","AsSE,Mly",SE_As,"Subramanian (2010d), Kosterin (2011)"
+Coenagrionidae,Mortonagrion_arthuri,"IDN,MMR,MYS,SGP,THA","Indonesia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,Dow (2020h)
+Coenagrionidae,Mortonagrion_hirosei,"CHN,HKG,JPN,TWN",Guangdong,"AsE,AsSE","E_As,SE_As",Wilson & Reels (2011)
+Coenagrionidae,Mortonagrion_martini,PNG,,AusE,Aus,"Gassmann (2015), Richards et al. (2015)"
+Coenagrionidae,Mortonagrion_selenion,"CHN,JPN,KOR,RUS,TWN",Far East,"AsE,AsNE",E_As,"Haritonov & Malikova (1998), Yum et al. (2010)"
+Coenagrionidae,Mortonagrion_stygium,"COD,GAB",,AfrW,Afr,Dijkstra (2017)
+Coenagrionidae,Nehalennia_gracilis,"CAN,USA","AL,DE,FL,GA,IN,MA,MD,ME,MI,MO,MS,NC,New Brunswick,NH,NJ,Nova Scotia,NY,OH,Ontario,PA,Prince Edward,RI,SC,VA,VT,WI,WV","NAmNE,NAmSE",N_Am,Paulson (2011)
+Coenagrionidae,Nehalennia_integricollis,USA,"AL,AR,CT,DE,FL,GA,LA,MD,MS,NC,NJ,NY,RI,SC,VA","NAmNE,NAmSE",N_Am,Paulson (2011)
+Coenagrionidae,Nehalennia_irene,"CAN,USA","AK,Alberta,British Columbia,CT,DE,IA,IL,IN,KY,MA,Manitoba,MD,ME,MI,MN,MT,ND,NE,New Brunswick,NH,NJ,Northwest Territories,Nova Scotia,NY,OH,Ontario,PA,Quebec,RI,Saskatchewan,SD,VT,WA,WV","NAmNE,NAmSE,NAmNW",N_Am,"Paulson (2009a), Paulson (2011)"
+Coenagrionidae,Nehalennia_minuta,"BLZ,BRA,CRI,CUB,DOM,ESA,GUA,GUF,GUY,HON,MEX,NIC,PAN,SUR,SUR,TTO,USA","Bahia,FL,Maranhao,Minas Gerais,Sao Paulo","SamN,SamE,NamSE","C_Am,N_Am,S_Am","Heckman (2008), Paulson (2017f)"
+Coenagrionidae,Nehalennia_pallidula,USA,FL,NAmSE,N_Am,Paulson (2011)
+Coenagrionidae,Nehalennia_speciosa,"AUT,BLR,CHE,CZE,DEU,DNK,EST,FIN,ITA,JPN,KOR,LTU,LVA,PKR,POL,ROU,RUS,SWE,UKR",,"Eur,AsE,AsNE","E_As,Eur","Boudot & Kalkman (2015), Bernard & Wildermuth (2020), Ozono et al. (2012)"
+Coenagrionidae,Neoerythromma_cultellatum,"BLZ,CRI,CUB,DOM,ESA,GUA,HON,MEX,NIC,PAN,TTO,USA,VEN","FL,TX","SAmN,NAmSW","C_Am,N_Am,S_Am","Heckman (2008), Paulson (2011)"
+Coenagrionidae,Neoneura_aaroni,"MEX,USA",TX,NAmSW,N_Am,Paulson (2009a)
+Coenagrionidae,Neoneura_amelia,"BLZ,CRI,ESA,GUA,HON,MEX,NIC,PAN,USA",TX,"SAmN,NAmSW","C_Am,N_Am",Paulson (2017g)
+Coenagrionidae,Neoneura_bilinearis,"BOL,BRA,COL,GUF,GUY,PER,SUR,VEN","Para,Rondonia","SAmN,SAmE,SAmC",S_Am,"Heckman (2008), von Ellenrieder (2009o), Wasscher (2013)"
+Coenagrionidae,Neoneura_confundens,"ARG,BRA,COL,ECU,GUF,GUY,PER,SUR,TTO,VEN",,"SAmN,SAmE,SAmS",S_Am,Wasscher (2013)
+Coenagrionidae,Neoneura_denticulata,"BRA,ECU,GUY,PER,VEN","Amazonas,Para,Rondonia,Roraima","SAmE,SAmC",S_Am,"Heckman (2008), von Ellenrieder et al. (2017)"
+Coenagrionidae,Neoneura_esthera,"COL,CRI,PAN,TTO,VEN",,SAmN,"C_Am,S_Am",Garrison (1999)
+Coenagrionidae,Neoneura_fulvicollis,"ARG,BRA,SUR,VEN","Mato Grosso,Para,Sao Paulo","SAmE,SAmS,SAmC",S_Am,"Heckman (2008), von Ellenrieder (2009p)"
+Coenagrionidae,Neoneura_joana,"BRA,GUF,GUY,SUR,VEN","Amapa,Para,Roraima",SAmE,S_Am,Heckman (2008)
+Coenagrionidae,Neoneura_kiautai,BRA,"Minas Gerais,Rio de Janeiro",SAmE,S_Am,Anjos-Santos et al. (2011)
+Coenagrionidae,Neoneura_leonardoi,BRA,"Rio Grande do Sul,Santa Catarina",SAmS,S_Am,Heckman (2008)
+Coenagrionidae,Neoneura_maria,CUB,,GA,C_Am,Paulson & von Ellenrieder (2006)
+Coenagrionidae,Neoneura_myrthea,"BRA,COL,GUF,GUY,SUR,VEN",Roraima,"SAmN,SAmE","C_Am,S_Am",Heckman (2008)
+Coenagrionidae,Neoneura_rubriventris,"BOL,BRA,ECU,GUF,GUY,PER,SUR,VEN","Para,Rio Grande do Sul,Rondonia,Roraima","SAmN,SAmE,SAmS,SAmC",S_Am,"Garrison (1999), Heckman (2008)"
+Coenagrionidae,Neoneura_sp,--,,--,,--
+Coenagrionidae,Neoneura_sylvatica,"ARG,BOL,BRA,VEN","Bahia,Mato Grosso,Minas Gerais,Rio de Janeiro,Rondonia,Sao Paulo","SAmE,SAmS,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Nesobasis_campioni,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_erythrops,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_flavifrons,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_longistyla,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_sp1,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_sp2,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_sp3,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_sp4,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_sp5,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_sp6,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_sp7,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_sp8,FJI,,AusE,Aus,NZAC
+Coenagrionidae,Nesobasis_telegastrum,FJI,,AusE,Aus,NZAC
+Platycnemididae,Nososticta_erythrura,"IDN,PNG",Indonesia-Papua,AusE,Aus,"Kalkman(2009b), Kalkman & Orr (2013)"
+Platycnemididae,Nososticta_finisterrae,PNG,,AusE,Aus,Kalkman & Orr (2013)
+Platycnemididae,Nososticta_fraterna,AUS,"Northern Territory,Queensland","AusE,AusW",Aus,Dow (2017e)
+Platycnemididae,Nososticta_kalumburu,AUS,Western Australia,AusW,Aus,Dow (2017f)
+Platycnemididae,Nososticta_liveringa,AUS,"Northern Territory,Western Australia",AusW,Aus,Dow (2017g)
+Platycnemididae,Nososticta_salomonis,"IDN,PNG",Indonesia-Papua,AusE,Aus,Kalkman & Orr (2013)
+Platycnemididae,Nososticta_solida,AUS,"New South Wales,Queensland,Victoria",AusE,Aus,Dow (2017h)
+Platycnemididae,Nososticta_solitaria,AUS,Queensland,AusE,Aus,Hawking (2018b)
+Platycnemididae,Onychargia_atrocyana,"BGD,BRN,CHN,HKG,IDN,IND,LKA,MMR,MYS,NPL,PHL,SGP,THA,TWN,VNM","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular,Yunnan","AsSE,Ind,Mly","Ind,SE_As",Dow (2020i)
+Coenagrionidae,Oreocnemis_phoenix,MWI,,AfrE,Afr,Dijkstra (2017)
+Coenagrionidae,Oxyagrion_ablutum,"ARG,BOL,PRY,URU",,"SAmS,SAmC",S_Am,"Heckman (2008), von Ellenrieder & Garrison (2007)"
+Coenagrionidae,Oxyagrion_chapadense,"ARG,BRA,PRY","Bahia,Goias,Mato Grosso,Minas Gerais,Parana,Sao Paulo","SAmE,SAmS,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Oxyagrion_hempeli,"ARG,BRA,PRY,URU","Brasilia,Espirito Santo,Goias,Minas Gerais,Parana,Rio de Janeiro,Rio Grande do Sul,Santa Catarina,Sao Paulo","SAmE,SAmS",S_Am,Heckman (2008)
+Coenagrionidae,Oxyagrion_miniopsis,"BOL,COL,PER",,"SAmN,SAmC",S_Am,"Heckman (2008), von Ellenrieder (2009q)"
+Coenagrionidae,Oxyagrion_rubidum,"ARG,CHL,PRY,URU",,SAmS,S_Am,Heckman (2008)
+Coenagrionidae,Oxyagrion_simile,BRA,"Espirito Santo,Goias,Minas Gerais,Parana,Rio de Janeiro,Rio Grande do Sul,Sao Paulo","SAmE,SAmS",S_Am,Heckman (2008)
+Coenagrionidae,Oxyagrion_sulmatogrossense,BRA,Mato Grosso do Sul,SamC,S_Am,Heckman (2008)
+Coenagrionidae,Oxyagrion_tennesseni,ECU,,SAmN,S_Am,Heckman (2008)
+Coenagrionidae,Oxyagrion_terminale,"ARG,BOL,BRA,PRY,URU","Amazonas,Espirito Santo,Goias,Minas Gerais,Parana,Rio de Janeiro,Rio Grande do Sul,Santa Catarina,Sao Paulo","SAmE,SAmS,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Oxyallagma_dissidens,"COL,ECU,PER",,SAmN,S_Am,"Bota-Sierra (2014), Heckman (2008)"
+Coenagrionidae,Pacificagrion_lachrymosa,ASM,,AusE,Aus,NZAC
+Coenagrionidae,Pacificagrion_sp,ASM,,AusE,Aus,NZAC
+Platycnemididae,Palaiargia_charmosyna,"IDN,PNG",Indonesia-Papua,AusE,Aus,Kalkman & Orr (2013)
+Coenagrionidae,Pandanobasis_cantuga,PHL,,Mly,SE_As,Villanueva (2012)
+Coenagrionidae,Papuagrion_marijanmatoki,PNG,,AusE,Aus,Orr & Richards (2016)
+Coenagrionidae,Papuagrion_occipitale,PNG,,AusE,Aus,Kalkman & Orr (2013)
+Coenagrionidae,Papuagrion_prothoracale,PNG,,AusE,Aus,Kalkman & Orr (2013)
+Coenagrionidae,Paracercion_ambiguum,VNM,,AsSE,SE_As,Ning et al. (2016)
+Coenagrionidae,Paracercion_calamorum,"CHN,IDN,IND,JPN,KOR,MYS,NPL,PRK,RUS,THA","Anhui,Far East,Hebei,Henan,Hubei,Jiangsu","AsE,AsSE,AsNE,Ind,Mly","E_As,Ind,SE_As",Wilson (2009c)
+Coenagrionidae,Paracercion_dorothea,CHN,Yunnan,AsSE,SE_As,Dow (2013)
+Coenagrionidae,Paracercion_hieroglyphicum,"CHN,HKG,JPN,KOR,MNG,PKR,TWN",,"AsE,AsNE",E_As,"Dumont (2004), Ozono et al. (2012), Seehausen and Fiebig (2016), Yum et al. (2010)"
+Coenagrionidae,Paracercion_melanotum,"CHN,JPN,KOR,PKR,TWN,VNM","Guangdong,Guangxi,Hainan,Henan,Jiangsu,Shaanxi,Shandong,Zhejiang","AsE,AsSE","E_As,SE_As","Wilson (2009d), Seehausen and Fiebig (2016), Yum et al. (2010)"
+Coenagrionidae,Paracercion_plagiosum,"CHN,JPN,KOR",Inner Mongolia,AsE,E_As,"Dumont (2004), Ozono et al. (2012), Seehausen and Fiebig (2016), Yum et al. (2010)"
+Coenagrionidae,Paracercion_sieboldii,"JPN,KOR,TWN",,AsE,E_As,"Ozono et al. (2012), Yum et al. (2010)"
+Coenagrionidae,Paracercion_vnigrum,"CHN,KOR,RUS","Far East,Guizhou,Hubei,Jiangsu,Shaanxi,Sichuan","AsE,AsNE",E_As,Wilson (2009e)
+Platycnemididae,Paracnemis_alluaudi,MDG,,Mdg,Afr,Sch??tte (2020b)
+Platycnemididae,Paramecocnemis_erythrostigma,"IDN,PNG",Indonesia-Papua,AusE,Aus,"Kalkman (2009c), Kalkman & Orr (2013)"
+Platycnemididae,Paramecocnemis_stillacruoris,"IDN,PNG",Indonesia-Papua,AusE,Aus,Kalkman & Orr (2013)
+Coenagrionidae,Pericnemis_lestoides,PHL,,Mly,SE_As,Villanueva (2011)
+Coenagrionidae,Pericnemis_sp1,--,,--,,--
+Coenagrionidae,Pericnemis_sp2,--,,--,,--
+Coenagrionidae,Pericnemis_triangularis,"BRN,IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago",Mly,SE_As,"Dow (2019e), Orr (2001)"
+Coenagrionidae,Peristicta_aenoviridis,"ARG,BRA,PRY,URU","Mato Grosso,Minas Gerais,Sao Paulo","SAmE,SAmS,SAmC",S_Am,"Heckman (2008), Pessacq (2007), Schmidt Dalzochio et al. (2011)"
+Coenagrionidae,Peristicta_sp,--,,--,,--
+Coenagrionidae,Phasmoneura_exigua,"BRA,GUF,GUY,PER,SUR,VEN",Amazonas,SAmE,S_Am,"Heckman (2008), von Ellenrieder & Garrison (2011)"
+Coenagrionidae,Phoenicagrion_flammeum,"BOL,BRA,GUY,PER,VEN","Amapa,Amazonas,Para,Rondonia,Roraima","SAmE,SAmC",S_Am,"Heckman (2008), von Ellenrieder (2008b)"
+Coenagrionidae,Phoenicagrion_sp,--,,--,,--
+Coenagrionidae,Phoenicagrion_spn,--,,--,,--
+Platycnemididae,Phylloneura_westermanni,IND,"Karnataka,Kerala,Tamil Nadu",Ind,Ind,Subramanian (2011)
+Platycnemididae,Platycnemis_acutipennis,"ESP,FRA,PTR",,Eur,Eur,Boudot (2020f)
+Platycnemididae,Platycnemis_echigoana,JPN,,AsE,E_As,Ozono et al. (2012)
+Platycnemididae,Platycnemis_foliacea,"CHN,JPN","Beijing,Hebei,Shanxi",AsE,E_As,"Zhu (1989), Xinyu et al. (2004), Ozono et al. (2012)"
+Platycnemididae,Platycnemis_latipes,"ESP,FRA,PTR",,Eur,Eur,Boudot (2020g)
+Platycnemididae,Platycnemis_pennipes,"ALB,ARM,AZE,BEL,BGR,BIH,BLR,CHE,CZE,DEU,DNK,EST,FIN,FRA,GBR,GEO,GRC,HRV,IRQ,KAZ,KIR,LBN,LIE,LTU,LUX,MCO,MDA,MKD,MNE,NOR,POL,ROU,RUS,SRB,SVK,SVN,SWE,SYR,TUR,UKR",European Russia,"Eur,AsC",Eur,Clausnitzer (2020f)
+Platycnemididae,Platycnemis_phyllopoda,"JPN,KOR,PKR,RUS",Far East,AsE,E_As,"Haritonov & Malikova (1998), Seehause & Fiebig (2016), Yum et al. (2010)"
+Coenagrionidae,Platystigma_astictum,BRA,"Minas Gerais,Parana,Rio de Janeiro,Sao Paulo","SAmE,SAmS",S_Am,von Ellenrieder & Paulson (2006b)
+Coenagrionidae,Platystigma_jocaste,"BOL,BRA,ECU,PER",,"SAmN,SAmE,SAmC",S_Am,FSCA
+Coenagrionidae,Platystigma_martinezi,BOL,,SAmC,S_Am,Hoffmann et al. (2016j)
+Platycnemididae,Prodasineura_autumnalis,"CHN,HKG,IDN,IND,LAO,MAC,MMR,MYS,NPL,SGP,THA,VNM","Assam,Fujian,Guangdong,Guangxi,Hainan,Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular,Yunnan,Zhejiang","AsSE,Mly",SE_As,Dow (2020j)
+Platycnemididae,Prodasineura_collaris,"BRN,IDN,MMR,MYS,SGP,THA","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,Dow (2020k)
+Platycnemididae,Prodasineura_croconota,"CHN,HKG,TWN,VNM","Guangdong,Guangxi,Hainan",AsSE,SE_As,Wilson (2011b)
+Platycnemididae,Prodasineura_dorsalis,"BRN,MYS",Malaysia-Archipelago,Mly,SE_As,"Dow (2012), Orr (2001)"
+Platycnemididae,Prodasineura_hyperythra,"BRN,MYS",Malaysia-Archipelago,Mly,SE_As,"Dow & Ngiam (2012), Ng et al. (2008), Orr (2001)"
+Platycnemididae,Prodasineura_integra,PHL,,Mly,SE_As,H??m??l??inen & M??ller (1997)
+Platycnemididae,Prodasineura_interrupta,"MYS,SGP",Malaysia-Peninsular,AsSE,SE_As,"Choong et al. (2016), Tang et al. (2010)"
+Platycnemididae,Prodasineura_notostigma,"MYS,SGP","Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,"Dow & Reels (2013), Ngiam et al. (2011), Wilson & Gibert (2006)"
+Platycnemididae,Prodasineura_sita,LKA,,Ind,Ind,Bedjanic (2006)
+Platycnemididae,Prodasineura_verticalis,"BRN,CHN,IDN,IND,LAO,MMR,MYS,THA","Andaman Is.,Andhra Pradesh,Guangxi,Indonesia-Archipelago,Karnataka,Kerala,Maharashtra,Malaysia-Archipelago,Malaysia-Peninsular,Mizoram,Tamil Nadu","AsSE,Ind,Mly","Ind,SE_As",Dow (2010a)
+Coenagrionidae,Proischnura_subfurcata,"CMR,COD,ERI,ETH,KEN,MOZ,MWI,NGA,RWA,SDN,SOM,TZA,UGA,ZMB,ZWE",,"AfrW,AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2016d)"
+Platycnemididae,Proplatycnemis_hova,MDG,,Mdg,Afr,Sch??tte (2017b)
+Platycnemididae,Proplatycnemis_malgassica,MDG,,Mdg,Afr,Sch??tte (2017c)
+Platycnemididae,Proplatycnemis_pembipes,TZA,,AfrE,Afr,"Dijkstra (2017), Clausnitzer (2007)"
+Platycnemididae,Proplatycnemis_sanguinipes,MDG,,Mdg,Afr,Sch??tte (2017d)
+Platycnemididae,Proplatycnemis_spn.poodle,--,,--,,--
+Coenagrionidae,Protoneura_ailsa,"DMA,GLP,LCA,MTQ",,SAmN,S_Am,Meurgey (2008)
+Coenagrionidae,Protoneura_amatoria,"BLZ,BRA,COL,CRI,ECU,ESA,GUA,HON,NIC,PAN,PER,TTO,VEN",Roraima,"SAmN,SAmE","C_Am,S_Am",Heckman (2008)
+Coenagrionidae,Protoneura_calverti,"GUF,GUY,SUR,TTO,VEN",,SAmE,S_Am,"Heckman (2008), von Ellenrieder & Garrison (2011)"
+Coenagrionidae,Protoneura_cara,"BLZ,ESA,GUA,HON,MEX,NIC,USA",TX,"SAmN,NAmSW","C_Am,N_Am",Paulson (2009a)
+Coenagrionidae,Protoneura_macintyrei,ECU,,SAmN,S_Am,Heckman (2008)
+Coenagrionidae,Protoneura_paucinervis,"BRA,ECU,PER",Amazonas,SAmN,S_Am,"Heckman (2008), Tennessen & Mauffray (2020)"
+Coenagrionidae,Protoneura_romanae,"GLP,MTQ",,SAmN,S_Am,GBIF (2020d)
+Coenagrionidae,Protoneura_scintilla,"BRA,ECU,PER","Mato Grosso,Rondonia","SAmN,SAmC",S_Am,"Gloyd (1939), Heckman (2008), Vilela & Guillermo-Ferreira (2020)"
+Coenagrionidae,Protoneura_sulfurata,"CRI,NIC",,SAmN,C_Am,Paulson (2009i)
+Coenagrionidae,Protoneura_viridis,"CUB,DOM,HTI,JAM,PRI,VGB,VIR",,GA,C_Am,Meurgey (2013)
+Coenagrionidae,Protoneura_woytkowskii,"BOL,ECU,PER",,"SAmN,SAmC",S_Am,Heckman (2008)
+Coenagrionidae,Psaironeura_bifurcata,"BRA,ECU,PER,VEN","Amazonas,Para","SAmN,SAmE",S_Am,"Garrison (2004), Heckman (2008)"
+Coenagrionidae,Psaironeura_remissa,"COL,CRI,ECU,PAN,VEN",,SAmN,"C_Am,S_Am",Tennessen (2016)
+Coenagrionidae,Psaironeura_tenuissima,"BRA,ECU,GUF,GUY,PER,SUR","Amazonas,Para,Rondonia","SAmE,SAmC",S_Am,"Garrisson (2004), Heckman (2008), von Ellenrieder & Garrison (2011)"
+Coenagrionidae,Pseudagrion_acaciae,"AGO,BWA,COD,MOZ,MWI,NAM,TZA,ZAF,ZMB,ZWE",,"AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2016e)"
+Coenagrionidae,Pseudagrion_aureofrons,AUS,"New South Wales,Northern Territory,Queensland,Victoria,Western Australia","AusW,AusE",Aus,Dow (2017i)
+Coenagrionidae,Pseudagrion_aureolum,GAB,,AfrW,Afr,Dijkstra (2017)
+Coenagrionidae,Pseudagrion_australasiae,"CHN,IDN,IND,KHM,MMR,MYS,NPL,SGP,THA","Hainan,Indonesia-Archipelago,Malaysia-Peninsular","AsSE,Ind,Mly","Ind,SE_As",Dow (2009g)
+Coenagrionidae,Pseudagrion_bicoerulans,"KEN,TZA,UGA",,AfrE,Afr,"Dijkstra (2017), Dijkstra & Clausnitzer (2016)"
+Coenagrionidae,Pseudagrion_caffrum,ZAF,,AfrS,Afr,"Dijkstra (2017), Suhling (2010b)"
+Coenagrionidae,Pseudagrion_citricola,ZAF,,AfrS,Afr,Dijkstra (2017)
+Coenagrionidae,Pseudagrion_dactylidium,GAB,,AfrW,Afr,Dijkstra (2017)
+Coenagrionidae,Pseudagrion_deningi,"AGO,BWA,COD,NAM,ZMB,ZWE",,AfrS,Afr,Dijkstra (2017)
+Coenagrionidae,Pseudagrion_epiphonematicum,"BEN,CMR,GAB,GHA,GIN,GNB,GNQ,LBR,NGA,SLE,TGO",,AfrW,Afr,Dijkstra (2017)
+Coenagrionidae,Pseudagrion_glaucescens,"AGO,BEN,BFA,BWA,CAF,CMR,COD,COG,CPV,GAB,GHA,GMB,KEN,LBR,MLI,MOZ,MWI,NAM,NGA,SEN,SLE,TCD,TGO,TZA,UGA,ZMB,ZWE",,"AfrW,AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer et al. (2016i)"
+Coenagrionidae,Pseudagrion_glaucoideum,"BEN,CIV,CMR,COD,COG,GAB,GHA,GNQ,LBR,NGA,TGO,UGA,ZMB",,AfrW,Afr,"Dijkstra (2017), Clausnitzer & Suhling (2019)"
+Coenagrionidae,Pseudagrion_glaucum,"CAF,CIV,CMR,COD,COG,GAB,GHA,GIN,GNB,GNQ,LBR,NGA,SLE,TGO",,AfrW,Afr,"Dijkstra (2017), Clausnitzer & Dijkstra (2017a)"
+Coenagrionidae,Pseudagrion_hageni,"BDI,BWA,COD,KEN,MOZ,MWI,SWZ,TZA,UGA,ZAF,ZMB,ZWE",,"AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2016f)"
+Coenagrionidae,Pseudagrion_hamoni,"AGO,BEN,BFA,BWA,CAF,CIV,CMR,COD,COG,DZA,ETH,GAB,GHA,GIN,GMB,KEN,LBR,LBY,MOZ,MRT,MWI,NAM,NER,NGA,RWA,SAU,SDN,SEN,SLE,SSD,SWZ,TCD,TGO,TZA,UGA,YEM,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE,AfrN",Afr,"Dijkstra (2017), Boudot et al. (2016b)"
+Coenagrionidae,Pseudagrion_ignifer,AUS,"New South Wales,Queensland",AusE,Aus,Hawking (2009)
+Coenagrionidae,Pseudagrion_incisurum,SLB,,AusE,Aus,Marinov & Pikacha (2013)
+Coenagrionidae,Pseudagrion_kersteni,"AGO,BEN,BFA,BWA,CAF,CMR,COD,COG,ERI,ETH,GHA,GNQ,KEN,LBR,MLI,MOZ,MWI,NAM,NGA,RWA,SDN,SLE,SOM,SWZ,TCD,TGO,TZA,UGA,YEM,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE,AfrN",Afr,"Dijkstra (2017), Boudot et al. (2016c)"
+Coenagrionidae,Pseudagrion_kibalense,"AGO,CMR,COD,COG,GAB,GNQ,KEN,UGA,ZMB",,"AfrW,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2016g)"
+Coenagrionidae,Pseudagrion_makabusiense,"AGO,MOZ,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE",Afr,Dijkstra (2017)
+Coenagrionidae,Pseudagrion_malagasoides,"CIV,CMR,COG,GHA,LBR,NGA,SLE",,AfrW,Afr,"Dijkstra (2017), Dijkstra (2010)"
+Coenagrionidae,Pseudagrion_massaicum,"AGO,BWA,COD,ETH,KEN,MOZ,MWI,NAM,RWA,SDN,SSD,SWZ,TZA,ZAF,ZMB,ZWE",,"AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer et al. (2016j)"
+Coenagrionidae,Pseudagrion_melanicterum,"AGO,BEN,BFA,CAF,CIV,CMR,COD,COG,GAB,GHA,GIN,GNB,GNQ,KEN,LBR,NGA,SDN,SEN,SLE,TGO,TZA,UGA,ZMB",,"AfrW,AfrE",Afr,"Dijkstra (2017), Clausnitzer et al. (2016k)"
+Coenagrionidae,Pseudagrion_microcephalum,"AUS,BGD,BRN,CHN,HKG,IDN,IND,JPN,KHM,LAO,LKA,MMR,MYS,NPL,PHL,PNG,SGP,SLB,THA,TON,TWN,VNM","New South Wales,Northern Territory,Queensland,Western Australia","AsSE,AusW,AusE,Ind,Mly","Aus,Ind,SE_As",Dow & Wilson (2017)
+Coenagrionidae,Pseudagrion_munte,COD,,"AfrW,AfrS",Afr,Dijkstra (2017)
+Coenagrionidae,Pseudagrion_niloticum,"ETH,KEN,SDN,SSD,YEM",,"AfrE,AfrN",Afr,"Dijkstra (2017), Boudot et al. (2016d), Schneider & Naser (2013)"
+Coenagrionidae,Pseudagrion_nubicum,"BEN,BFA,BWA,CMR,COD,EGY,ETH,GHA,GMB,KEN,LBR,MLI,NAM,NER,NGA,RWA,SDN,SEN,SSD,TCD,TGO,TZA,UGA,ZMB,ZWE",,"AfrW,AfrS,AfrE,AfrN",Afr,"Dijkstra (2017), Boudot et al. (2016e)"
+Coenagrionidae,Pseudagrion_pacale,SLE,,AfrW,Afr,Dijkstra (2017)
+Coenagrionidae,Pseudagrion_pilidorsum,"IDN,IND,JPN,MYS,PHL,TLS,TWN","Andaman Is.,Indonesia-Archipelago,Malaysia-Archipelago,Nicobar Is.","AsSE,Mly",SE_As,"GBIF (2020e), Mitra & Babu (2010), Ozono et al. (2012)"
+Coenagrionidae,Pseudagrion_pruinosum,"BRN,CHN,HKG,IDN,IND,KHM,LAO,MYS,SGP,THA,VNM","Guangdong,Guangxi,Guizhou,Hainan,Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Ind,Mly","Ind,SE_As",Dow (2020l)
+Coenagrionidae,Pseudagrion_rubriceps,"BGD,CHN,HKG,IDN,IND,KHM,LAO,MMR,MYS,NPL,PAK,PHL,THA,TWN","Assam,Guangdong,Guangxi,Hainan,Himachal Pradesh,Indonesia-Archipelago,Kerala,Madhya Pradesh,Maharashtra,Meghalaya,Punjab,Tamil Nadu,Uttar Pradesh,West Bengal","AsSE,Ind,Mly","Ind,SE_As",Pal (2011)
+Coenagrionidae,Pseudagrion_salisburyense,"AGO,BWA,COD,ETH,KEN,MOZ,MWI,NAM,SWZ,TZA,UGA,ZAF,ZMB,ZWE",,"AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2016h)"
+Coenagrionidae,Pseudagrion_samoense,WSM,,AusE,Aus,"Harding & Beatty (2020), NZAC"
+Coenagrionidae,Pseudagrion_sarepi,AGO,,"AfrW,AfrS",Afr,Dijkstra (2017)
+Coenagrionidae,Pseudagrion_serrulatum,"CAF,CMR,GAB,GNQ,NGA",,AfrW,Afr,"Dijkstra (2017), Clausnitzer & Dijkstra (2010b)"
+Coenagrionidae,Pseudagrion_sjoestedti,"AGO,BEN,BFA,BWA,CAF,CIV,CMR,COD,COG,GAB,GHA,GMB,GNB,GNQ,KEN,LBR,MLI,MOZ,MWI,NAM,NGA,RWA,SDN,SLE,SSD,TGO,TZA,UGA,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2016i)"
+Coenagrionidae,Pseudagrion_sp,"CAF,CIV,CMR,GHA,GIN,MLI,NGA,SLE,TGO",,AfrW,Afr,"Dijkstra (2017), Clausnitzer & Dijkstra (2010a)"
+Coenagrionidae,Pseudagrion_spencei,"BGD,CHN,HKG,IND,MMR,NPL,PAK","Andhra Pradesh,Assam,Bihar,Guangdong,Guangxi,Madhya Pradesh,Meghalaya,Uttar Pradesh,West Bengal","AsSE,Ind","Ind,SE_As",Sharma (2010b)
+Coenagrionidae,Pseudagrion_spernatum,"BDI,COD,ETH,KEN,MOZ,MWI,RWA,SWZ,TZA,UGA,ZAF,ZMB,ZWE",,"AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2016j)"
+Coenagrionidae,Pseudagrion_sublacteum,"AGO,BEN,BWA,CIV,CMR,COD,COG,ETH,GHA,GIN,GMB,ISR,JOR,KEN,LBR,MAR,MLI,MOZ,MWI,MYT,NAM,NER,NGA,OMN,RWA,SDN,SEN,SLE,SOM,SWZ,SYR,TGO,TZA,UGA,YEM,ZAF,ZMB,ZWE",,"AfrW,AfrS,AfrE,AfrN",Afr,"Dijkstra (2017), Clausnitzer (2016c)"
+Coenagrionidae,Pseudagrion_tanganyicum,"TZA,ZMB",,AfrE,Afr,Dijkstra (2017)
+Coenagrionidae,Pseudagrion_torridum,"BFA,COD,EGY,ETH,GAB,GHA,ISR,KEN,MLI,NGA,SDN,SEN,SSD,TCD,UGA",,"AfrW,AfrE,AfrN",Afr,"Dijkstra (2017), Clausnitzer (2016d)"
+Platycnemididae,Pseudocopera_annulata,"CHN,JPN,KOR,PRK","Guizhou,Hebei,Henan,Hubei,Jiangsu,Shaanxi,Sichuan,Yunnan",AsE,E_As,Wilson (2018)
+Platycnemididae,Pseudocopera_ciliata,"BGD,CHN,HKG,IDN,IND,KHM,MMR,MYS,THA,TWN,VNM","Assam,Fujian,Guangdong,Guangxi,Himachal Pradesh,Indonesia-Archipelago,Meghalaya,Uttar Pradesh,West Bengal",AsSE,SE_As,Dow (2018)
+Platycnemididae,Pseudocopera_rubripes,"CHN,JPN,KOR",,AsE,E_As,Yum et al. (2010)
+Coenagrionidae,Pyrrhosoma_elisabethae,"ALB,GRC",,Eur,Eur,"Boudot & Kalkman (2015), Kalkman (2020d)"
+Coenagrionidae,Pyrrhosoma_nymphula,"ALB,AND,AUT,BEL,BGR,BIH,BLR,CHE,CZE,DEU,DNK,ESP,EST,FIN,FRA,GBR,GEO,GGY,GRC,HRV,HUN,IMN,IRL,IRN,ITA,JEY,LTU,LUX,LVA,MAR,MKD,MNE,NDL,NOR,POL,PTR,ROU,RUS,SRB,SVK,SVN,SWE,TUR,UKR",European Russia,"Eur,AfrN","Afr,Eur","Boudot & Kalkman (2015), Kalkman (2014)"
+Platycnemididae,Risiocnemis_appendiculata,PHL,,Mly,SE_As,H??m??l??inen (1991)
+Platycnemididae,Risiocnemis_erythrura,PHL,,Mly,SE_As,H??m??l??inen (1991)
+Platycnemididae,Risiocnemis_praeusta,PHL,,Mly,SE_As,H??m??l??inen (1991)
+Platycnemididae,Salomocnemis_gerdae,SLB,,AusE,Aus,"Marinov & Pikacha (2013), NZAC"
+Coenagrionidae,Sangabasis_dentifer,PHL,,Mly,SE_As,Villanueva & Dow (2014)
+Coenagrionidae,Schistolobos_boliviensis,"BOL,PER",,SAmC,S_Am,"Hoffmann et al. (2016j), von Ellenrieder & Garrison (2008)"
+Platycnemididae,Spesbona_angusta,ZAF,,AfrS,Afr,"Dijkstra (2017), Samways (2018b)"
+Coenagrionidae,Stenagrion_dubium,"BRN,MYS",Malaysia-Archipelago,Mly,SE_As,Dow (2020m)
+Platycnemididae,Stenocnemis_pachystigma,"CMR,COD,GAB,NGA",,AfrW,Afr,"Dijkstra (2017), Clausnitzer & Dijkstra (2017b)"
+Coenagrionidae,Teinobasis_aeridis,FSM,,,,Paulson & Buden (2003)
+Coenagrionidae,Teinobasis_alluaudi,"KEN,MDG,MWI,SYC,TZA",,"AfrE,Mdg",Afr,"Clausnitzer (2003), Clausnitzer (2019)"
+Coenagrionidae,Teinobasis_ariel,FSM,,,,Paulson & Buden (2003)
+Coenagrionidae,Teinobasis_bradleyi,SLB,,AusE,Aus,Marinov & Pikacha (2013)
+Coenagrionidae,Teinobasis_carolinensis,FSM,,,,"FSCA, Flint (1991)"
+Coenagrionidae,Teinobasis_cryptica,"MYS,SGP","Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,"Dow (2010b), Dow & Ngiam (2011)"
+Coenagrionidae,Teinobasis_filamenta,PHL,,Mly,SE_As,Villanueva (2009c)
+Coenagrionidae,Teinobasis_fortis,FSM,,,,Paulson & Buden (2003)
+Coenagrionidae,Teinobasis_laidlawi,"IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago",Mly,SE_As,Dow (2010b)
+Coenagrionidae,Teinobasis_nigrolutea,FSM,,,,Paulson & Buden (2003)
+Coenagrionidae,Teinobasis_rajah,"BRN,IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,"Dow (2010b), Dow (2019f)"
+Coenagrionidae,Teinobasis_ruficollis,"IDN,MYS,SGP","Indonesia-Archipelago,Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,"Dow (2010b), Tang et al. (2010), Choong et al. (2017)"
+Coenagrionidae,Teinobasis_rufithorax,"AUS,IDN,PNG,SLB","Indonesia-Papua,Queensland",AusE,Aus,Dow (2017j)
+Coenagrionidae,Teinobasis_scintillans,PNG,,AusE,Aus,Kalkman & Orr (2013)
+Coenagrionidae,Teinobasis_sjupp,IDN,Indonesia-Papua,AusE,Aus,"Kalkman (2008), Kalkman & Orr (2013)"
+Coenagrionidae,Telagrion_longum,"ARG,BRA","Espirito Santo,Rio de Janeiro,Rio Grande do Sul,Sao Paulo",SAmS,S_Am,Heckman (2008)
+Coenagrionidae,Telebasis_brevis,ECU,,SAmN,S_Am,Heckman (2008)
+Coenagrionidae,Telebasis_byersi,USA,"AL,AR,DE,FL,GA,LA,MD,MS,NC,SC,TX,VA",NAmSE,N_Am,Paulson (2011)
+Coenagrionidae,Telebasis_carmesina,"ARG,BOL,BRA,PRY","Mato Grosso,Minas Gerais,Sao Paulo","SAmE,SAmS,SAmC",S_Am,"Heckman (2008), von Ellenrieder (2009r)"
+Coenagrionidae,Telebasis_carota,"ECU,PER",,SAmN,S_Am,Heckman (2008)
+Coenagrionidae,Telebasis_collopistes,"BLZ,CRI,GUA,HON,MEX",,SAmN,C_Am,"Paulson (1984), Dunkle (1991), Garrison (2009) "
+Coenagrionidae,Telebasis_corallina,"BRA,CRI,CUB,DMA,GLP,TTO,VEN","Bahia,Minas Gerais,Parana,Rio de Janeiro,Rio Grande do Sul,Sao Paulo","SAmN,SAmE","C_Am,S_Am","Garrison (2009), Heckman (2008), von Ellenrieder (2009s)"
+Coenagrionidae,Telebasis_demarara,"BRA,GUF,GUY,SUR,TTO,VEN",Roraima,SAmE,S_Am,"Heckman (2008), von Ellenrieder (2009t)"
+Coenagrionidae,Telebasis_digiticollis,"BLZ,CRI,ESA,GUA,HON,MEX,NIC,PAN,VEN",,SAmN,C_Am,"Esquivel (2006), Garrison (2009)"
+Coenagrionidae,Telebasis_dominicana,"CUB,DOM,HTI,JAM,PRI,VGB",,GA,C_Am,"Bick and Bick (1995), Garrison (2009)"
+Coenagrionidae,Telebasis_dunklei,"BOL,ECU,PER",,"SAmN,SAmC",S_Am,Garrison (2009)
+Coenagrionidae,Telebasis_filiola,"BLZ,BRA,COL,CRI,ESA,GUA,HON,MEX,NIC,PAN,VEN","Bahia,Espirito Santo,Mato Grosso,Para,Pernambuco,Rio de Janeiro,Sao Paulo","SAmN,SAmE,SAmC","C_Am,S_Am","Garrison (2009), Heckman (2008)"
+Coenagrionidae,Telebasis_garleppi,"COL,CRI,ECU",,SAmN,"C_Am,S_Am",Garrison (2009)
+Coenagrionidae,Telebasis_gigantea,"BOL,BRA",Mato Grosso,SAmC,S_Am,"Calvao et al. (2014), Daigle (2002)"
+Coenagrionidae,Telebasis_griffinii,"ARG,BOL,BRA,COL,ECU,PAN,PER,TTO,VEN","Minas Gerais,Sao Paulo","SAmN,SAmE,SAmS,SAmC",S_Am,"Garrison (2009), Paulson (2009j), Kompier (2015), Magalhaes de Souza et al. (2017)"
+Coenagrionidae,Telebasis_inalata,"ARG,BOL,ECU,PER,PRY",,"SAmN,SAmE,SAmS",S_Am,"Garrison (2009), Heckman (2008)"
+Coenagrionidae,Telebasis_levis,"BLZ,CRI,ESA,GUA,HON,MEX,NIC",,SAmN,C_Am,Garrison (2009)
+Coenagrionidae,Telebasis_livida,"ECU,PER",,SAmN,S_Am,"Heckman (2008), von Ellenrieder (2009u)"
+Coenagrionidae,Telebasis_obsoleta,"ARG,BOL,BRA,ECU,PER,PRY","Acre,Amazonas,Mato Grosso,Para,Sao Paulo","SAmS,SAmC",S_Am,"Garrison (2009), Heckman (2008)"
+Coenagrionidae,Telebasis_rubricauda,"BOL,BRA,ECU,PER,VEN","Acre,Rondonia","SAmE,SAmC",S_Am,"Garrison (2009), Heckman (2008), von Ellenrieder (2009v)"
+Coenagrionidae,Telebasis_salva,"BLZ,COL,CRI,ESA,GUA,HON,MEX,NIC,PAN,USA,VEN","AZ,CA,NM,OK,TX","SAmN,NAmSW","C_Am,N_Am,S_Am","Garrison (2009), Heckman (2008), Paulson (2009a)"
+Coenagrionidae,Telebasis_sanguinalis,"BOL,BRA","Amazonas,Mato Grosso",SAmC,S_Am,"Garrison (2009), Heckman (2008), Tennessen (2002)"
+Coenagrionidae,Telebasis_simulata,"DMA,GUF,GUY,SUR,TTO,VEN",,SAmE,S_Am,"Garrison (2009), Tennessen (2002)"
+Coenagrionidae,Telebasis_theodori,"ARG,BRA",Rio Grande do Sul,SAmS,S_Am,"Garrison (2009), Heckman (2008)"
+Coenagrionidae,Telebasis_vulnerata,"DOM,HTI,PRI",,GA,C_Am,Garrison (2009)
+Coenagrionidae,Telebasis_willinki,"ARG,BOL,BRA,PRY,URU","Rio Grande do Sul,Sao Paulo","SAmS,SAmC",S_Am,"Garrison (2009), Heckman (2008), von Ellenrieder (2009w)"
+Coenagrionidae,Tepuibasis_spn,--,,--,,--
+Coenagrionidae,Thaumatagrion_funereum,IDN,Indonesia-Papua,Mly,SE_As,Richards (2019b)
+Coenagrionidae,Tigriagrion_aurantinigrum,"ARG,BOL,BRA","Mato Grosso,Mato Grosso do Sul,Minas Gerais,Sao Paulo","SAmE,SAmS,SAmC",S_Am,"Heckman (2008), Rodrigues & Roque (2017)"
+Platycnemididae,Torrenticnemis_filicornis,"IDN,PNG",Indonesia-Papua,AusE,Aus,Kalkman & Orr (2013)
+Coenagrionidae,Tuberculobasis_geijskesi,SUR,,SAmE,S_Am,Machado (2009)
+Coenagrionidae,Tuberculobasis_sp,--,,--,,--
+Coenagrionidae,Vanuatubasis_sp,VUT,,AusE,Aus,--
+Coenagrionidae,Xanthagrion_erythroneura,"AUS,FJI,NCL","New South Wales,Northern Territory,Queensland,South Australia,Tasmania,Victoria,Western Australia","AusE,AusW",Aus,Dow (2017k)
+Coenagrionidae,Xanthocnemis_tuanuii,NZL,,NZ,Aus,Rowe and Marinov (2020)
+Coenagrionidae,Xanthocnemis_zealandica,NZL,,NZ,Aus,Rowe (2020)
+Coenagrionidae,Xiphiagrion_cyanomelas,"BRN,IDN,MYS,PHL,PNG,SLB,TLS","Indonesia-Papua,Malaysia-Archipelago","AusE,Mly","Aus,SE_As","Kalkman & Orr (2013), Ng et al. (2008), Orr (2001), Seehausen (2017), Villanueva et al. (2012)"
+Coenagrionidae,Zoniagrion_exclamationis,USA,CA,"NAmNW,NAmSW",N_Am,Paulson (2009a)

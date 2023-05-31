@@ -1,0 +1,4141 @@
+---
+title: |
+  | "Code for:
+  **Tropical origin, global diversification and dispersal in the pond damselflies (Coenagrionoidea) revealed by a new molecular phylogeny**"
+author: "Beatriz Willink"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: united
+    highlight: tango
+    number_sections: false
+    toc: true
+    toc_float: true
+bibliography: Phylo_supporting.bib
+citation-style: sysbio.csl
+link-citations: true
+---
+This documents describes the analyses conducted by Willink *et al.* to infer and date the phylogeny of pond damselflies and featherlegs (Coenagrionoidea), and to explore how diversification and biome-shift dynamics have contributed to the current latitudinal diversity gradient in this group of insects.
+
+Load packages.
+
+```{r load-packages, message=FALSE, results='hide', warning=FALSE}
+x <-
+  c(
+    "tidyr",
+    "ggplot2",
+    "wesanderson",
+    "coda",
+    "ape",
+    "phangorn",
+    "ggtree",
+    "gridExtra",
+    "treeio",
+    "phytools",
+    "plyr",
+    "dplyr", 
+    "RevGadgets",
+    "rgeos",
+    "rgdal",
+    "maptools",
+    "reshape2", 
+    "kableExtra",
+    "gginnards",
+    "deeptime",
+    "cowplot",
+    "grid",
+    "scales",
+    "Cairo",
+    "data.table",
+    "magick",
+    "ggimage"
+  )
+
+lapply(x, function(y) {
+  # check if installed, if not install
+  if (!y %in% installed.packages()[, "Package"])
+    install.packages(y)
+  
+  # load package
+  try(require(y, character.only = T), silent = T)
+})
+```
+
+# Sequence aligment and data pre-processing
+
+We aligned the sequence data and prepared it for concatenation. Two protein-coding loci without indels were aligned using muscle under default settings.
+
+```{bash muscle-align, echo=TRUE, eval=FALSE}
+#!/bin/bash/
+
+# COI
+# align
+time muscle -in ../data/raw/COI_allspp_unaligned.fst -out ../data/processed/mol/COI_allspp.fst
+
+# clip primer and longer seqs from NCBI
+# selectSite.pl script by Naoki Takebayashi (GPL) 
+perl ./perl/selectSite.pl -s '208-687' ../data/processed/mol/COI_allspp.fst > ../data/processed/mol/COI_allspp_trim.fst
+
+# remove identifier to concatenate
+cat ../data/processed/mol/COI_allspp_trim.fst | sed -E 's/_BEA[0-9]{3}//' \
+                                              | sed -E 's/_[A-Z]{2}[0-9]{6}.[0-9]//' \
+                                              | sed -E 's/_DIJ[0-9]*//' \
+                                              | sed -E 's/_RMNH.INS.[0-9]{6}//'> ../data/processed/mol/COI_spp.fst
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/COI_spp.fst > ../data/processed/mol/COI_spp_sorted.fst
+
+# H3
+# align
+time muscle -in ../data/raw/H3_allspp_unaligned.fst -out ../data/processed/mol/H3_allspp.fst
+
+# clip primer and longer seqs from NCBI
+# selectSite.pl script by Naoki Takebayashi (GPL) 
+perl ./perl/selectSite.pl -s '25-351' ../data/processed/mol/H3_allspp.fst > ../data/processed/mol/H3_allspp_trim.fst
+
+# remove identifier to concatenate
+cat ../data/processed/mol/H3_allspp_trim.fst | sed -E 's/_BEA[0-9]{3}//' \
+                                             | sed -E 's/_[A-Z]{2}[0-9]{6}.[0-9]//' \
+                                             | sed -E 's/_DIJ[0-9]*//' \
+                                             | sed -E 's/_RMNH.INS.[0-9]{6}//' > ../data/processed/mol/H3_spp.fst
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/H3_spp.fst > ../data/processed/mol/H3_spp_sorted.fst
+```
+
+Ribosomal DNA was first aligned with muscle and subsequently matched to the secondary structure of the ribosomal molecules to manually verify or correct the alignment of all hydrogen-bonded regions [@kjer1995use]. Sites within single-stranded regions that were ambiguously aligned due to multiple insertions and deletions and over-representation of A and T nucleotides were excluded.
+
+```{bash ribosomal-align, echo=TRUE, eval=FALSE}
+#!/bin/bash/
+
+# D7
+# align
+time muscle -in ../data/raw/D7_allspp_unaligned.fst -out ../data/processed/mol/D7_allspp.fst
+
+# visual verification of secondary structure here
+# file saved to D7_allspp_corrected.fst
+
+# clip primer, high AT content and longer seqs from NCBI
+# selectSite.pl script by Naoki Takebayashi (GPL) 
+perl ./perl/selectSite.pl -s '2312-2507, 2576-2970' ../data/processed/mol/D7_allspp_corrected.fst > ../data/processed/mol/D7_allspp_trim.fst
+
+# remove identifier to concatenate
+cat ../data/processed/mol/D7_allspp_trim.fst | sed -E 's/_BEA[0-9]{3}//' \
+                                             | sed -E 's/_[A-Z]{2}[0-9]{6}.[0-9]//' \
+                                             | sed -E 's/_DIJ[0-9]*//' \
+                                             | sed -E 's/_RMNH.INS.[0-9]{6}//' > ../data/processed/mol/D7_spp.fst
+
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/D7_spp.fst > ../data/processed/mol/D7_spp_sorted.fst
+
+# 16S
+# align
+time muscle -in ../data/raw/16S_allspp_unaligned.fst -out ../data/processed/mol/16S_allspp.fst
+
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/16S_allspp.fst > ../data/processed/mol/16S_allspp_sorted.fst
+
+# visual verification of secondary structure here
+# file saved to 16S_allspp_corrected.fst
+
+# clip primer and longer seqs from NCBI
+# selectSite.pl script by Naoki Takebayashi (GPL) 
+perl ./perl/selectSite.pl -s '21-30,41-64,77-179, 198-265,329-440' ../data/processed/mol/16S_allspp_corrected.fst > ../data/processed/mol/16S_allspp_trim.fst
+
+# remove identifier to concatenate
+cat ../data/processed/mol/16S_allspp_trim.fst | sed -E 's/_BEA[0-9]{3}//' \
+                                              | sed -E 's/_[A-Z]{2}[0-9]{6}.[0-9]//' \
+                                              | sed -E 's/_DIJ[0-9]*//' \
+                                              | sed -E 's/_RMNH.INS.[0-9]{6}//' > ../data/processed/mol/16S_spp.fst
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/16S_spp.fst > ../data/processed/mol/16S_spp_sorted.fst
+```
+
+The last marker, PMTR, included both exonic and intronic regions and was aligned using PRANK.
+
+```{bash PMTR-align, echo=TRUE, eval=FALSE}
+#!/bin/bash/
+
+# PMTR
+# align
+prank -d=PMTR_allspp.fst -o=PMTR_allspp -iterate=20 -scalebranches=2
+
+# clip primer and longer seqs from NCBI
+# selectSite.pl script by Naoki Takebayashi (GPL)
+# positions can be different in other PRANK alignments as ties are resolved randomly
+perl ./perl/selectSite.pl -s '250-999' ../data/processed/mol/PMTR_allspp.best.fas > ../data/processed/mol/PMTR_allspp_trim.fst
+
+# remove identifier to concatenate
+cat ../data/processed/mol/PMTR_allspp_trim.fst | sed -E 's/_BEA[0-9]{3}//' \
+                                               | sed -E 's/_[A-Z]{2}[0-9]{6}.[0-9]//' \
+                                               | sed -E 's/_DIJ[0-9]{3}//' \
+                                               | sed -E 's/_RMNH.INS.[0-9]{6}//' > ../data/processed/mol/PMTR_spp.fst
+# sort for clarity
+perl ./perl/fastaSortByName.pl ../data/processed/mol/PMTR_spp.fst > ../data/processed/mol/PMTR_spp_sorted.fst
+
+# get exon only fasta for codon saturation
+perl ./perl/selectSite.pl -s '2-105,321-476,667-750' ../data/processed/mol/PMTR_spp.fst > ../data/processed/mol/PMTR_exon_pruned.fst
+```
+
+We visually assessed third codon saturation for the three coding loci, using correlation between corrected and uncorrected genetic distances between taxa (see Extended Methods).
+
+```{r codon-saturation, echo=TRUE, eval=TRUE}
+# Input data: a FASTA-format object 
+COI <- read.FASTA(file="../data/processed/mol/COI_spp.fst")
+H3 <- read.FASTA(file="../data/processed/mol/H3_spp.fst")
+PMTR <- read.FASTA(file="../data/processed/mol/PMTR_exon_pruned.fst")
+
+# Convert to genetic distances
+distCOI <- dist.dna(COI, model = "raw")
+dist.correctedCOI <- dist.dna(COI, model = "TN93", gamma = T)
+
+distH3 <- dist.dna(H3, model = "raw")
+dist.correctedH3 <- dist.dna(H3, model = "TN93", gamma = T)
+
+distPMTR <- dist.dna(PMTR, model = "raw")
+dist.correctedPMTR <- dist.dna(PMTR, model = "TN93", gamma = T)
+
+# Make plots
+par(mfrow=c(1,3))
+
+plot(
+  distCOI ~ dist.correctedCOI,
+  pch = 20,
+  cex = .5,
+  cex.lab = 1.5,
+  cex.axis = 1.5,
+  col = "grey",
+  xlab = "TN93 model distance",
+  ylab = "COI uncorrected genetic distance",
+  main = ""
+)
+abline(0, 1, lty = 2)
+abline(lm(distCOI ~ dist.correctedCOI),
+       lwd = 3,
+       col = "red")
+lm_coefCOI <- coef(lm(distCOI ~ dist.correctedCOI))
+
+plot(
+  distH3 ~ dist.correctedH3,
+  pch = 20,
+  cex = .5,
+  cex.lab = 1.5,
+  cex.axis = 1.5,
+  col = "grey",
+  xlab = "TN93 model distance",
+  ylab = "H3 uncorrected genetic distance",
+  main = ""
+)
+abline(0, 1, lty = 2)
+abline(lm(distH3 ~ dist.correctedH3), lwd = 3, col = "red")
+lm_coefH3 <- coef(lm(distH3 ~ dist.correctedH3))
+
+plot(
+  distPMTR ~ dist.correctedPMTR,
+  pch = 20,
+  cex = .5,
+  cex.lab = 1.5,
+  cex.axis = 1.5,
+  col = "grey",
+  xlab = "TN93 model distance",
+  ylab = "PMTR uncorrected genetic distance",
+  main = ""
+)
+abline(0, 1, lty = 2)
+abline(lm(distPMTR ~ dist.correctedPMTR),
+       lwd = 3,
+       col = "red")
+lm_coefPMTR <- coef(lm(distPMTR ~ dist.correctedPMTR))
+```
+
+Finally, the sequence data was converted to nexus and concatenated. In this step, we also updated taxon names to reflect nomenclature in Paulson and Schorr [-@PaulsonWorldOdonata].
+
+```{bash align-concat, eval=FALSE, echo=TRUE}
+#!/bin/bash
+
+# Align sequences
+bash ./align_concat/muscle_align.sh
+bash ./align_concat/ribosomal_align.sh
+bash ./align_concat/pmtr_align.sh
+
+# Make nexus
+perl ./perl/convertfasta2nex.pl ../data/processed/mol/COI_spp_sorted.fst > ../data/processed/mol/COI.nex
+perl ./perl/convertfasta2nex.pl ../data/processed/mol/H3_spp_sorted.fst > ../data/processed/mol/H3.nex
+perl ./perl/convertfasta2nex.pl ../data/processed/mol/PMTR_spp_sorted.fst > ../data/processed/mol/PMTR.nex
+perl ./perl/convertfasta2nex.pl ../data/processed/mol/16S_spp_sorted.fst > ../data/processed/mol/16S.nex
+perl ./perl/convertfasta2nex.pl ../data/processed/mol/D7_spp_sorted.fst > ../data/processed/mol/D7.nex
+
+# Concatenate
+python2.7 ./py/Concatenate.py
+
+# Update taxon names
+cat ../data/processed/mol/Coen.mol.nex | sed -E 's/Elattoneura_tropicalis/Elattoneura_cellularis/' | \
+                                         sed -E 's/Prodasineura_humeralis/Prodasineura_verticalis/' | \
+                                         sed -E 's/Copera_tokyoensis/Pseudocopera_rubripes/' | \
+                                         sed -E 's/Copera_annulata/Pseudocopera_annulata/' | \
+                                         sed -E 's/Chlorocnemis_marshalli/Allocnemis_marshalli/' | \
+                                         sed -E 's/Chlorocnemis_abbotti/Allocnemis_abbotti/' | \
+                                         sed -E 's/Teinobasis_filamentum/Teinobasis_filamenta/' | \
+                                         sed -E 's/Mecistogaster_asticta/Platystigma_astictum/' | \
+                                         sed -E 's/Mecistogaster_jocaste/Platystigma_jocaste/' | \
+                                         sed -E 's/Mecistogaster_martinezi/Platystigma_martinezi/' | \
+                                         sed -E 's/Metaleptobasis_mauritia/Metaleptobasis_bicornis/' | \
+                                         sed -E 's/Coenagriocnemis_insulare/Coenagriocnemis_insularis/' | \
+                                         sed -E 's/Aciagrion_tillyardi/Aciagrion_approximans/' | \
+                                         sed -E 's/Mesoleptobasis_centralli/Mesoleptobasis_cantralli/' > ../data/processed/mol/Coen.mol.final.nex
+```
+
+# Topology inference
+
+We used RevBayes v. 1.0.7 to infer the topology of the Coenagrionoidea tree. For model details, see Extended Methods. First, we estimated the marginal likelihood of alternative partition schemes using the stepping stone algorithm.
+
+Make alternative partition schemes.
+
+```{bash make-partitions, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# Remove partition block
+cat ../data/processed/mol/Coen.mol.final.nex | head -677 > ../data/processed/nxs/Coen.mol.no_parts.nex
+
+# only genes and exon/intron as partitions
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M1.partitions.nex > ../data/processed/nxs/M1.mol.nex
+
+# codons 1/2, 3
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M2.partitions.nex > ../data/processed/nxs/M2.mol.nex 
+
+# codons 1,2,3 for COI; 1/2, 3 for H3 and PMTR
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M3.partitions.nex > ../data/processed/nxs/M3.mol.nex 
+
+# codons 1,2,3 for COI and H3; 1/2, 3 for PMTR
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M4.partitions.nex > ../data/processed/nxs/M4.mol.nex 
+
+# codons 1,2,3 for COI and PMTR; 1/2, 3 for H3
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M5.partitions.nex > ../data/processed/nxs/M5.mol.nex 
+
+# codons 1,2,3
+cat ../data/processed/nxs/Coen.mol.no_parts.nex ../data/processed/nxs/M6.partitions.nex > ../data/processed/nxs/M6.mol.nex 
+```
+
+Run marginal likelihood approximations.
+
+```{bash topology-ML, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load modules: compiler, open mpi and RevBayes
+ml load GCC/6.4.0-2.28 OpenMPI/2.1.1
+ml load RevBayes/23Nov2017_dev
+
+models=("M1" "M2" "M3" "M4" "M5" "M6")
+
+for i in ${models[@]};
+do
+  # construct the command string
+  rb_command="source(\"M$i.Partition.Rev\");"
+
+  # pipe the command into RevBayes
+  echo $rb_command | mpirun -bind-to core rb-mpi
+done
+```
+
+The .Partition.Rev scripts call a topology module (UniformGTRG.Rev), an outgroup module (Outgroup.Rev) that fixes the first node of the tree to the split between Coenagrionidae and Platycnemididae, and a ML module (ML.Rev) that computes the marginal likelihood for the model.
+
+The partition scheme with the lowest ML score (M3, see Extended Results) was used in the subsequent topology inference (M3.Topology.Rev). This analysis combines the  topology and outgroup modules above (UniformGTRG.Rev, Outgroup.Rev) with a MCMC module for parameter estimation (Topology.MCMC.Rev).
+
+```{bash topology-inference, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load modules: compiler, open mpi and RevBayes
+ml load GCC/6.4.0-2.28 OpenMPI/2.1.1
+ml load RevBayes/23Nov2017_dev
+
+# construct the command string
+rb_command="source(\"M3.Topology.Rev\");"
+
+# pipe the command into RevBayes
+echo $rb_command | mpirun -bind-to core rb-mpi
+```
+
+The two chains were combined, and 60000 iterations were additionally burned-in before summarising the phylogenetic analysis using the Maximum *a posteriori* (MAP) tree.
+
+```{bash topology-MAP, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# extra burn in of 60000 iterations
+cat ../output/topology/M3.Uniform_run1.tre | tail -200 > ../output/topology/M3.Uniform_run1_postburn.tre
+cat ../output/topology/M3.Uniform_run2.tre | tail -200 > ../output/topology/M3.Uniform_run2_postburn.tre
+
+# concatenate both runs
+cat ../output/topology/M3.Uniform_run1_postburn.tre ../output/topology/M3.Uniform_run1_postburn.tre > ../output/topology/M3.Uniform_trace.tre
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# summarise trees
+rb_command="source(\"./topology/topology_MAP.Rev\");"
+echo $rb_command | rb
+```
+
+## Plotting topolgy results
+
+### All nodes
+
+First plot the MAP tree with node supports (posterior probabilities). We split this figure into three subtrees to improve visibility.
+
+```{r plot-map-support, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# Read MAP tree
+Top <- read.beast("../output/topology/M3.Uniform.MAP.tree")
+
+# Plot the entire tree
+Top_tre <- ggtree(Top, linewidth = 0.2) +
+  geom_tiplab(size = 1) +
+  geom_text(aes(label = posterior), hjust = -.3, size = 1)
+  
+
+# Zoom into featherlegs
+tfeather <-
+  viewClade(Top_tre, getMRCA(
+    Top@phylo,
+    tip = c("Arabicnemis_caerulea", "Elattoneura_caesia")
+  ))
+
+tfeather
+
+#ggsave(plot = tfeather, filename = "../../Writing/Figures/Topology_feather.pdf", device = "pdf", dpi = 600, width = 180, height = 220, units = "mm")
+
+# Zoom into ridge-face pond damselflies
+tridge <-
+  viewClade(Top_tre, getMRCA(Top@phylo, tip = c("Phasmoneura_exigua", "Argia_euphorbia")))
+            
+tridge
+
+#ggsave(plot = tridge, filename = "../../Writing/Figures/Topology_ridge.pdf", device = "pdf", dpi = 600, width = 180, height = 220, units = "mm")
+
+# Zoom into core pond damselflies
+tcore <-
+  viewClade(Top_tre, getMRCA(
+    Top@phylo,
+    tip = c("Coenagrion_scitulum", "Acanthagrion_gracile")
+  ))
+
+tcore
+
+#ggsave(plot = tcore, filename = "../../Writing/Figures/Topology_core.pdf", device = "pdf", dpi = 600, width = 180, height = 220, units = "mm")
+```
+
+We also want to summarise the distribution of node support values (posterior probabilities) across the maximum *a posteriori* tree.
+
+```{r node-support, echo=TRUE, eval=TRUE, message=FALSE}
+
+# select internal nodes
+posterior.dat <- Top@data[!is.na(Top@data$posterior),]
+
+# percentage of nodes with > 90% support
+sum(posterior.dat$posterior > 0.9) / Top@phylo$Nnode
+
+# percentage of nodes with > 50% support
+sum(posterior.dat$posterior > 0.5) / Top@phylo$Nnode
+
+# plot histogram
+ns <- ggplot(data = posterior.dat , aes(x = posterior)) +
+  geom_histogram(bins = 10, colour = "white" , fill = "#0277BD") +
+  labs(x = "Posterior probability (PP)", y = "Node count") +
+  theme_minimal(base_size = 9) + 
+  theme(panel.grid = element_blank())
+
+ns
+
+#ggsave(plot = ns, filename = "../../Writing/Figures/Node_support_hist.png", device = "png", dpi = 600, width = 80, height = 80, units = "mm")
+
+```
+### Comparison to previous studies
+
+Next, we contrast how relationships among main clades inferred here compare to previous studies.
+
+```{r clade-compare, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# read trees
+Plat <-  read.beast("../data/processed/compare_tree/Platynemididae.tre")
+Coen <- read.beast("../data/processed/compare_tree/Coenagrionidae.tre")
+Core <- read.beast("../data/processed/compare_tree/Core.tre")
+Ridge <- read.beast("../data/processed/compare_tree/Ridge.tre")
+
+# plot all featherleg trees
+P_D <-
+  ggtree(Plat[1][[1]]) + geom_tiplab(size = 2) +  xlim(0, 10) + labs(title = "Dijkstra et al. 2014") + theme(title = element_text(size = 6,  hjust = 0.5))
+P_T <-
+  ggtree(Plat[2][[1]]) + geom_tiplab(size = 2) + xlim(0, 10) + labs(title = "Toussaint et al. 2019") + theme(title = element_text(size =  6,  hjust = 0.5))
+P_B <-
+  ggtree(Plat[3][[1]])  + geom_tiplab(size = 2) + xlim(0, 10) + labs(title = "Bybee et al. 2021") + theme(title = element_text(size = 6,  hjust = 0.5))
+P_W <-
+  ggtree(Plat[4][[1]]) + geom_tiplab(size = 2) +  xlim(0, 10) + geom_text(aes(label = posterior), hjust = -.3, size = 1.5) + labs(title = "This study") + theme(title = element_text(size = 6, hjust = 0.5))
+
+P_all <-
+  grid.arrange(
+    P_D %>% rotate(10),
+    P_T  %>% rotate(5) %>% rotate(6),
+    P_B %>% rotate(6) %>% rotate(8),
+    P_W,
+    nrow = 1
+  )
+
+# plot all pond damselfly trees
+Coen_D <-
+  ggtree(Coen[1][[1]]) + geom_tiplab(size = 2) +  xlim(0, 10) + labs(title = "Dijkstra et al. 2014") + theme(title = element_text(size = 6, hjust = 0.5))
+Coen_T <-
+  ggtree(Coen[2][[1]]) + geom_tiplab(size = 2) + xlim(0, 10) + labs(title = "Toussaint et al. 2019") + theme(title = element_text(size = 6,  hjust = 0.5))
+Coen_B <-
+  ggtree(Coen[3][[1]])  + geom_tiplab(size = 2) + xlim(0, 10) + labs(title = "Bybee et al. 2021") +   theme(title = element_text(size = 6,  hjust = 0.5))
+Coen_W <-
+  ggtree(Coen[4][[1]]) + geom_tiplab(size = 2) +  xlim(0, 10) + geom_text(aes(label = posterior), hjust = -.3, size = 1.5) + labs(title = "This study") + theme(title = element_text(size = 6, hjust = 0.5))
+
+Coen_all <- grid.arrange(Coen_D, Coen_T, Coen_B, Coen_W, nrow = 1)
+
+# Plot all core trees
+C_D <-
+  ggtree(Core[1][[1]]) + geom_tiplab(size = 2) +  xlim(0, 10) + labs(title = "Dijkstra et al. 2014") + theme(title = element_text(size = 6,  hjust = 0.5))
+C_T <-
+  ggtree(Core[2][[1]]) + geom_tiplab(size = 2) + xlim(0, 10) + labs(title = "Toussaint et al. 2019") + theme(title = element_text(size = 6,  hjust = 0.5))
+C_B <-
+  ggtree(Core[3][[1]])  + geom_tiplab(size = 2) + xlim(0, 10) + labs(title = "Bybee et al. 2021") + theme(title = element_text(size = 6,  hjust = 0.5))
+C_W <-
+  ggtree(Core[4][[1]]) + geom_tiplab(size = 2) +  xlim(0, 10) + geom_text(aes(label = posterior), hjust = -.3, size = 1.5) + labs(title = "This study") + theme(title = element_text(size = 6, hjust = 0.5))
+
+C_all <-
+  grid.arrange(
+    C_D %>% rotate(9) %>% rotate(11)  %>% rotate(14)  %>% rotate(15),
+    C_T %>% rotate(7) %>% rotate(9) %>% rotate(11),
+    C_B %>% rotate(6) %>% rotate(8),
+    C_W,
+    nrow = 1
+  )
+
+# plot all ridge-face trees
+R_D <-
+  ggtree(Ridge[1][[1]]) + geom_tiplab(size = 2) +  xlim(0, 10) + labs(title = "Dijkstra et al. 2014") + theme(title = element_text(size = 6,  hjust = 0.5))
+R_T <-
+  ggtree(Ridge[2][[1]]) + geom_tiplab(size = 2) + xlim(0, 10) + labs(title = "Toussaint et al. 2019") + theme(title = element_text(size = 6,  hjust = 0.5))
+R_B <-
+  ggtree(Ridge[3][[1]])  + geom_tiplab(size = 2) + xlim(0, 10) + labs(title = "Bybee et al. 2021") + theme(title = element_text(size = 6,  hjust = 0.5))
+R_W <-
+  ggtree(Ridge[4][[1]]) + geom_tiplab(size = 2) +  xlim(0, 10) + geom_text(aes(label = posterior), hjust = -.3, size = 1.5) + labs(title = "This study") + theme(title = element_text(size = 6, hjust = 0.5))
+
+R_all <- grid.arrange(R_D , R_T, R_B, R_W, nrow = 1)
+
+# plot all topologies in one figure
+All_plots <-
+  grid.arrange(
+    P_D %>% rotate(10),
+    P_T  %>% rotate(5) %>% rotate(6),
+    P_B %>% rotate(6) %>% rotate(8),
+    P_W,
+    Coen_D,
+    Coen_T,
+    Coen_B,
+    Coen_W,
+    C_D %>% rotate(9) %>% rotate(11)  %>% rotate(14)  %>% rotate(15),
+    C_T %>% rotate(7) %>% rotate(9) %>% rotate(11),
+    C_B %>% rotate(6) %>% rotate(8),
+    C_W,
+    R_D ,
+    R_T,
+    R_B,
+    R_W,
+    nrow = 4
+  )
+
+# save the topology summary
+#ggsave(All_plots, filename = "../../Writing/Figures/topology_summary.pdf", device = "pdf", width = 180, height = 160, units = "mm", dpi = 600)
+```
+
+### Paraphyletic genera
+
+Finally, we produce zoomed-in figures of clades including potentially paraphyletic genera. We include geographic distributions of extant taxa just for kicks.
+
+Read in the distribution data data.
+
+```{r read-states_1, echo=TRUE, eval=TRUE}
+tipstates <-
+  read.csv(
+    "../data/raw/present_states.csv",
+    sep = ",",
+    header = T,
+  )
+
+# dd includes only the columns with states
+dd <- tipstates[, c(2:11)]
+
+# taxon column to row names
+rownames(dd) <- tipstates$taxon
+
+# empty cells to NA
+dd[dd == ""] <- NA
+```
+
+Set colours and names.
+
+```{r colours-names_1, echo=TRUE, eval=TRUE}
+area_breaks <- c(
+  "0",
+  "2",
+  "1",
+  "D",
+  "K",
+  "E",
+  "F",
+  "G",
+  "J",
+  "8",
+  "9",
+  "C",
+  "A",
+  "B",
+  "N",
+  "H",
+  "I",
+  "O",
+  "3",
+  "4",
+  "6",
+  "5",
+  "unk"
+)
+
+areas <-
+  c(
+    "S America (N)" ,
+    "S America (S)",
+    "S America (E)",
+    "Africa (W)",
+    "Madagascar",
+    "Africa (S)",
+    "Africa (E)",
+    "Africa (N)",
+    "India",
+    "Europe",
+    "Asia (C)",
+    "Asia (NE)",
+    "Asia (E)",
+    "Asia (SE)",
+    "Malaysian Arch.",
+    "Australia W",
+    "Australia E",
+    "New Zealand",
+    "N America (NW)",
+    "N America (NE)" ,
+    "N America (SW)" ,
+    "N America (SE)",
+    "unk"
+  )
+
+area_col <- c(
+  "palegreen",  #SamN
+  "olivedrab2",  #SamS
+  "chartreuse3",  #SamE
+  "orange1",  #AfrW
+  "goldenrod1",  #Mdg
+  "gold1",  #AfrS
+  "lightgoldenrod1",   # AfrE
+  "lightgoldenrodyellow", #AfrN
+  "bisque2",  #Ind
+  "sandybrown",  #Eur
+  "sienna1",  #AsC
+  "brown2",  #AsNE
+  "tomato1",  #AsE
+  "deeppink",  #AsSe
+  "plum3",  #Mly
+  "mediumorchid3",  #AusW
+  "purple",  #AusE
+  "mediumpurple",  #NZ
+  "dodgerblue3",  #NamNW
+  "deepskyblue2", #NamNE
+  "turquoise",  #NamSW
+  "cyan1",  #NamSE 
+  "white"
+)
+```
+
+Plot clades with paraphyletic genera (according to the previous topology inference).
+
+```{r plot-paraphyletic, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+# plot phylogeny
+p_t <- ggtree(Top, layout = "rectangular", size=0.3) + geom_tiplab(size = 2, align=TRUE, linesize=.5) + geom_text(aes(label=posterior), hjust=-.1, size = 1.5)
+
+# add states
+g_t <-
+  gheatmap(
+    p_t,
+    dd,
+    offset = 0.3,
+    width = 0.4,
+    font.size = 2,
+    colnames = F,
+    hjust = 0
+  ) +
+  theme(plot.title = element_text(face = "bold"),
+        legend.text = element_text(size = 6),
+        legend.title = element_text(size = 7)) +
+  scale_fill_manual(
+    values = area_col,
+    breaks = area_breaks,
+    labels = areas,
+    name = "Biogeographic areas",
+  na.value = "white") +
+  #guides(fill = F)
+  guides(fill = (guide_legend(ncol = 2, byrow = F)))
+
+Ischnura <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Ischnura_damula", "Ischnura_barberi"
+  )))
+
+Ischnura
+
+Enallagma <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Enallagma_boreale", "Zoniagrion_exclamationis"
+  )))
+
+Enallagma
+
+Aciagrion <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Africallagma_elongatum", "Aciagrion_approximans"
+  )))
+
+Aciagrion
+
+Acanthagrion <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Acanthagrion_gracile", "Tigriagrion_aurantinigrum"
+  )))
+
+Acanthagrion
+
+Cyanallagma <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Homeoura_lindneri", "Mesamphiagrion_dunklei"
+  )))
+
+Cyanallagma
+
+Nesobasis <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Nesobasis_sp7", "Nesobasis_sp3"
+  )))
+
+Nesobasis
+
+Agriocnemis <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Agriocnemis_exsudans", "Mortonagrion_selenion"
+  )))
+
+Agriocnemis
+
+Pseudagrion <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Pseudagrion_kibalense", "Pseudagrion_pruinosum"
+  )))
+
+Pseudagrion
+
+Erythromma <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Paracercion_hieroglyphicum", "Erythromma_lindenii"
+  )))
+
+Erythromma
+
+Telebasis <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Telebasis_carota", "Telebasis_salva"
+  )))
+
+Telebasis
+
+Teinobasis <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Teinobasis_bradleyi", "Teinobasis_carolinensis"
+  )))
+
+Teinobasis
+
+Mecistogaster <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Platystigma_astictum", "Mecistogaster_modesta"
+  )))
+
+Mecistogaster
+
+Psaironeura <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Amazoneura_ephippigera", "Psaironeura_remissa"
+  )))
+
+Psaironeura
+
+Elattoneura <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Elattoneura_caesia", "Nososticta_salomonis"
+  )))
+
+Elattoneura
+
+Platycnemis <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Platycnemis_latipes", "Platycnemis_phyllopoda"
+  )))
+
+Platycnemis
+
+
+Coeliccia <-
+  viewClade(g_t, getMRCA(Top@phylo, tip = c(
+    "Calicnemia_chaseni", "Coeliccia_axinocercus"
+  )))
+
+Coeliccia
+
+# save plots
+#ggsave(Ischnura, filename = "../../Writing/Figures/Ischnura.png", device = "png", width = 160, height = 82, units = "mm", dpi = 600)
+
+#ggsave(Enallagma, filename = "../../Writing/Figures/Enallagma.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Aciagrion, filename = "../../Writing/Figures/Aciagrion.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Acanthagrion, filename = "../../Writing/Figures/Acanthagrion.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Cyanallagma, filename = "../../Writing/Figures/Cyanallagma.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Nesobasis, filename = "../../Writing/Figures/Nesobasis.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Agriocnemis, filename = "../../Writing/Figures/Agriocnemis.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Pseudagrion, filename = "../../Writing/Figures/Pseudagrion.pdf", device = "pdf", width = 160, height = 120, units = "mm", dpi = 600)
+
+#ggsave(Erythromma, filename = "../../Writing/Figures/Erythromma.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Telebasis, filename = "../../Writing/Figures/Telebasis.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Teinobasis, filename = "../../Writing/Figures/Teinobasis.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Mecistogaster, filename = "../../Writing/Figures/Mecistogaster.png", device = "png", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Psaironeura, filename = "../../Writing/Figures/Psaironeura.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Elattoneura, filename = "../../Writing/Figures/Elattoneura.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Platycnemis, filename = "../../Writing/Figures/Platycnemis.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+
+#ggsave(Coeliccia, filename = "../../Writing/Figures/Coeliccia.pdf", device = "pdf", width = 160, height = 80, units = "mm", dpi = 600)
+```
+
+This MAP tree was transformed into an ultrametric tree to have a plausible starting value for the dating analyses.
+
+```{r make-map-ultra, echo=TRUE, eval=FALSE}
+# read MAP tree from topology inference
+tre <- read.nexus( "../output/topology/M3.Uniform.MAP.tree")
+
+# make ultrametric
+timetre <- chronos(tre)
+
+# save as start tree for dating analysis
+#write.tree(timetre, "../data/processed/bg_dating/Coen.start.tre")
+```
+
+# Dating the Coenagrionoidea phylogeny
+
+We used the empirical paleogeographic model and statistical approach developed by Landis [-@landis2017biogeographic] (see Extended Methods). The model was run under three different root-age priors.
+
+First, a strongly informed root-age prior based on two recent phylogenomic studies [@suvorov2020deep; @kohli2021evolutionary]: *root_age ~ dnNormal(mean=120, sd=20, min=40, max=240)* 
+
+```{bash dating-paleogeo-strong, echo=TRUE, eval=FALSE} 
+#!/bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/coen.g1.beta.Suvorov.strong.Rev\");"
+echo $rb_command | rb
+```
+
+Second, a weakly informed prior, bounding the root age of Coenagrionoidea between 240 and 40 mya: *root_age ~ dnUniform(min=40, max=240)* 
+
+```{bash dating-paleogeo-weak, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/coen.g1.beta.weak.Rev\");"
+echo $rb_command | rb
+```
+
+Finally, a weakly informed prior, bounding the root age of Coenagrionoidea between 240 and 0 mya: *root_age ~ dnUniform(min=0, max=240)* and also ignoring the empirical paleogeographic model.
+
+```{bash dating-no-paleogeo-flat, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/coen.g0.flat.Rev\");"
+echo $rb_command | rb
+```
+
+## Root age
+
+Here we summarise estimates of the age of the MRCA of pond damselflies and feather legs under the three models: 1) a strongly informed model, based on empirical paleogeography and an age prior from two independent phylogenomic studies, 2) a weakly informed model, based on empirical paleogeography and a very broad uniform prior (from 240-40 Ma), and 3) an uninformed model without empirical paleogeography and with an even broader (from 240-0 Ma) uniform prior. The latter analysis is only a check that model construction does not bias root age estimates.
+
+```{r root-age, echo=TRUE, eval=TRUE}
+# read RevBayes output
+output.folder <-"../output/bg_dating/" 
+
+G1.beta.strong <- read.table(file = paste0(output.folder, "Coen.g1.beta.calib.strong.673464.params.txt"), header = T)[,10]
+
+G1.beta.weak <- read.table(file = paste0(output.folder, "Coen.g1.beta.calib.weak.354635.params.txt"), header = T)[,10]
+
+G0.flat.none <- read.table(file = paste0(output.folder, "Coen.g0.flat.calib.433570.params.txt"), header = T)[,10]
+
+# a quick function to burn in and then obtain 500 posterior samples
+sample_post <- function(x, burnin = 0.2, N_age = 30000) {
+  start <- floor(length(x) * burnin) + 1
+  end <- length(x)
+  sample(x[start:end], floor((1-burnin)*N_age))
+}
+
+# combine results in a single data frame
+Root.df_wide <-
+  data.frame(cbind(
+    G1.beta.strong = sample_post(G1.beta.strong),
+    G1.beta.weak = sample_post(G1.beta.weak),
+    G0.flat.none = sample_post(G0.flat.none))
+  )
+
+# transform wide to long format
+Root.df <-gather(Root.df_wide, Model, value, G1.beta.strong:G0.flat.none, factor_key=TRUE)
+
+# plot posterior samples as histograms - this will be Fig 3
+origin_hist <-
+  ggplot(data = Root.df, aes(
+    x = value,
+    fill = Model,
+    colour = Model,
+    alpha = Model
+  )) +
+  geom_histogram(position = "identity",
+                 size = 0.5,
+                 bins = 60) +
+  theme_classic(base_size = 10) +
+  scale_fill_manual(
+    values =  c("grey5", "grey50", "white"),
+    labels = c(
+      "strongly informed + paleo",
+      "weakly informed + paleo",
+      "uninformed, no paleo"
+    )
+  ) +
+  scale_colour_manual(
+    values =  c("white", "white", "black"),
+    labels = c(
+      "strongly informed + paleo",
+      "weakly informed + paleo",
+      "uninformed, no paleo"
+    )
+  )  +
+  scale_alpha_manual(
+    values = c(0.5, 0.5, 0),
+    labels = c(
+      "strongly informed + paleo",
+      "weakly informed + paleo",
+      "uninformed, no paleo"
+    )
+  ) +
+  labs(x = "Root age (mya)", y = "Posterior frequency") + 
+  theme(legend.position = "right") +
+  theme(text = element_text(size = 8)) + 
+  theme(legend.text = element_text(size = 8))   +
+  theme(axis.text =  element_text(size = 8))  
+
+origin_hist
+```
+
+Put general results into a table.
+
+```{r age-results, echo=TRUE, eval=TRUE}
+Age_est <-
+  data.frame(
+    Age_prior = c("Strong", "Weak"),
+    PM = c(mean (G1.beta.strong), mean (G1.beta.weak)),
+    HPD_95_lwr = c(HPDinterval(mcmc(G1.beta.strong))[1],
+                   HPDinterval(mcmc(G1.beta.weak))[1]),
+    HPD_95_upr = c(HPDinterval(mcmc(G1.beta.strong))[2],
+                   HPDinterval(mcmc(G1.beta.weak))[2])
+  )
+
+Age_est  <- Age_est  %>% mutate_at(c('PM', 'HPD_95_lwr', 'HPD_95_upr'), as.numeric)
+
+Age_est %>%
+kbl(booktabs =T, linesep="", digits = 2) %>%
+kable_styling(latex_options ="striped")
+```
+
+## Comparison to dating under fossil constraints
+
+We conducted an additional dating analysis using fossil constraints instead of empirical paleogeography (see Extended Methods). First we ran the analysis under the prior.
+
+```{bash node-dating-prior, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/coen.g0.fossil.flat.prior.Rev\");"
+echo $rb_command | rb
+```
+
+And verify we recover the specified prior as the posterior for the root age.
+
+```{r yule-prior, echo=TRUE, eval=TRUE}
+yule.prior <- read.table("../output/node_dating/Coen.g0.fossil.calib.flat.prior.495364.params.txt", header = T)
+mean(yule.prior$root_age)
+sd(yule.prior$root_age)
+```
+
+Then, we ran the model with the molecular data and four fossil calibrations, setting a hard minimum for the ages of *Ischnura* (13.7 Ma), *Nehalennia* (16 Ma), *Argia* (16 Ma) and the featherleg family Platycnemididae (93.9 Ma). 
+
+```{bash node-dating, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/coen.g0.fossil.flat.Rev\");"
+echo $rb_command | rb
+```
+
+## Maximum a posteriori tree
+
+The results of each dating analysis were summarised using the maximum *a posteriori* (MAP) tree.
+
+Biogeographic dating:
+
+```{bash bg-dating-MAP, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./bg_dating/MAP.Rev\");"
+echo $rb_command | rb
+```
+
+Node dating:
+
+```{bash node-dating-MAP, echo=TRUE, eval=FALSE}
+#!/bin/bash
+# burned first 2000 trees before loading on rb
+cat ../output/node_dating/Coen.g0.fossil.calib.flat.311333.trees | tail -10001 > ../output/node_dating/Coen.g0.fossil.calib.flat.311333.burned.trees
+
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+
+# run the dating analysis
+rb_command="source(\"./node_dating/node_MAP.Rev\");"
+echo $rb_command | rb
+```
+
+## Divergence time comparisons
+
+In Table S10 we compare biogeographic divergence time estimates with previously dated phylogenies and the node-dating approach above. We identified comparable nodes in three large-scale studies [@waller2017body; @toussaint2019forest; @suvorov2020deep] and four genus-level studies [@swaegers2014ecological; @callahan2016multi; @beatty2017biogeography; @blow2021molecular]. I included here the age of the earliest known fossil in [fossilworks](http://fossilworks.org/bridge.pl?a=home) for each clade, whenever available.
+
+```{r time-comparisons, echo=TRUE, eval=TRUE}
+# read the map tress
+Map_strong <- read.beast("~/Dropbox/Doctorado/COEN_Phylogeny/Damsel_phylo/output/bg_dating/G1_beta_strong.673464_MAP.tree")
+Map_weak <- read.beast("~/Dropbox/Doctorado/COEN_Phylogeny/Damsel_phylo/output/bg_dating/G1_beta_weak.354635_MAP.tree")
+Map_fossil <- read.beast("~/Dropbox/Doctorado/COEN_Phylogeny/Damsel_phylo/output/node_dating/G0_flat_yule.311333_MAP.tree")
+
+# how many comparable clades?
+n_clades <- 14 
+
+# make the data frame
+age_comp <-
+  data.frame (
+    Clade = c(
+      "Coenagrionoidea",
+      "Platycnemididae",
+      "Platycnemis",
+      "Coenagrionidae",
+      "Ridge-face",
+      "Mecistogaster + Megaloprepus",
+      "Nehalennia",
+      "Melanesobasis",
+      "Argia",
+      "Core",
+      "Coenagrion",
+      "Nesobasis",
+      "Enallagma",
+      "Ischnura"
+    ),
+    Strongly.informed = numeric(length = n_clades),
+    Weakly.informed = numeric(length = n_clades),
+    Fossil.constraints = numeric(length = n_clades),
+    Suvorov.et.al.2021 = numeric(length = n_clades),
+    Toussaint.et.al.2019 = numeric(length = n_clades),
+    Waller.Svensson.2017 = numeric(length = n_clades),
+    Genus.level.studies = character(length = n_clades),
+    Earliest.fossil = character(length = n_clades)
+  )
+
+# get vector with tips for each clade in MAP trees
+clades <-
+  list(
+    Coenagrionoidea = Map_strong@phylo$tip.label[seq(1:669)],
+    Feather = Map_strong@phylo$tip.label[seq(from = 557, to = 669)],
+    Platycnemis = Map_strong@phylo$tip.label[grep(pattern = "latipes|pennipes|acutipennis|echigoana|foliacia", x = Map_strong@phylo$tip.label)],
+    Coenagrionidae = Map_strong@phylo$tip.label[seq(1:556)],
+    Ridge = Map_strong@phylo$tip.label[seq(from = 291, to = 556)],
+    Helicopter = Map_strong@phylo$tip.label[grep(pattern = "Mecistogaster|Megaloprepus", x = Map_strong@phylo$tip.label)],
+    Nehalennia = Map_strong@phylo$tip.label[grep(pattern = "Nehalennia", x = Map_strong@phylo$tip.label)],
+    Melanesobasis = Map_strong@phylo$tip.label[grep(pattern = "Melanesobasis", x = Map_strong@phylo$tip.label)],
+    Argia = Map_strong@phylo$tip.label[grep(pattern = "Argia", x = Map_strong@phylo$tip.label)],
+    Core = Map_strong@phylo$tip.label[seq(1:290)],
+    Coenagrion = Map_strong@phylo$tip.label[grep(pattern = "Coenagrion", x = Map_strong@phylo$tip.label)],
+    Nesobasis = Map_strong@phylo$tip.label[grep(pattern = "Nesobasis", x = Map_strong@phylo$tip.label)],
+    Enallagma = Map_strong@phylo$tip.label[grep(pattern = "Enallagma", x = Map_strong@phylo$tip.label)],
+    Ischnura  = Map_strong@phylo$tip.label[grep(pattern = "Ischnura", x = Map_strong@phylo$tip.label)]
+  )
+
+# get node ages in MAP trees
+for (i in 1:length(clades)) {
+  age_comp$Strongly.informed[i] <-
+    round(
+      nodeheight(Map_strong@phylo, 669) - findMRCA(Map_strong@phylo, tips = clades[[i]], type = "height"),
+      1
+    )
+  age_comp$Weakly.informed[i] <-
+    round(
+      nodeheight(Map_weak@phylo, 669) - findMRCA(Map_weak@phylo, tips = clades[[i]], type = "height"),
+      1
+    )
+  age_comp$Fossil.constraints[i] <-
+    round(
+      nodeheight(Map_fossil@phylo, 669) - findMRCA(tree = Map_fossil@phylo, tips = clades[[i]], type = "height"),
+      1
+    )
+}
+
+age_comp$Suvorov.et.al.2021 <- c(
+  round(mean(c(
+   117.4, 113.5, 113.0, 117.7, 117.5 
+  )), 1),
+  round(mean(c(
+    98.1, 98.2, 98.0, 98.5, 98.5
+  )), 1),
+  "",
+  round(mean(c(
+    91.3, 88.6, 89.1, 89.4, 91.3
+  )), 1),
+  round(mean(c(
+    66.9, 65.3, 64.3, 59.2, 66.9
+  )), 1),
+  round(mean(c(
+    23.8, 24.1, 24.8, 21.7, 21.7
+  )), 1),
+  "",
+  "",
+  "",
+  round(mean(c(
+    64.4, 62.5, 62.7, 59.8, 65.2
+  )), 1),
+  "",
+  "",
+  "",
+  round(mean(c(
+    27.3, 27.1, 26.7, 26.0, 26.0
+  )), 1)
+)
+
+age_comp$Toussaint.et.al.2019 <-
+  c(
+    "131.6",
+    "108.9",
+    "33.2",
+    "118.0",
+    "110.8",
+    "65.4",
+    "23.8",
+    "",
+    "34.6",
+    "100.6",
+    "",
+    "",
+    "9.0",
+    "29.7"
+  )
+
+age_comp$Waller.Svensson.2017 <-
+  c(
+    "72.7",
+    "",
+    "50.0",
+    "",
+    "",
+    "41.9",
+    "14.8",
+    "22.4",
+    "47.0",
+    "58.0",
+    "43.2",
+    "33.1",
+    "34.0",
+    "34.7"
+  )
+
+age_comp$Genus.level.studies <-
+  c("",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "8.5 (1)",
+    "",
+    "",
+    "~ 15 (2)",
+    "11.8 (1)",
+    "9.0 (3)",
+    "16.2 (4)")
+
+age_comp$Earliest.fossil <-
+  c(
+    "",
+    "99.6-93.5",
+    "38-33.9",
+    "",
+    "",
+    "",
+    "23.0-16.0",
+    "",
+    "23.0-16.0",
+    "",
+    "",
+    "",
+    "",
+    "20.4-13.6"
+  )
+
+that_cell <- c(F, F, T, F, F, T, T, T , T, F, T, T, T, T)
+
+age_comp %>%
+kbl(booktabs =T, linesep="", align = c("l", rep("r",7))) %>%
+kable_styling(latex_options =c("scale_down", "striped", "hold_position")) %>%
+  footnote(general = "In contrast to Dijkstra et al. (2014), the 'ridge-face' clade here includes the genus \\\\textit{Argia}.", footnote_as_chunk = T, escape = FALSE) %>%
+column_spec(1, italic = that_cell)
+```
+
+# Distribution of extant taxa
+
+In Fig. 1 we plot the biogeographic areas used for the dating analysis on a world map and on the Coenagrionoidea phylogeny. The code below produces the map with the biogeographic areas represented by different colours.
+
+Create world map.
+
+```{r world-map, results='hide', warning=FALSE}
+all <-readOGR(
+    "../data/processed/adm_map/merged.shp",
+    dropNULLGeometries = T,
+    verbose = TRUE
+  )
+
+all@data$id = rownames(all@data)
+
+# fix intersection issues
+all <- gBuffer(all, byid=TRUE, width=0) 
+
+# join data and map
+area.dat = fortify(all, region="id")  # this takes a long time
+map.df = join(area.dat, all@data, by="id")
+
+# check that areas are read correctly
+levels(as.factor(map.df$AREA))
+```
+
+Plot biogeographic areas.
+
+```{r plot-map, echo=TRUE, eval=TRUE}
+area_col <- c("lightgoldenrod1", # AfrE
+            "lightgoldenrodyellow", #AfrN
+            "gold1", #AfrS
+            "orange1", #AfrW
+            "sienna1", #AsC
+            "tomato1", #AsE
+            "brown2", #AsNE
+            "deeppink", #AsSe
+            "purple", #AusE
+            "mediumorchid3", #AusW
+            "sandybrown", #Eur
+            "peachpuff1", #Grn
+            "bisque2", #Ind
+            "goldenrod1", #Mdg
+            "plum3", #Mly
+            NA, #Missing
+            "deepskyblue2", #NamNE
+            "dodgerblue3", #NamNW 
+            "cyan1",#NamSE
+            "turquoise", #NamSW
+            "mediumpurple", #NZ
+            "chartreuse3", #SamE
+            "palegreen", #SamN
+            "olivedrab2" #SamS
+)
+
+area_alpha <- c(rep(1,15),0,rep(1,8))
+     
+area_plot <- ggplot(map.df) + 
+  aes(long,lat,group=group,fill=AREA, alpha=AREA)+ 
+  geom_polygon() +
+  #geom_path(color="gray88", size=0.05) +
+  theme(axis.title = element_blank()) +
+  theme(axis.text = element_blank())+
+  theme(axis.ticks = element_blank())+
+  theme(legend.position="none") +
+  theme(panel.grid.major.x = element_blank())+
+  theme(panel.grid.major.y  = element_blank())+
+  theme(panel.grid.minor.x = element_blank())+
+  theme(panel.grid.minor.y  = element_blank())+
+  #theme_bw() +
+  coord_equal() +
+  #labs(title = "(a)") +
+  theme(text = element_text(size=20/.pt)) +
+  theme(plot.title = element_text(face = "bold")) +
+  scale_fill_manual(values = area_col, name="Biogeographic areas")+
+  scale_alpha_manual(values = area_alpha, name="Biogeographic areas")+
+  guides(fill = "none", alpha = "none")
+  #guides(fill =(guide_legend(ncol=2,byrow=F)))
+
+area_plot
+```
+
+## Current geographic ranges
+
+An earlier version of this manuscript plotted only the extant states in Fig.1. This is the earlier version of that plot.
+
+```{r colours-names_2, echo=TRUE, eval=TRUE}
+area_breaks <- c(
+  "0",
+  "2",
+  "1",
+  "D",
+  "K",
+  "E",
+  "F",
+  "G",
+  "J",
+  "8",
+  "9",
+  "C",
+  "A",
+  "B",
+  "N",
+  "H",
+  "I",
+  "O",
+  "3",
+  "4",
+  "6",
+  "5",
+  "unk"
+)
+
+areas <-
+  c(
+    "S America (N)" ,
+    "S America (S)",
+    "S America (E)",
+    "Africa (W)",
+    "Madagascar",
+    "Africa (S)",
+    "Africa (E)",
+    "Africa (N)",
+    "India",
+    "Europe",
+    "Asia (C)",
+    "Asia (NE)",
+    "Asia (E)",
+    "Asia (SE)",
+    "Malaysian Arch.",
+    "Australia W",
+    "Australia E",
+    "New Zealand",
+    "N America (NW)",
+    "N America (NE)" ,
+    "N America (SW)" ,
+    "N America (SE)",
+    "unk"
+  )
+
+area_col <- c(
+  "palegreen",  #SamN
+  "olivedrab2",  #SamS
+  "chartreuse3",  #SamE
+  "orange1",  #AfrW
+  "goldenrod1",  #Mdg
+  "gold1",  #AfrS
+  "lightgoldenrod1",   # AfrE
+  "lightgoldenrodyellow", #AfrN
+  "bisque2",  #Ind
+  "sandybrown",  #Eur
+  "sienna1",  #AsC
+  "brown2",  #AsNE
+  "tomato1",  #AsE
+  "deeppink",  #AsSe
+  "plum3",  #Mly
+  "mediumorchid3",  #AusW
+  "purple",  #AusE
+  "mediumpurple",  #NZ
+  "dodgerblue3",  #NamNW
+  "deepskyblue2", #NamNE
+  "turquoise",  #NamSW
+  "cyan1",  #NamSE 
+  "white"
+)
+```
+
+```{r plot-extant, echo=TRUE, eval=TRUE, message=FALSE}
+# plot phylogeny
+p <- ggtree(Map_strong, layout = "circular", size=0.3) 
+
+# add states
+g <-
+  gheatmap(
+    p,
+    dd,
+    offset = 0,
+    width = 0.4,
+    font.size = 3,
+    colnames = F,
+    hjust = 0
+  ) +
+  labs(title = "b)") +
+  theme(plot.title = element_text(face = "bold")) +
+  scale_fill_manual(
+    values = area_col,
+    breaks = area_breaks,
+    labels = areas,
+    name = "Biogeographic areas",
+  na.value = "white") +
+  #guides(fill = F)
+  guides(fill = (guide_legend(ncol = 2, byrow = F)))
+
+g
+```
+
+# Ancestral biogeography
+
+Here we process a posterior sample of ancestral states for Fig. 2 and Fig S27-S33.
+We don't use the **ancestralStateTree** function in RevBayes, even though it's so convenient, because it only shows the three states with highest posterior probabilities, and we want to show all possible states per node.
+
+## Prepare the data
+
+Read posterior trees and obtain a sample of 1000.
+```{r read-trees, echo=TRUE, eval=FALSE, message=FALSE}
+# read tree posterior
+allT <- read.tree(paste0(output.folder, "Coen.g1.beta.calib.strong.673464.trees"), keep.multi = T)
+
+# burn-in 20%
+burnin <- floor(length(allT)*0.20)
+
+# sample 1000 trees
+rsample <- sample(seq(from = burnin+1, to = length(allT)), size = 1000, replace = F)
+tres <- allT[rsample] 
+
+# force ultrametric (this is an annoying problem with rounding branch lengths)
+for (i in 1:length(tres)) {
+  temp <- nnls.tree(cophenetic(tres[[i]]), tres[[i]], rooted = TRUE)
+  tres[[i]] <- temp
+}
+
+# save these trees for later
+#write.tree(phy = tres, file = "../data/processed/biogeo/G1.strong.1000.trees")
+```
+
+Read in the tree posterior and create useful variables.
+
+```{r read-map, echo=TRUE, eval=TRUE}
+tres <- read.tree(file = "../data/processed/biogeo/G1.strong.1000.trees", keep.multi = T)
+
+# useful variables
+Ntips <- Ntip(phy = tres[[1]])
+Intnode1 <- Ntips + 1
+Nnodes <- Nnode(phy = tres[[1]], internal.only = FALSE)
+```
+
+Get index data.
+
+```{r get-index, echo=TRUE, eval=FALSE}
+# create a data frame with index information for each posterior tree and arrange the data frames into a list
+dat = list()
+for (i in 1:length(tres)) {
+  assign(paste("gstats", i, sep = ""), Map_strong@data)
+  temp = eval(parse(text = paste("gstats", i, sep = "")))
+  dat[[i]] <-  temp
+}
+
+# clean workspace
+rm(list=ls(pattern="gstats*"))
+
+# just checking it's a list of data frames
+class(dat[[2]]) 
+```
+
+Get node ages for each tree.
+
+```{r node-ages, echo=TRUE, eval=FALSE}
+# age for each internal node (end of a branch)
+for (i in 1:length(tres)) {
+  
+  # get the tree height here
+  rootAge <- nodeheight(tres[[i]], 1)
+  temp <- list()
+  for (j in 1:Nnodes) {
+    temp2 = eval(parse(text = paste("tres[[", i, "]]", sep = "")))
+    temp[j] <- rootAge - nodeheight(temp2, j)
+  }
+  assign(paste("Ages.T", i, sep = ""), temp)
+}
+
+# make a list of node ages across all trees (and unlist within each tree to get vectors of ages per tree)
+Age = list()
+for (i in 1:length(tres)){
+  temp = eval(parse(text=paste("Ages.T", i,sep = "")))
+  Age[[i]] <-  unlist(temp)
+} 
+
+Age[[1]][Intnode1] # for example root age in the first tree
+
+# clean workspace
+rm(list=ls(pattern="Ages.T*"))
+```
+
+Make data frame with data (age and node number).
+
+```{r make-df, echo=TRUE, eval=FALSE}
+# pre-allocate space
+ddf <- data.frame(
+  tree = numeric(length(tres) * Nnodes),
+  node = numeric(length(tres) * Nnodes),
+  age = numeric(length(tres) * Nnodes),
+  stringsAsFactors = TRUE
+)
+
+# populate data frame with each row being one node of one tree
+k=1
+for (i in 1:length(tres)) {
+  for (j in k:(k + Nnodes - 1)) {
+   
+     # make and index for nodes within each tree 
+    m <- j - Nnodes * (i - 1)
+    ddf$tree[j] <- i
+    ddf$node[j] <- m
+    ddf$age[j] <- Age[[i]][m]
+  }
+  k = i * Nnodes + 1
+}
+
+# check the root row for the second tree
+ddf[Intnode1+Nnodes,] 
+```
+
+Make data frame with RevBayes index for each node.
+
+```{r make-rb-df, echo=TRUE, eval=FALSE}
+sdf <- data.frame(
+  tree = numeric(length(tres) * Nnodes),
+  node = numeric(length(tres) * Nnodes),
+  index = numeric(length(tres) * Nnodes),
+  stringsAsFactors = TRUE
+)
+
+k = 1
+for (i in 1:length(tres)) {
+  for (j in k:(k + Nnodes - 1)) {
+    # make and index for nodes within each tree
+    m <- j - Nnodes * (i - 1)
+    sdf$tree[j] <- i
+    sdf$node[j] <- dat[[i]]$node[m]
+    sdf$index[j] <- dat[[i]]$index[m]
+    
+  }
+  k = i * Nnodes + 1
+}
+```
+
+Match node labels and RevBayes indices.
+
+```{r merge-dfs, echo=TRUE, eval=FALSE}
+# join into one data frame with age and index for each node in each tree
+DF <- join(ddf, sdf)
+
+# check root for sanity
+# tree 1
+DF[Intnode1,]
+
+# tree2
+DF[Intnode1+Nnodes,]
+
+# save this data frame for later
+#write.table(DF, file = "../data/processed/biogeo/Node_data.txt", quote = F, row.names = F)
+```
+
+Read in posterior ancestral states into data frame.
+
+```{r read-states, echo=TRUE, eval=FALSE}
+DF <- read.table(file = "../data/processed/biogeo/Node_data.txt", header = T)
+
+# get the posterior sample of states that matches the random sample of trees
+StatesWide <-
+  read.table(
+    paste0(
+      output.folder,
+      "Coen.g1.beta.calib.strong.673464.states.txt"
+    ),
+    sep = "\t",
+    header = T
+  )[c(rsample), ]
+
+# take a look
+head(StatesWide)[,c(1:10)]
+
+# create data frame with the starting states of each branch and each tree
+# select columns with starting states from the full wide data frame
+AnaStart <- StatesWide[, seq(from = 2, to = Nnodes * 2, by = 2)]
+
+# Africa East (F) will be interpreted as false, change F to f
+AnaStart <- data.frame(lapply(AnaStart, function(x) {
+                   gsub("F", "f", x)
+                }))
+
+# melt to long data frame
+AnaStart <- reshape2::melt(AnaStart, measure.vars = colnames(AnaStart))
+
+# make index variable for trees
+AnaStart$tree <- rep(seq(1:length(tres)), Nnodes)
+
+# make index variable for nodes
+AnaStart$index <- sort(rep(seq(1:Nnodes), length(tres)))
+
+# rename starting state variable
+colnames(AnaStart)[2]<-"start"
+
+# fix East Africa back to "F"
+AnaStart$start<-revalue(AnaStart$start, c("f" = "F", "fALSE" = "F")) 
+
+# double check state names
+levels(as.factor(AnaStart$start))
+
+# create data frame with the ending states of each branch and each tree
+# select columns with ending states from the full wide data frame
+AnaEnd <- StatesWide[, seq(from = 3, to = Nnodes * 2 + 1, by = 2)]
+
+# Africa East (F) will be interpreted as false, change F to f
+AnaEnd <- data.frame(lapply(AnaEnd, function(x) {
+  gsub("F", "f", x)
+}))
+
+# melt to long data frame
+AnaEnd <- reshape2::melt(AnaEnd, measure.vars = colnames(AnaEnd))
+
+# rename ending state variable
+colnames(AnaEnd)[2]<-"end"
+
+AnaEnd$end <-
+  revalue(AnaEnd$end, c("f" = "F",
+                        "fALSE" = "F"))
+
+# cbind to AnaStart
+AnaStart$end <- AnaEnd$end
+
+#Join ancestral state data frame to node information data frame
+DF<-join(DF,AnaStart[,c(-1)])
+# head(DF)
+
+#check ancestral states for root node
+summary(as.factor(DF$end[which(DF$node == 670)]))
+
+# save this data frame for later
+#write.table(DF, file = "../data/processed/biogeo/Biogeo_data.txt", quote = F, row.names = F)
+```
+
+## Ancestral states
+
+### Most ancestral nodes
+
+For the inset of Fig. 1 we want to know the posterior distribution of ancestral states in the MRCA of Coenagrionoidea (Coenagrionidae + Platycnemididae), Platynemididae, the "ridge-face" clade of Coenagrionidae and the "core" clade of Coenagionidae.
+
+```{r plot-old, message=FALSE, echo=TRUE, eval=TRUE, warning = FALSE}
+# get posterior distributions of ancestral states for the key ancestral nodes  
+DF <- read.table(file = "../data/processed/biogeo/Biogeo_data.txt", header = T)
+N <- nrow(DF)
+
+old_nodes <- rbind(cbind(count = summary(as.factor(DF$end[which(DF$node == 670)])), node = 4), # root
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 671)])), node = 5), # Coenagrionidae
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 672)])), node = 2), # Core
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 961)])), node = 1), # Ridge
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 1226)])), node = 3)) # Feather
+
+# make a column for the names of the biogeographic areas
+old_nodes <- data.frame(states = rownames(old_nodes), old_nodes)
+
+# transform long to wide
+pie_data <- pivot_wider(old_nodes, id_cols = "node", names_from = "states", values_from = "count")  
+
+# missing states have 0 posterior frequency
+pie_data[is.na(pie_data)] <- 0
+
+# combine all the rare states into "others"
+pie_data <- pie_data %>% mutate(others= `1` +  `8`+  A, + E + G, +H + J + L+ N + `2`)
+
+# drop rare states from data frame
+pie_data <- pie_data[, c("node","0","B","D","I","others")]
+
+# use same colours as in Fig 2
+area_col_old <-c("palegreen", #SamN
+            "deeppink", #AsSe
+            "orange1", #AfrW
+            "purple", #AusE
+            "white" #others
+)
+
+# create pies for each node
+pies <- nodepie(pie_data, cols=c(2:6), alpha=1, color = area_col_old)
+
+# read in simplified backbone cladogram
+bb <- read.tree("../data/processed/biogeo/backbone.tre")
+
+# plot annotated backbone phylogeny
+ggtree (bb) + geom_inset(pies, width = 0.25, height = 0.25)
+```
+
+Calculate posterior probability for each of the older nodes.
+
+```{r nodes-pp, echo=TRUE, eval=TRUE}
+Node_pp <- cbind (Clade = c("root", "Coenagrionidae", "Core", "Ridge-face", "Featherleg"), pie_data[,-1]/1000)
+
+Node_pp %>%
+kbl(booktabs =T, linesep="") %>%
+kable_styling(latex_options ="striped")
+
+# PP root in either S America (N) or Africa W
+#sum(c(Node_pp[1, "0"], Node_pp[1, "D"]))
+```
+
+
+### Across the entire phylogeny
+
+For Fig. 1 we want to know the posterior distribution of ancestral states in every node of the tree.
+
+```{r plot-all, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+DF_anc <- DF[which(DF$node > 669),]
+
+Node_states <- as.data.frame(cbind(node =unique(DF_anc$node), aggregate(as.factor(DF_anc$end), by = list(DF_anc$node), FUN=summary)$x))
+
+# use same colours as in map but reordered
+area_col_sorted <- c(
+  "palegreen",  #SamN
+  "chartreuse3",  #SamE
+  "olivedrab2",  #SamS
+  "dodgerblue3",  #NamNW
+  "deepskyblue2", #NamNE
+  "cyan1",  #NamSE
+  "turquoise",  #NamSW
+  "peachpuff1", #Grn
+  "sandybrown",  #Eur
+  "sienna1",  #AsC
+  "brown2",  #AsNE
+  "deeppink",  #AsSe
+  "tomato1",  #AsE
+  "orange1",  #AfrW
+  "gold1",  #AfrS
+  "lightgoldenrod1",   # AfrE
+  "lightgoldenrodyellow", #AfrN
+  "mediumorchid3",  #AusW
+  "purple",  #AusE
+  "bisque2",  #Ind
+  "goldenrod1",  #Mdg
+  "white", #AntW
+  "white", #AntE
+  "plum3",  #Mly
+  "mediumpurple"  #NZ
+ )
+
+# create pies for each node
+all_pies <- nodepie(Node_states, cols=c(2:26), alpha=1, color = area_col_sorted)
+
+# plot annotated backbone phylogeny
+p2 <- ggtree(Map_strong, size = 0.5) + geom_inset(all_pies, width = 0.1, height = 0.1) 
+g2<-gheatmap(p2, dd, offset = 0, width=0.4, colnames=F, hjust=0)+
+  #labs(title = "(b)") + 
+  #theme(plot.title = element_text(face = "bold")) +
+  theme(text = element_text(size = 10)) +
+  scale_fill_manual(values = area_col, breaks = area_breaks,
+                    labels = areas, name="Biogeographic areas",
+                    na.value = "transparent") +
+  #guides(fill = F)
+  guides(fill = (guide_legend(ncol=2,byrow=F)))
+ 
+g2
+```
+
+For supplementary figures we want to split the plot by the main clades and include the tiplabels.
+
+Create plot with tip labels.
+
+```{r plot-by-clade,  eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+p3 <-
+  ggtree(Map_strong, size = 0.5) + geom_inset(all_pies, width = 0.18, height = 0.18)
+g3 <-
+  gheatmap(
+    p3,
+    dd,
+    offset = 40,
+    width = 0.4,
+    font.size = 3,
+    colnames = F,
+    hjust = 0
+  ) +
+  geom_tiplab(size = 1.2, offset = 2) +
+  theme(plot.title = element_text(face = "bold"),
+        legend.text = element_text(size = 6)) +
+  scale_fill_manual(
+    values = area_col,
+    breaks = area_breaks,
+    labels = areas,
+    name = "Biogeographic areas",
+    na.value = "transparent"
+  ) +
+  #guides(fill = F)
+  guides(fill = (guide_legend(ncol = 2, byrow = F))) + labs(title = "(a)")
+```
+
+Plot Featherleg clade.
+
+```{r plot-featherlegs, fig.width=7, fig.height=5.5}
+gfeather <-
+  viewClade(g3, getMRCA(Map_strong@phylo, tip = c(
+    "Arabicnemis_caerulea", "Elattoneura_caesia"
+  )))
+
+gfeather
+```
+
+Plot Ridge-face clade.
+
+```{r plot-ridge, fig.width=7, fig.height=5.5}
+gridge <-
+  viewClade(g3, getMRCA(Map_strong@phylo, tip = c("Phasmoneura_exigua", "Argia_euphorbia")))
+
+gridge
+```
+
+Plot Core clade.
+```{r plot-core, fig.width=7, fig.height=5.5}
+gcore <-
+  viewClade(g3, getMRCA(Map_strong@phylo, tip = c(
+    "Coenagrion_scitulum", "Acanthagrion_gracile"
+  )))
+
+gcore
+```
+
+# Diversification
+
+Here we explore how diversification rates vary across time and between biomes regions.
+
+## Time-dependent diversification
+
+We analyzed the temporal dynamics of diversification using episodic birth-death (EBD) models in RevBayes.
+
+For this analysis, we'll specify the sampling fraction of each of the main clades within Coenagrionoidea. Let's first make a nice plot to visualize those clades.
+
+```{r plot-clades, eval=FALSE, echo=FALSE, message=FALSE}
+AnotTre<-read.beast("~/Dropbox/Phylogeny/Kabre/MAP_G1_beta_strong.395445._MAP.tree")
+
+# get all Argia
+Argia <- grep(pattern = "Argia", AnotTre@phylo$tip.label)
+
+# last species in Ridge-face clade
+Chromagrion <-grep(pattern = "Chromagrion", AnotTre@phylo$tip.label) 
+
+# first species in threadtail clade
+Protoneura_calverti <-grep(pattern = "Protoneura_calverti", AnotTre@phylo$tip.label) 
+
+# last species in threadtail clade
+Phasmoneura <-grep(pattern = "Phasmoneura", AnotTre@phylo$tip.label) 
+
+# get MRCA for each clade
+Argia_node <- findMRCA(AnotTre@phylo, AnotTre@phylo$tip.label[Argia])
+Ridge_node <-
+  findMRCA(AnotTre@phylo, AnotTre@phylo$tip.label[(max(Argia) + 1):Chromagrion])
+Proto_node <-
+  findMRCA(AnotTre@phylo, AnotTre@phylo$tip.label[(Protoneura_calverti):Phasmoneura])
+Core_node <-
+  findMRCA(AnotTre@phylo, AnotTre@phylo$tip.label[1:(min(Argia) - 1)])
+Feather_node <-
+  findMRCA(AnotTre@phylo, AnotTre@phylo$tip.label[(Phasmoneura + 1):length(AnotTre@phylo$tip.label)])
+
+pal <- wes_palette("Zissou1", 12, type = "continuous")
+p <- ggtree(AnotTre@phylo, layout = "circular", size = 0.5) +
+  geom_hilight(node = Argia_node,
+               fill = pal[10],
+               alpha = .5) +
+  geom_hilight(node = Ridge_node,
+               fill = pal[7],
+               alpha = .5) +
+  geom_hilight(node = Core_node,
+               fill = pal[2],
+               alpha = .5) +
+  geom_hilight(node = Proto_node,
+               fill = pal[5],
+               alpha = .5)
+
+p <- rotate_tree(p, 320)
+
+p
+```
+
+We used a EBD model under the horseshoe prior [@magee2020locally] with 20 time intervals (epochs) which allows for good resolution of the timing of diversification shifts (see Extended Methods).
+
+```{bash run-EBED, echo=TRUE, eval=FALSE, fig.width=4, fig.height=12}
+#!/bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+ 
+# run diversification analysis on strongly informed MAP tree
+rb_command="source(\"./EBED/quick_EB20ED20_strong.Rev\");"
+echo $rb_command | rb
+
+# run diversification analysis on weakly informed MAP tree
+rb_command="source(\"./EBED/quick_EB20ED20_weak.Rev\");"
+echo $rb_command | rb
+```
+
+Plot the results. The arguments of the RevGadgets function to plot EBD results has changed with more recent versions of the package. Here's the plot with version 1.1.0. The plot in the manuscript was generated with initial release 1.0.0.
+
+```{r plot-EBD, echo=TRUE, eval=TRUE, message=FALSE}
+rev_out <-
+  processDivRates(
+    speciation_time_log = "../output/EBED/EBED.strong2020_EBD_speciation_times.log",
+    speciation_rate_log =  "../output/EBED/EBED.strong2020_EBD_speciation_rates.log",
+    extinction_time_log =  "../output/EBED/EBED.strong2020_EBD_extinction_times.log",
+      extinction_rate_log =  "../output/EBED/EBED.strong2020_EBD_extinction_rates.log",
+    burnin = 0.05
+  )
+
+# using the MAP tree from the weakly informed dating analysis
+# rev_out <-
+#   processDivRates(
+#     speciation_time_log = 
+#       "../output/EBED/EBED.weak2020_EBD_speciation_times.log",
+#     speciation_rate_log = 
+#       "../output/EBED/EBED.weak2020_EBD_speciation_rates.log",
+#     extinction_time_log =  "../output/EBED/EBED.weak2020_EBD_extinction_times.log",
+#       extinction_rate_log =
+# "../output/EBED/EBED.weak2020_EBD_extinction_rates.log",
+#     burnin = 0.05
+#   )
+
+par(mfrow=c(3,1))
+
+rates <- rev_out[!grepl("relative-extinction", rev_out$item),]
+
+pebd <- plotDivRates(rates)
+
+pebd + ggplot2::scale_color_manual(values = c("#689F38", "#1976D2", "#E64A19")) +
+ggplot2::scale_fill_manual(values = c("#689F38", "#1976D2", "#E64A19"))  +  ggplot2::facet_wrap(ggplot2::vars(item), scale = "fixed")
+```
+
+## Trait-dependent diversification
+
+We asked if diversification rates depend on biome affinity, using a HiSSE model [@beaulieu2016detecting] in RevBayes (see Extended Methods).
+
+### Model comparison
+
+We asked if the biome-dependent model has a better fit to the data compared to a null alternative with branch-rate heterogeneity controlled by the hidden trait, but with biome-independent diversification. To do this, we approximated the marginal likelihoods of both models using the stepping stone algorithm as implemented in RevBayes.
+
+This analysis is painfully slow, especially for the biome-dependent model, which has four additional parameters. I initially ran the analysis on UPPMAX. After hitting the runtime limit, I added the missing stones by specifying a vector of powers, determined by the number of categories in the discretised beta distribution (see RevBayes documentation).
+
+UPPMAX run.
+
+```{bash run-HiSSE-ML, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+module load bioinfo-tools
+module load pgi/18.3
+module load openmpi/3.1.3
+module load RevBayes/1.1.1-mpi
+ 
+# run ML estimation for null model
+rb_command="source(\"./HiSSE/quick_HiSSE_strong_biome_null.Rev\");"
+echo $rb_command | mpirun -np 8 rb-mpi
+
+# run ML estimation for biome-dependent model
+rb_command="source(\"./HiSSE/quick_HiSSE_strong_biome_ML.Rev\");"
+echo $rb_command | mpirun -np 8 rb-mpi
+```
+
+### Running the HiSSE model
+
+We specify two hidden states that accommodate heterogeneity in diversification rates not explained by biome affinity.
+
+```{bash run-HiSSE, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+ 
+# run diversification analysis on strongly informed MAP tree
+rb_command="source(\"./HiSSE/quick_HiSSE_strong_biome.Rev\");"
+echo $rb_command | rb
+
+# run diversification analysis on strongly informed MAP tree and ambiguous character coding
+rb_command="source(\"./HiSSE/quick_HiSSE_strong_biome_amb.Rev\");"
+echo $rb_command | rb
+
+# run diversification analysis on weakly informed MAP tree
+rb_command="source(\"./HiSSE/quick_HiSSE_weak_biome.Rev\");"
+echo $rb_command | rb
+
+# run diversification analysis on strongly informed MAP tree under the prior
+rb_command="source(\"./HiSSE/quick_HiSSE_strong_amb_biome_prior.Rev\");"
+echo $rb_command | rb
+```
+
+Plot the results.
+
+```{r plot-HiSSE, message=FALSE, warning=FALSE,  fig.width=8, fig.height=12}
+# create data frame for combined posterior
+H_out <- read.table("../output/HiSSE/BiomeHiSSE_strong_r2model.log", header = T)
+# coding as ambiguous
+#H_out <- read.table("../output/HiSSE/BiomeHiSSE_strong_amb_r1model.log", header = T)
+#H_out <- read.table("../output/HiSSE/BiomeHiSSE_weakmodel.log", header = T)
+
+# using weakly informed tree as input
+
+
+# extra burn-in
+start <- round(0.2*length(H_out$Iteration))
+end <- length(H_out$Iteration)
+H_out <- H_out[start:end,] 
+
+# rename character states
+HiSSE_types <- rep(c("Trp1", "Wrm1", "Cld1", "Trp2", "Wrm2", "Cld2"),
+                   each = length(H_out$extinction.1))
+
+# create data frame for each rate 
+dat_spec <- data.frame(dens = c(H_out$speciation.1., H_out$speciation.2.,
+                                H_out$speciation.3., H_out$speciation.4.,
+                                H_out$speciation.5., H_out$speciation.6.), 
+                       Type = HiSSE_types)
+
+dat_ext <- data.frame(dens = c(H_out$extinction.1., H_out$extinction.2., 
+                               H_out$extinction.3., H_out$extinction.4.,
+                               H_out$extinction.5., H_out$extinction.6.),
+                      Type = HiSSE_types)
+
+dat_div <- data.frame(dens = c(H_out$speciation.1.-H_out$extinction.1., 
+                               H_out$speciation.2.-H_out$extinction.2., 
+                               H_out$speciation.3.-H_out$extinction.3., 
+                               H_out$speciation.4.-H_out$extinction.4.,
+                               H_out$speciation.5.-H_out$extinction.5.,
+                               H_out$speciation.6.-H_out$extinction.6.),
+                       Type = HiSSE_types)
+dat_trn <- data.frame(dens = c(H_out$extinction.1./H_out$speciation.1., 
+                               H_out$extinction.2./H_out$speciation.2., 
+                               H_out$extinction.3./H_out$speciation.3., 
+                               H_out$extinction.4./H_out$speciation.4.,
+                               H_out$extinction.5./H_out$speciation.5.,
+                               H_out$extinction.6./H_out$speciation.6.),
+                       Type = HiSSE_types)
+
+# add latitudinal state as a separate column
+dat_spec$Lat<-substr(dat_spec$Type, start = 1, stop = 3)
+dat_ext$Lat<-substr(dat_ext$Type, start = 1, stop = 3)
+dat_div$Lat<-substr(dat_div$Type, start = 1, stop = 3)
+dat_trn$Lat<-substr(dat_trn$Type, start = 1, stop = 3)
+
+# add hidden trait character state
+dat_spec$hidden <- paste0("hidden state ", substr(dat_spec$Type, 4, 4))
+dat_ext$hidden <- paste0("hidden state ", substr(dat_ext$Type, 4, 4))
+dat_div$hidden <- paste0("hidden state ", substr(dat_div$Type, 4, 4))
+dat_trn$hidden <- paste0("hidden state ", substr(dat_trn$Type, 4, 4))
+
+p1 <- ggplot(dat_spec, aes(x = dens, color = Lat, fill = Lat)) + 
+   theme_bw(base_size = 7)+
+  labs(title = "(A) Speciation", x="Rate", y="Posterior frequency") + 
+  facet_wrap(~hidden, ncol =2)+
+  #geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
+  geom_density(colour = "white", alpha = 0.5, size = 0) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  #xlim(-0.01,0.20) +
+  xlim(-0.01,0.3) +
+  scale_fill_manual(values = c("#1976D2",  "#689F38", "#E64A19"),
+                     breaks = c("Cld", "Wrm", "Trp"),
+                    labels = c("Cold-Temperate", "Warm-Temperate", "Tropical"),
+                     name = "Biome") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  
+p2 <- ggplot(dat_ext, aes(x = dens, color = Lat, fill = Lat)) +  
+   theme_bw(base_size = 7)+
+    labs(title = "(B) Extinction", x="Rate", y="Posterior frequency") + 
+  facet_wrap(~hidden, ncol =2,)+
+  #geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
+  geom_density(colour = "white", alpha = 0.5, size = 0) +
+  scale_fill_manual(values = c("#1976D2",  "#689F38", "#E64A19"),
+                     breaks = c("Cld", "Wrm", "Trp"),
+                    labels = c("Cold-Temperate", "Warm-Temperate", "Tropical"),
+                     name = "Biome") +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  xlim(-0.01,0.10)+
+  #ylim(0,2500) +
+  #xlim(-0.05,0.75) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  
+p3 <- ggplot(dat_div, aes(x = dens, color = Lat, fill = Lat)) +
+  theme_bw(base_size = 7)+
+  labs(title = "(C) Diversification", x="Rate", y="Posterior frequency") + 
+  #xlim(-0.01,0.15)+
+  xlim(-0.01,0.20) +
+  facet_wrap(~hidden, ncol =2)+
+ # geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
+  geom_density(colour = "white", alpha = 0.5, size = 0) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#1976D2",  "#689F38", "#E64A19"),
+                     breaks = c("Cld", "Wrm", "Trp"),
+                    labels = c("Cold-Temperate", "Warm-Temperate", "Tropical"),
+                     name = "Biome") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
+ 
+
+p4 <- ggplot(dat_trn, aes(x = dens, color = Lat, fill = Lat)) +
+  theme_bw(base_size = 7)+
+  labs(title = "(D) Turnover", x="Rate", y="Posterior frequency") + 
+  xlim(0,1)+
+  facet_wrap(~hidden, ncol =2)+
+  #geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
+  geom_density(colour = "white", alpha = 0.5, size = 0) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#1976D2",  "#689F38", "#E64A19"),
+                     breaks = c("Cld", "Wrm", "Trp"),
+                    labels = c("Cold-Temperate", "Warm-Temperate", "Tropical"),
+                     name = "Biome") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
+
+all_div <- grid.arrange(p1, p2, p3, p4, ncol = 2)
+
+#ggsave(plot= all_div, filename = "~/Dropbox/Doctorado/COEN_Phylogeny//Writing/Figures/HiSSE_Biome_rates_main.pdf", device = "pdf", width = 200, height = 120, units = "mm", dpi = 600)
+
+#ggsave(plot= all_div, filename = "~/Dropbox/Doctorado/COEN_Phylogeny//Writing/Figures/HiSSE_Biome_rates_amb.png", device = "png", width = 180, height = 120, units = "mm", dpi = 600)
+
+#ggsave(plot= all_div, filename = "~/Dropbox/Doctorado/COEN_Phylogeny//Writing/Figures/HiSSE_Biome_rates_weak.png", device = "png", width = 180, height = 120, units = "mm", dpi = 600)
+
+```
+
+Summarise HiSSE results.
+
+Speciation
+
+```{r biome-spe-summ, echo=TRUE, eval=TRUE}
+spe_wide <- H_out %>%
+  mutate(diff_TrpvsWrm_0 = speciation.1. - speciation.2.) %>% 
+  mutate(diff_TrpvsCld_0 = speciation.1. - speciation.3.) %>% 
+  mutate(diff_CldvsWrm_0 = speciation.3. - speciation.2.) %>%
+  mutate(diff_TrpvsWrm_1 = speciation.4. - speciation.5.) %>%
+  mutate(diff_TrpvsCld_1 = speciation.4. - speciation.6.) %>% 
+  mutate(diff_CldvsWrm_1 = speciation.6. - speciation.5.) %>%
+  dplyr::select(Iteration, starts_with("diff"))
+
+n <- nrow(spe_wide)
+
+spe_long <- pivot_longer(spe_wide, cols = c(2:7), names_to = "contrast", values_to = "diff") %>% 
+  separate_wider_delim(cols = contrast, delim = "_", names = c("prefix", "states", "hidden") ) %>%
+  select(!prefix)
+
+spe_test <- spe_long %>%
+  group_by(states, hidden) %>%
+  dplyr::summarise(mean = mean(diff),
+            lwr = HPDinterval(mcmc(diff))[1],
+            upr = HPDinterval(mcmc(diff))[2],
+            pmcmc = min(c(sum(diff > 0)/n),sum(diff < 0)/n))
+
+spe_test
+```
+
+Extinction
+
+```{r biome-ext-summ, echo=TRUE, eval=TRUE}
+ext_wide <- H_out %>%
+  mutate(diff_TrpvsWrm_0 = extinction.1. - extinction.2.) %>% 
+  mutate(diff_TrpvsCld_0 = extinction.1. - extinction.3.) %>% 
+  mutate(diff_CldvsWrm_0 = extinction.3. - extinction.2.) %>%
+  mutate(diff_TrpvsWrm_1 = extinction.4. - extinction.5.) %>%
+  mutate(diff_TrpvsCld_1 = extinction.4. - extinction.6.) %>% 
+  mutate(diff_CldvsWrm_1 = extinction.6. - extinction.5.) %>%
+  dplyr::select(Iteration, starts_with("diff"))
+
+n <- nrow(ext_wide)
+
+ext_long <- pivot_longer(ext_wide, cols = c(2:7), names_to = "contrast", values_to = "diff") %>% 
+  separate_wider_delim(cols = contrast, delim = "_", names = c("prefix", "states", "hidden") ) %>%
+  dplyr::select(!prefix)
+
+ext_test <- ext_long %>%
+  group_by(states, hidden) %>%
+  dplyr::summarise(mean = mean(diff),
+            lwr = HPDinterval(mcmc(diff))[1],
+            upr = HPDinterval(mcmc(diff))[2],
+            pmcmc = min(c(sum(diff > 0)/n),sum(diff < 0)/n))
+
+ext_test
+```
+Diversification
+
+```{r biome-div-summ, echo=TRUE, eval=TRUE}
+div_wide <- H_out %>%
+  mutate(diff_TrpvsWrm_0 = (speciation.1. - extinction.1.) - (speciation.2. - extinction.2.)) %>% 
+  mutate(diff_TrpvsCld_0 = (speciation.1. - extinction.1.) - (speciation.3. - extinction.3.)) %>% 
+  mutate(diff_CldvsWrm_0 = (speciation.3. - extinction.3.) - (speciation.2. - extinction.2.))%>%
+  mutate(diff_TrpvsWrm_1 = (speciation.4. - extinction.4.) - (speciation.5. - extinction.5.)) %>%
+  mutate(diff_TrpvsCld_1 = (speciation.4. - extinction.4.) - (speciation.6. - extinction.6.)) %>% 
+  mutate(diff_CldvsWrm_1 = (speciation.6. - extinction.6.) - (speciation.5. - extinction.5.)) %>%
+  dplyr::select(Iteration, starts_with("diff"))
+
+n <- nrow(div_wide)
+
+div_long <- pivot_longer(div_wide, cols = c(2:7), names_to = "contrast", values_to = "diff") %>% 
+  separate_wider_delim(cols = contrast, delim = "_", names = c("prefix", "states", "hidden") ) %>%
+  dplyr::select(!prefix)
+
+div_test <- div_long %>%
+  group_by(states, hidden) %>%
+  dplyr::summarise(mean = mean(diff),
+            lwr = HPDinterval(mcmc(diff))[1],
+            upr = HPDinterval(mcmc(diff))[2],
+            pmcmc = min(c(sum(diff > 0)/n),sum(diff < 0)/n))
+
+div_test
+```
+Turnover
+
+```{r biome-trn-summ, echo=TRUE, eval=TRUE}
+trn_wide <- H_out %>%
+  mutate(diff_TrpvsWrm_0 = (extinction.1. / speciation.1.) - (extinction.2. / speciation.2.)) %>% 
+  mutate(diff_TrpvsCld_0 = (extinction.1. / speciation.1.) - (extinction.3. / speciation.3.)) %>% 
+  mutate(diff_CldvsWrm_0 = (extinction.3. / speciation.3.) - (extinction.2. / speciation.2.))%>%
+  mutate(diff_TrpvsWrm_1 = (extinction.4. / speciation.4.) - (extinction.5. / speciation.5.)) %>%
+  mutate(diff_TrpvsCld_1 = (extinction.4. / speciation.4.) - (extinction.6. / speciation.6.)) %>% 
+  mutate(diff_CldvsWrm_1 = (extinction.6. / speciation.6.) - (extinction.5. / speciation.5.)) %>%
+  dplyr::select(Iteration, starts_with("diff"))
+
+n <- nrow(trn_wide)
+
+trn_long <- pivot_longer(trn_wide, cols = c(2:7), names_to = "contrast", values_to = "diff") %>% 
+  separate_wider_delim(cols = contrast, delim = "_", names = c("prefix", "states", "hidden") ) %>%
+  dplyr::select(!prefix)
+
+trn_test <- trn_long %>%
+  group_by(states, hidden) %>%
+  dplyr::summarise(mean = mean(diff),
+            lwr = HPDinterval(mcmc(diff))[1],
+            upr = HPDinterval(mcmc(diff))[2],
+            pmcmc = min(c(sum(diff > 0)/n),sum(diff < 0)/n))
+
+trn_test
+```
+Combine in a single table.
+
+```{r all-div-main}
+Div_main <- rbind(spe_test, ext_test, div_test, trn_test)
+
+Div_main$Rate <- rep(c("Speciation", "Extinction", "Diversification", "Turnover"), each = 6)
+
+Div_main <- Div_main[,c("Rate", "states", "hidden","mean", "lwr", "upr", "pmcmc")]
+Div_main$states <- recode_factor(Div_main$states, 
+                                 CldvsWrm = "Cold-Temperate vs Warm-Temperate",
+                                 TrpvsCld = "Tropical vs Cold-Temperate",
+                                 TrpvsWrm = "Tropical vs Warm-Temperate")
+Div_main
+
+#write.table(Div_main, "~/Dropbox/Doctorado/COEN_Phylogeny/Writing/Diversification_summary_main.tsv", sep = "\t", row.names = F, quote = F)
+
+#write.table(Div_main, "~/Dropbox/Doctorado/COEN_Phylogeny/Writing/Diversification_summary_amb.tsv", sep = "\t", row.names = F, quote = F)
+
+#write.table(Div_main, "~/Dropbox/Doctorado/COEN_Phylogeny/Writing/Diversification_summary_weak.tsv", sep = "\t", row.names = F, quote = F)
+```
+
+Plot ancestral biomes and hidden states on phylogeny to look at background heterogeneity.
+```{r plot-ancestral-biome}
+# process ancestral states, here we focus on the hidden trait only
+stree_fn = "../output/HiSSE/BiomeHiSSE_strong_r1.ase.tre"
+#stree_fn = "../output/HiSSE/BiomeHiSSE_strong_amb_r1.ase.tre"
+#stree_fn = "../output/HiSSE/BiomeHiSSE_weak.ase.tre"
+
+tre <- processAncStates(stree_fn, 
+                         state_labels = c("0" = "Trp_1",
+                                          "1" = "Wrm_1",
+                                          "2" = "Cld_1",
+                                          "3" = "Trp_2",
+                                          "4" = "Wrm_2",
+                                          "5" = "Cld_2"))
+# define colour palette
+st_colors = c("#1976D2",  "#90CAF9", "#E64A19", "#FFAB91", "#689F38",  "#C5E1A5",  "white" )
+
+# plot tree with ancestral states as pies
+yy=plotAncStatesPie(t=tre,
+                          pie_colors=st_colors,
+                          node_labels_size=0,
+                          node_pie_size = 0.5,
+                          #node_pie_nudge=0.5,
+                          tip_pie_size=0.3,
+                          tip_pie_nudge_x = 1,
+                          node_pie_nudge_x = 0.5,
+                          tip_labels=FALSE,
+                          xlim=c(0,106),
+                          state_transparency = 0.90,
+                          layout="circular"
+                          ) + 
+scale_color_manual(values = st_colors,
+                   labels = c ("Cold-Temperate_1", "Cold-Temperate_2", "Tropical_1",  "Tropical_2", "Warm-Temperate_1", "Warm-Temperate_2"),
+                   breaks = c ("Cld_1", "Cld_2", "Trp_1",  "Trp_2", "Wrm_1", "Wrm_2"))
+
+yy
+
+#ggsave("../../Writing/Figures/HiSSE_Biome_states_ase.pdf", plot = yy, device = "pdf", dpi = 600, units = "mm", width = 180, height = 180 )
+#ggsave("../../Writing/Figures/HiSSE_Biome_amb_ase.png", plot = yy, device = "png", dpi = 600, units = "mm", width = 180, height = 180 )
+#ggsave("../../Writing/Figures/HiSSE_Biome_weak_ase.png", plot = yy, device = "png", dpi = 600, units = "mm", width = 180, height = 180 )
+
+```
+
+
+### Running the HiSSE model under the prior
+
+Here, we make sure that running the model without data recovers the prior distribution.
+
+```{bash run-HiSSE-prior, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+ 
+# run diversification analysis on strongly informed MAP tree
+rb_command="source(\"./HiSSE/quick_HiSSE_strong_biome_prior.Rev\");"
+echo $rb_command | rb
+
+```
+
+Plot the results.
+
+```{r plot-HiSSE-prior, message=FALSE, warning=FALSE,  fig.width=8, fig.height=12}
+# create data frame for combined posterior
+H_out <- read.table("../output/HiSSE/BiomeHiSSE_strong_prior_r1model_combined.log", header = T)
+
+# extra burn-in
+start <- round(0.2*length(H_out$Iteration))
+end <- length(H_out$Iteration)
+H_out <- H_out[start:end,] 
+
+
+# rename character states
+HiSSE_types <- rep(c("Trp1", "Wrm1", "Cld1", "Trp2", "Wrm2", "Cld2"),
+                   each = length(H_out$extinction.1))
+
+# create data frame for each rate 
+dat_spec <- data.frame(dens = c(H_out$speciation.1., H_out$speciation.2.,
+                                H_out$speciation.3., H_out$speciation.4.,
+                                H_out$speciation.5., H_out$speciation.6.), 
+                       Type = HiSSE_types)
+
+dat_ext <- data.frame(dens = c(H_out$extinction.1., H_out$extinction.2., 
+                               H_out$extinction.3., H_out$extinction.4.,
+                               H_out$extinction.5., H_out$extinction.6.),
+                      Type = HiSSE_types)
+
+dat_div <- data.frame(dens = c(H_out$speciation.1.-H_out$extinction.1., 
+                               H_out$speciation.2.-H_out$extinction.2., 
+                               H_out$speciation.3.-H_out$extinction.3., 
+                               H_out$speciation.4.-H_out$extinction.4.,
+                               H_out$speciation.5.-H_out$extinction.5.,
+                               H_out$speciation.6.-H_out$extinction.6.),
+                       Type = HiSSE_types)
+dat_trn <- data.frame(dens = c(H_out$extinction.1./H_out$speciation.1., 
+                               H_out$extinction.2./H_out$speciation.2., 
+                               H_out$extinction.3./H_out$speciation.3., 
+                               H_out$extinction.4./H_out$speciation.4.,
+                               H_out$extinction.5./H_out$speciation.5.,
+                               H_out$extinction.6./H_out$speciation.6.),
+                       Type = HiSSE_types)
+
+# add latitudinal state as a separate column
+dat_spec$Lat<-substr(dat_spec$Type, start = 1, stop = 3)
+dat_ext$Lat<-substr(dat_ext$Type, start = 1, stop = 3)
+dat_div$Lat<-substr(dat_div$Type, start = 1, stop = 3)
+dat_trn$Lat<-substr(dat_trn$Type, start = 1, stop = 3)
+
+# add hidden trait character state
+dat_spec$hidden <- paste0("hidden state ", substr(dat_spec$Type, 4, 4))
+dat_ext$hidden <- paste0("hidden state ", substr(dat_ext$Type, 4, 4))
+dat_div$hidden <- paste0("hidden state ", substr(dat_div$Type, 4, 4))
+dat_trn$hidden <- paste0("hidden state ", substr(dat_trn$Type, 4, 4))
+
+p1 <- ggplot(dat_spec, aes(x = dens, color = Lat, fill = Lat)) + 
+   theme_bw(base_size = 7)+
+  labs(title = "(A) Speciation", x="Rate", y="Posterior frequency") + 
+  facet_wrap(~hidden, ncol =2)+
+ # geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
+  geom_density(colour = "white", alpha = 0.5, size = 0) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  xlim(-0.01,0.20) +
+  #xlim(-0.01,0.75) +
+  scale_fill_manual(values = c("#1976D2",  "#689F38", "#E64A19"),
+                     breaks = c("Cld", "Wrm", "Trp"),
+                    labels = c("Cold-Temperate", "Warm-Temperate", "Tropical"),
+                     name = "Biome") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  
+p2 <- ggplot(dat_ext, aes(x = dens, color = Lat, fill = Lat)) +  
+   theme_bw(base_size = 7)+
+    labs(title = "(B) Extinction", x="Rate", y="Posterior frequency") + 
+  facet_wrap(~hidden, ncol =2,)+
+  #geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
+  geom_density(colour = "white", alpha = 0.5, size = 0) +
+  scale_fill_manual(values = c("#1976D2",  "#689F38", "#E64A19"),
+                     breaks = c("Cld", "Wrm", "Trp"),
+                    labels = c("Cold-Temperate", "Warm-Temperate", "Tropical"),
+                     name = "Biome") +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  xlim(-0.01,0.10)+
+  #ylim(0,2500) +
+  #xlim(-0.05,0.75) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  
+p3 <- ggplot(dat_div, aes(x = dens, color = Lat, fill = Lat)) +
+  theme_bw(base_size = 7)+
+  labs(title = "(C) Diversification", x="Rate", y="Posterior frequency") + 
+  xlim(-0.01,0.15)+
+  #xlim(-0.06,0.12) +
+  facet_wrap(~hidden, ncol =2)+
+  #geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
+  geom_density(colour = "white", alpha = 0.5, size = 0) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#1976D2",  "#689F38", "#E64A19"),
+                     breaks = c("Cld", "Wrm", "Trp"),
+                    labels = c("Cold-Temperate", "Warm-Temperate", "Tropical"),
+                     name = "Biome") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
+ 
+
+p4 <- ggplot(dat_trn, aes(x = dens, color = Lat, fill = Lat)) +
+  theme_bw(base_size = 7)+
+  labs(title = "(D) Turnover", x="Rate", y="Posterior frequency") + 
+  xlim(0,1)+
+  facet_wrap(~hidden, ncol =2)+
+  #geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
+  geom_density(colour = "white", alpha = 0.5, size = 0) +
+  guides(fill=guide_legend(ncol=1,byrow=TRUE), color = guide_legend(ncol=1,byrow=TRUE))+
+  scale_fill_manual(values = c("#1976D2",  "#689F38", "#E64A19"),
+                     breaks = c("Cld", "Wrm", "Trp"),
+                    labels = c("Cold-Temperate", "Warm-Temperate", "Tropical"),
+                     name = "Biome") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
+
+all_div <- grid.arrange(p1, p2, p3, p4, ncol = 2)
+
+#ggsave(plot= all_div, filename = "~/Dropbox/Doctorado/COEN_Phylogeny//Writing/Figures/HiSSE_Biome_rates_prior.png", device = "png", width = 180, height = 120, units = "mm", dpi = 600)
+```
+
+# Dispersal and biome-shift dynamics
+
+We jointly modelled dispersal events and biome shifts in Coenagrionoidea using the approach developed in Landis et al. [-@landis2021modeling]. This section describes how the model was modified and run, and how ancestral states and character histories were summarised.
+
+## Expand the empirical paleobiome model
+
+First, we needed to expand the empirical paleobiome model in Landis et al. [-@landis2021modeling] to include three additional regions (Africa, Australia and India) that harbour an important fraction of damselfly diversity. For details, see the Extended Methods.
+
+Prepare the expanded matrix.
+
+```{r prep-matrix, echo=TRUE, eval=TRUE, message=FALSE}
+# directory with biome-shift data
+atlas_dir <-"../data/processed/biome_shift/"
+
+# get epoch names from Landis et al.
+epoch_names <- read.table(paste0(atlas_dir,"atlas_original/epoch_names.txt"), header = T, sep = ",")
+
+# get original region names from Landis et al.
+old_region_names <- read.table(paste0(atlas_dir,"atlas_original/region_names.txt"), header = T, sep = ",")
+
+# create new region names
+new_region_names <- data.frame(index = c(3.1, 3.3, 0), region_code = c("Ind", "Afr", "Aus"), region_name = c("India", "Africa", "Australia"))
+
+# append and sort
+region_names <- rbind(old_region_names, new_region_names)
+region_names <- region_names[order(region_names$index), ]
+region_names$index <- seq(1:9)
+
+# expand matrix
+new_cols <- data.frame(India = rep(0,6), Africa = rep(0,6), Australia  = rep(0,6))
+new_rows <- data.frame(matrix(0,3,9))
+
+# vector with features
+biomes <- c("tropical", "cold", "warm", "land", "null")
+
+# generate matrices for each feature and epoch
+for (j in biomes) {
+  for (i in 1:nrow(epoch_names)) {
+    temp <-
+      read.table(
+        paste0(atlas_dir, "atlas_original/", j, "/", i - 1, "_", j, ".graph.txt"),
+        header = F,
+        sep = ","
+      )
+    colnames(temp) <- old_region_names$region_name
+    
+    temp <- cbind(temp, new_cols)
+    colnames(new_rows) <- colnames(temp)
+    temp <- rbind(temp, new_rows)
+    rownames(temp) <- colnames(temp)
+    temp <- temp[region_names$region_name,region_names$region_name]
+    assign(paste0(j, "_", epoch_names$index[i]), temp)
+  }
+}
+```
+
+Fill in matrices with empirical data.
+
+```{r Recent-matrix, echo=TRUE, eval=TRUE, message=FALSE}
+# Recent: based on Jolly et al 1998, Salzmann et al 2008 and Shafer et al. 2020
+## Africa
+tropical_7["Africa","Africa"] <- 2
+tropical_7["Africa","India"] <- 1
+tropical_7["India","Africa"] <- 1
+
+warm_7["Africa","Africa"] <- 1
+warm_7["Africa","Europe"] <- 1
+warm_7["Europe","Africa"] <- 1
+
+warm_7["India","Africa"] <- 1
+warm_7["Africa","India"] <- 1
+
+land_7["Africa","Africa"] <- 2
+land_7["Africa","Europe"] <- 2
+land_7["Europe","Africa"] <- 2
+land_7["Africa","India"] <- 1
+land_7["India","Africa"] <- 1
+
+## Australia
+tropical_7["Australia","Australia"] <- 2
+tropical_7["Australia","Southeast_Asia"] <- 2
+tropical_7["Southeast_Asia","Australia"] <- 2
+
+warm_7["Australia","Australia"] <- 2
+warm_7["Australia","Southeast_Asia"] <- 1
+warm_7["Southeast_Asia","Australia"] <- 1
+
+land_7["Australia","Australia"] <- 2
+land_7["Australia","Southeast_Asia"] <- 2
+land_7["Southeast_Asia","Australia"] <- 2
+
+## India
+tropical_7["India","India"] <- 2
+tropical_7["India","Southeast_Asia"] <- 2
+tropical_7["Southeast_Asia","India"] <- 2
+
+warm_7["India","India"] <- 1
+warm_7["India","East_Asia"] <- 1
+warm_7["East_Asia","India"] <- 1
+warm_7["India","Europe"] <- 1
+warm_7["Europe","India"] <- 1
+warm_7["India","Southeast_Asia"] <- 1
+warm_7["Southeast_Asia","India"] <- 1
+
+land_7["India","India"] <- 2
+land_7["India","Europe"] <- 2
+land_7["Europe","India"] <- 2
+land_7["India","Southeast_Asia"] <- 2
+land_7["Southeast_Asia","India"] <- 2
+land_7["India","East_Asia"] <- 2
+land_7["East_Asia","India"] <- 2
+```
+
+```{r Late-Miocene-matrix, echo=TRUE, eval=TRUE, message=FALSE}
+
+# Mid/Late Miocene based on Pound et al. 2011 and Pound et al. 2012
+## Africa
+tropical_6["Africa","Africa"] <- 2
+tropical_6["Africa","India"] <- 2
+tropical_6["India","Africa"] <- 2
+
+warm_6["Africa","Africa"] <- 1
+warm_6["Africa","Europe"] <- 1
+warm_6["Europe","Africa"] <- 1
+
+land_6["Africa","Africa"] <- 2
+land_6["Africa","Europe"] <- 2
+land_6["Europe","Africa"] <- 2
+land_6["Africa","India"] <- 1
+land_6["India","Africa"] <- 1
+
+## Australia
+tropical_6["Australia","Australia"] <- 2
+tropical_6["Australia","Southeast_Asia"] <- 2
+tropical_6["Southeast_Asia","Australia"] <- 2
+
+warm_6["Australia","Australia"] <- 2
+warm_6["Australia","Southeast_Asia"] <- 1
+warm_6["Southeast_Asia","Australia"] <- 1
+
+land_6["Australia","Australia"] <- 2
+land_6["Australia","Southeast_Asia"] <- 1
+land_6["Southeast_Asia","Australia"] <- 1
+
+## India
+tropical_6["India","India"] <- 2
+tropical_6["India","Southeast_Asia"] <- 2
+tropical_6["Southeast_Asia","India"] <- 2
+
+warm_6["India","India"] <- 1
+warm_6["India","East_Asia"] <- 1
+warm_6["East_Asia","India"] <- 1
+
+warm_6["India","Southeast_Asia"] <- 1
+warm_6["Southeast_Asia","India"] <- 1
+
+warm_6["India","Europe"] <- 1
+warm_6["Europe","India"] <- 1
+
+warm_6["India","Africa"] <- 1
+warm_6["Africa","India"] <- 1
+
+land_6["India","India"] <- 2
+land_6["India","Europe"] <- 2
+land_6["Europe","India"] <- 2
+land_6["India","Southeast_Asia"] <- 2
+land_6["Southeast_Asia","India"] <- 2
+land_6["India","East_Asia"] <- 2
+land_6["East_Asia","India"] <- 2
+
+# Early Miocene
+
+## Africa based on Jacobs 2004; Vincens et al 2006; Neumann and Bamford 2015; Roberts et al. 2017
+tropical_5["Africa","Africa"] <- 2
+tropical_5["Africa","India"] <- 2
+tropical_5["India","Africa"] <- 2
+
+
+warm_5["Africa","Africa"] <- 1
+warm_5["Africa","Europe"] <- 1
+warm_5["Europe","Africa"] <- 1
+
+land_5["Africa","Africa"] <- 2
+land_5["Africa","Europe"] <- 2
+land_5["Europe","Africa"] <- 2
+land_5["Africa","India"] <- 1
+land_5["India","Africa"] <- 1
+
+## Australia based on Hill and Hall 2002, Herold et al. 2011, Byrne et. al 2008
+tropical_5["Australia","Australia"] <- 2
+tropical_5["Australia","Southeast_Asia"] <- 2
+tropical_5["Southeast_Asia","Australia"] <- 2
+
+warm_5["Australia","Australia"] <- 2
+warm_5["Australia","Southeast_Asia"] <- 1
+warm_5["Southeast_Asia","Australia"] <- 1
+
+land_5["Australia","Australia"] <- 2
+land_5["Australia","Southeast_Asia"] <- 1
+land_5["Southeast_Asia","Australia"] <- 1
+
+## India based on Guo et al. 2008; Chen et al 2019; Klaus et al. 2016; Potter and Szatmari 2009
+tropical_5["India","India"] <- 2
+tropical_5["India","Southeast_Asia"] <- 2
+tropical_5["Southeast_Asia","India"] <- 2
+```
+
+```{r Early-Miocene-matrix, echo=TRUE, eval=TRUE, message=FALSE}
+
+# Early Miocene is relatively warm and Himalayas relatively low but I'm siding for weak features as opposed to marginal here, as there is temperate-warm climate in SEA in the same period.
+
+warm_5["India","India"] <- 1
+
+warm_5["India","East_Asia"] <- 1
+warm_5["East_Asia","India"] <- 1
+
+warm_5["India","Southeast_Asia"] <- 1
+warm_5["Southeast_Asia","India"] <- 1
+
+warm_5["India","Europe"] <- 1
+warm_5["Europe","India"] <- 1
+
+warm_5["India","Africa"] <- 1
+warm_5["Africa","India"] <- 1
+
+land_5["India","India"] <- 2
+land_5["India","Europe"] <- 2
+land_5["Europe","India"] <- 2
+land_5["India","Southeast_Asia"] <- 2
+land_5["Southeast_Asia","India"] <- 2
+land_5["India","East_Asia"] <- 2
+land_5["East_Asia","India"] <- 2
+
+```
+
+```{r Oligocene-matrix, echo=TRUE, eval=TRUE, message=FALSE}
+# Oligocene
+
+## Africa based on Neumann and Bamford 2015 and Pound and Salzmann 2017
+tropical_4["Africa","Africa"] <- 2
+tropical_4["Africa","India"] <- 1
+tropical_4["India","Africa"] <- 1
+
+warm_4["Africa","Africa"] <- 1
+
+land_4["Africa","Africa"] <- 2
+land_4["Africa","Europe"] <- 1
+land_4["Europe","Africa"] <- 1
+land_4["Africa","India"] <- 1
+land_4["India","Africa"] <- 1
+
+## Australia based on Hill and Hall 2002; Buerki et al. 2013; Korasidis et al 2019; Pound and Salzmann 2017
+tropical_4["Australia","Australia"] <- 1
+tropical_4["Australia","Southeast_Asia"] <- 1
+tropical_4["Southeast_Asia","Australia"] <- 1
+
+warm_4["Australia","Australia"] <- 2
+warm_4["Australia","Southeast_Asia"] <- 1
+warm_4["Southeast_Asia","Australia"] <- 1
+
+land_4["Australia","Australia"] <- 2
+
+## India based on Kent and Muttoni 2008; Su et al. 2018; Srivastava et al. 2012; Pound and Salzmann 2017; 
+tropical_4["India","India"] <- 2
+tropical_4["India","Southeast_Asia"] <- 2
+tropical_4["Southeast_Asia","India"] <- 2
+
+warm_4["India","India"] <- 2
+
+warm_4["India","East_Asia"] <- 2
+warm_4["East_Asia","India"] <- 2
+
+warm_4["India","Southeast_Asia"] <- 1
+warm_4["Southeast_Asia","India"] <- 1
+
+warm_4["India","Europe"] <- 2
+warm_4["Europe","India"] <- 2
+
+cold_4["India","India"] <- 1
+
+cold_4["India","East_Asia"] <- 1
+cold_4["East_Asia","India"] <- 1
+
+cold_4["India","Europe"] <- 1
+cold_4["Europe","India"] <- 1
+
+land_4["India","India"] <- 2
+land_4["India","Europe"] <- 2
+land_4["Europe","India"] <- 2
+land_4["India","Southeast_Asia"] <- 2
+land_4["Southeast_Asia","India"] <- 2
+land_4["India","East_Asia"] <- 2
+land_4["East_Asia","India"] <- 2
+```
+
+```{r Late-Eocene-matrix, echo=TRUE, eval=TRUE, message=FALSE}
+# Mid/Late Eocene
+
+## Africa based on Neumann and Bamford 2015; Herold et al. 2014; Pound and Salzmann 2017
+tropical_3["Africa","Africa"] <- 2
+tropical_3["Africa","India"] <- 1
+tropical_3["India","Africa"] <- 1
+
+tropical_3["Africa","Europe"] <- 1
+tropical_3["Europe","Africa"] <- 1
+
+
+warm_3["Africa","Africa"] <- 1
+
+land_3["Africa","Africa"] <- 2
+land_3["Africa","Europe"] <- 1
+land_3["Europe","Africa"] <- 1
+land_3["Africa","India"] <- 1
+land_3["India","Africa"] <- 1
+
+## Australia based on Hill and Hall 2002; Pound and Salzmann 2017
+tropical_3["Australia","Australia"] <- 1
+tropical_3["Australia","Southeast_Asia"] <- 1
+tropical_3["Southeast_Asia","Australia"] <- 1
+
+warm_3["Australia","Australia"] <- 2
+
+land_3["Australia","Australia"] <- 2
+
+## India based on Pound and Salzmann 2017; Singh et al. 2011; Utescher and Mosbrugger 2007
+tropical_3["India","India"] <- 2
+tropical_3["India","Southeast_Asia"] <- 2
+tropical_3["Southeast_Asia","India"] <- 2
+
+tropical_3["India","East_Asia"] <- 1
+tropical_3["East_Asia","India"] <- 1
+tropical_3["India","Europe"] <- 1
+tropical_3["Europe","India"] <- 1
+
+tropical_3["Africa","Southeast_Asia"] <- 1
+tropical_3["Southeast_Asia","Africa"] <- 1
+
+tropical_3["Africa","East_Asia"] <- 1
+tropical_3["East_Asia","Africa"] <- 1
+
+warm_3["India","India"] <- 1
+
+warm_3["India","East_Asia"] <- 1
+warm_3["East_Asia","India"] <- 1
+
+warm_3["India","Southeast_Asia"] <- 1
+warm_3["Southeast_Asia","India"] <- 1
+
+warm_3["India","Europe"] <- 1
+warm_3["Europe","India"] <- 1
+
+land_3["India","India"] <- 2
+land_3["India","Europe"] <- 1
+land_3["Europe","India"] <- 1
+land_3["India","Southeast_Asia"] <- 1
+land_3["Southeast_Asia","India"] <- 1
+land_3["India","East_Asia"] <- 1
+land_3["East_Asia","India"] <- 1
+```
+
+```{r Early-Eocene-matrix, echo=TRUE, eval=TRUE, message=FALSE}
+# Early Eocene
+
+## Africa based on Neumann and Bamford 2015; Herold et al. 2014
+tropical_2["Africa","Africa"] <- 2
+tropical_2["Africa","India"] <- 1
+tropical_2["India","Africa"] <- 1
+
+tropical_2["Africa","Europe"] <- 2
+tropical_2["Europe","Africa"] <- 2
+
+tropical_2["Africa","Southeast_Asia"] <- 1
+tropical_2["Southeast_Asia","Africa"] <- 1
+
+tropical_2["Africa","East_Asia"] <- 1
+tropical_2["East_Asia","Africa"] <- 1
+
+land_2["Africa","Africa"] <- 2
+land_2["Africa","Europe"] <- 1
+land_2["Europe","Africa"] <- 1
+land_2["Africa","India"] <- 1
+land_2["India","Africa"] <- 1
+
+## Australia based on Hill and Hall 2002; Herold et al. 2014; Pross et al 2012
+tropical_2["Australia","Australia"] <- 2
+
+warm_2["Australia","Australia"] <- 2
+warm_2["South_America","Australia"] <- 1
+warm_2["Australia","South_America"] <- 1
+
+land_2["Australia","Australia"] <- 2
+
+## India based on Herold et al. 2014; Utescher and Mosbrugger 2007
+tropical_2["India","India"] <- 2
+tropical_2["India","Southeast_Asia"] <- 1
+tropical_2["Southeast_Asia","India"] <- 1
+
+tropical_2["India","East_Asia"] <- 1
+tropical_2["East_Asia","India"] <- 1
+
+tropical_2["India","Europe"] <- 1
+tropical_2["Europe","India"] <- 1
+
+warm_2["India","India"] <- 1
+
+warm_2["India","Southeast_Asia"] <- 1
+warm_2["Southeast_Asia","India"] <- 1
+
+warm_2["India","East_Asia"] <- 1
+warm_2["East_Asia","India"] <- 1
+
+warm_2["India","Europe"] <- 1
+warm_2["Europe","India"] <- 1
+
+land_2["India","India"] <- 2
+land_2["India","Southeast_Asia"] <- 1
+land_2["Southeast_Asia","India"] <- 1
+land_2["India","East_Asia"] <- 1
+land_2["East_Asia","India"] <- 1
+land_2["India","Europe"] <- 1
+land_2["Europe","India"] <- 1
+```
+
+```{r Paleocene-matrix, echo=TRUE, eval=TRUE, message=FALSE}
+# Paleocene
+
+## Africa based on Neumann and Bamford 2015; Jacobs et al. 2010; Jacobs 2004
+tropical_1["Africa","Africa"] <- 2
+tropical_1["Africa","India"] <- 1
+tropical_1["India","Africa"] <- 1
+
+tropical_1["Africa","Europe"] <- 1
+tropical_1["Europe","Africa"] <- 1
+
+land_1["Africa","Africa"] <- 2
+land_1["Africa","Europe"] <- 1
+land_1["Europe","Africa"] <- 1
+land_1["Africa","India"] <- 1
+land_1["India","Africa"] <- 1
+
+## Australia based on Hill and Hall 2002;  Greenwood et al 2003; Barreda and Palazzesi 2007; Bowman et al. 2014
+tropical_1["Australia","Australia"] <- 2
+
+warm_1["South_America","South_America"] <- 1
+
+warm_1["Australia","Australia"] <- 2
+warm_1["South_America","Australia"] <- 1
+warm_1["Australia","South_America"] <- 1
+
+land_1["Australia","Australia"] <- 2
+land_1["Australia","South_America"] <- 1
+land_1["South_America","Australia"] <- 1
+
+## India based on Prasad et al. 2018, Bhatia et al. 2021
+tropical_1["India","India"] <- 2
+tropical_1["India","Africa"] <- 1
+tropical_1["Africa","India"] <- 1
+
+land_1["India","India"] <- 2
+```
+
+
+```{r Late-Cretaceous-matrix, echo=TRUE, eval=TRUE, message=FALSE}
+# Late Cretaceous
+
+## Africa based on Maley 1996, Jacobs et al 2010, Warny et al 2019; Jacobs 2004
+tropical_0["Africa","Africa"] <- 2
+tropical_0["Africa","India"] <- 2
+tropical_0["India","Africa"] <- 2
+tropical_0["Africa","South_America"] <- 1
+tropical_0["South_America","Africa"] <- 1
+
+tropical_0["Africa","Europe"] <- 1
+tropical_0["Europe","Africa"] <- 1
+
+warm_0["Africa","Africa"] <- 1
+
+land_0["Africa","Africa"] <- 2
+land_0["Africa","India"] <- 2
+land_0["India","Africa"] <- 2
+land_0["Africa","South_America"] <- 1
+land_0["South_America","Africa"] <- 1
+
+## Australia based on Specht et al 1992, Carpenter et al. 2015; Rundel et al 2016; Otto-Bilesner et al 1997;  Ohba and Ueda 2010
+tropical_0["Australia","Australia"] <- 1
+
+warm_0["South_America","South_America"] <- 1
+
+warm_0["Australia","Australia"] <- 2
+
+warm_0["South_America","Australia"] <- 1
+warm_0["Australia","South_America"] <- 1
+
+land_0["Australia","Australia"] <- 2
+land_0["Australia","South_America"] <- 1
+land_0["South_America","Australia"] <- 1
+
+## India based on Otto-Bilesner et al 1997, Ohba and Ueda 2010; Dzombak et al. 2020
+tropical_0["India","India"] <- 2
+tropical_0["India","Africa"] <- 1
+tropical_0["Africa","India"] <- 1
+
+warm_0["India","India"] <- 2
+warm_0["India","Africa"] <- 1
+warm_0["Africa","India"] <- 1
+
+land_0["India","India"] <- 2
+land_0["India","Australia"] <- 1
+land_0["Australia","India"] <- 1
+```
+
+Generate the uninformative feature matrix.
+
+```{r Uninf-matrix, echo=TRUE, eval=TRUE, message=FALSE}
+# Null matrix
+
+null_0[null_0 == 0] <- 2
+null_1[null_1 == 0] <- 2
+null_2[null_2 == 0] <- 2
+null_3[null_3 == 0] <- 2
+null_4[null_4 == 0] <- 2
+null_5[null_5 == 0] <- 2
+null_6[null_6 == 0] <- 2
+null_7[null_7 == 0] <- 2
+```
+
+Create plots for all adjacency matrices.
+
+```{r create-adjacency-plots, echo=TRUE, eval=TRUE, message=FALSE}
+# a list for each feature
+tropical_mtx <- list()
+warm_mtx <- list()
+cold_mtx <- list()
+land_mtx <- list()
+null_mtx <- list()
+
+# tropical biome feature
+for(i in 1:nrow(epoch_names)){
+  temp <- data.frame(region_1 = melt(eval(parse(text=paste0("tropical_",i-1))))[,1],
+                     region_2 = region_names$region_name,
+                     feat = as.factor(melt(eval(parse(text=paste0("tropical_",i-1))))[,2]))
+  s <- 
+    ggplot(temp,
+      aes(
+        x = region_1,
+        y = region_2,
+        fill = feat,
+        alpha = feat
+      )
+    ) +
+    geom_tile(colour = "white", lwd = 1.5) +
+    scale_fill_manual(values = c("brown1", "brown1", "brown1")) +
+    scale_alpha_manual(values = c(0.1, .5, 1)) +
+    scale_x_discrete(
+      limits = region_names$region_name,
+      position = "top",
+      labels = region_names$region_code
+    ) +
+    scale_y_discrete(
+      limits = rev(region_names$region_name),
+      labels = rev(region_names$region_code)
+    ) +
+    theme(legend.position = "none", axis.title = element_blank()) +
+    theme(panel.grid = element_blank()) +
+    theme(axis.ticks = element_blank())
+  tropical_mtx[[i]] <- s
+}
+
+# Temperate-Warm biome feature
+for(i in 1:nrow(epoch_names)){
+  temp <- data.frame(region_1 = melt(eval(parse(text=paste0("warm_",i-1))))[,1],
+                     region_2 = region_names$region_name,
+                     feat = as.factor(melt(eval(parse(text=paste0("warm_",i-1))))[,2]))
+  s <- 
+    ggplot(temp,
+           aes(
+             x = region_1,
+             y = region_2,
+             fill = feat,
+             alpha = feat
+           )
+    ) +
+    geom_tile(colour = "white", lwd = 1.5) +
+    scale_fill_manual(values = c("#339933", "#339933", "#339933")) +
+    scale_alpha_manual(values = c(0.1, .5, 1)) +
+    scale_x_discrete(
+      limits = region_names$region_name,
+      position = "top",
+      labels = region_names$region_code
+    ) +
+    scale_y_discrete(
+      limits = rev(region_names$region_name),
+      labels = rev(region_names$region_code)
+    ) +
+    theme(legend.position = "none", axis.title = element_blank()) +
+    theme(panel.grid = element_blank()) +
+    theme(axis.ticks = element_blank())
+  warm_mtx[[i]] <- s
+}
+
+# Temperate-Cold biome feature
+for(i in 1:nrow(epoch_names)){
+  temp <- data.frame(region_1 = melt(eval(parse(text=paste0("cold_",i-1))))[,1],
+                     region_2 = region_names$region_name,
+                     feat = as.factor(melt(eval(parse(text=paste0("cold_",i-1))))[,2]))
+  s <- 
+    ggplot(temp,
+           aes(
+             x = region_1,
+             y = region_2,
+             fill = feat,
+             alpha = feat
+           )
+    ) +
+    geom_tile(colour = "white", lwd = 1.5) +
+    scale_fill_manual(values = c("#0066CC", "#0066CC", "#0066CC")) +
+    scale_alpha_manual(values = c(0.1, .5, 1)) +
+    scale_x_discrete(
+      limits = region_names$region_name,
+      position = "top",
+      labels = region_names$region_code
+    ) +
+    scale_y_discrete(
+      limits = rev(region_names$region_name),
+      labels = rev(region_names$region_code)
+    ) +
+    theme(legend.position = "none", axis.title = element_blank()) +
+    theme(panel.grid = element_blank()) +
+    theme(axis.ticks = element_blank())
+  cold_mtx[[i]] <- s
+}
+
+# geographic feature
+for(i in 1:nrow(epoch_names)){
+  temp <- data.frame(region_1 = melt(eval(parse(text=paste0("land_",i-1))))[,1],
+                     region_2 = region_names$region_name,
+                     feat = as.factor(melt(eval(parse(text=paste0("land_",i-1))))[,2]))
+  s <- 
+    ggplot(temp,
+           aes(
+             x = region_1,
+             y = region_2,
+             fill = feat,
+             alpha = feat
+           )
+    ) +
+    geom_tile(colour = "white", lwd = 1.5) +
+    scale_fill_manual(values = c("#996633", "#996633", "#996633")) +
+    scale_alpha_manual(values = c(0.1, .5, 1)) +
+    scale_x_discrete(
+      limits = region_names$region_name,
+      position = "top",
+      labels = region_names$region_code
+    ) +
+    scale_y_discrete(
+      limits = rev(region_names$region_name),
+      labels = rev(region_names$region_code)
+    ) +
+    theme(legend.position = "none", axis.title = element_blank()) +
+    theme(panel.grid = element_blank()) +
+    theme(axis.ticks = element_blank())
+  land_mtx[[i]] <- s
+}
+
+# uninformed feature
+for(i in 1:nrow(epoch_names)){
+  temp <- data.frame(region_1 = melt(eval(parse(text=paste0("null_",i-1))))[,1],
+                     region_2 = region_names$region_name,
+                     feat = as.factor(melt(eval(parse(text=paste0("null_",i-1))))[,2]))
+  s <- 
+    ggplot(temp,
+           aes(
+             x = region_1,
+             y = region_2,
+             fill = feat,
+             alpha = feat
+           )
+    ) +
+    geom_tile(colour = "white", lwd = 1.5) +
+    scale_fill_manual(values = c("black")) +
+    scale_alpha_manual(values = c(1)) +
+    scale_x_discrete(
+      limits = region_names$region_name,
+      position = "top",
+      labels = region_names$region_code
+    ) +
+    scale_y_discrete(
+      limits = rev(region_names$region_name),
+      labels = rev(region_names$region_code)
+    ) +
+    theme(legend.position = "none", axis.title = element_blank()) +
+    theme(panel.grid = element_blank()) +
+    theme(axis.ticks = element_blank())
+  null_mtx[[i]] <- s
+}
+```
+
+Plot the adjacency matrices.
+```{r plot-adjacency-matrices, echo=TRUE, eval=TRUE, message=FALSE}
+# Late Cretaceous to Late Eocene
+#CairoPDF(file=paste(plot_fp, "adj_mtx_1.pdf", sep=""), width=18, height=14)
+print(grid.arrange(null_mtx[[1]], land_mtx[[1]], tropical_mtx[[1]], warm_mtx[[1]],  cold_mtx[[1]],null_mtx[[2]], land_mtx[[2]], tropical_mtx[[2]], warm_mtx[[2]], cold_mtx[[2]], null_mtx[[3]], land_mtx[[3]], tropical_mtx[[3]],  warm_mtx[[3]], cold_mtx[[3]], null_mtx[[4]], land_mtx[[4]], tropical_mtx[[4]], warm_mtx[[4]],  cold_mtx[[4]], ncol = 5))
+#dev.off()
+
+# Oligocene to Recent
+#CairoPDF(file=paste(plot_fp, "adj_mtx_2.pdf", sep=""), width=18, height=14)
+print(grid.arrange(null_mtx[[5]], land_mtx[[5]], tropical_mtx[[5]], warm_mtx[[5]],  cold_mtx[[5]], null_mtx[[6]], land_mtx[[6]], tropical_mtx[[6]], warm_mtx[[6]], cold_mtx[[6]], null_mtx[[7]], land_mtx[[7]], tropical_mtx[[7]],  warm_mtx[[7]], cold_mtx[[7]], null_mtx[[8]], land_mtx[[8]], tropical_mtx[[8]], warm_mtx[[8]],  cold_mtx[[8]], ncol = 5))
+#dev.off()
+```
+
+Write files for analysis.
+
+```{r write-adjacency matrices, echo=TRUE, eval=FALSE, message=FALSE}
+# write matrices
+
+for (j in biomes){
+  for (i in 1:nrow(epoch_names)){
+    temp <- eval(parse(text=paste0(j, "_",i-1)))
+write.table(temp, file = paste0(atlas_dir, "atlas_damselfly/", j, "/", i-1, "_", j , ".graph.txt" ), quote = F, col.names = F, row.names = F, sep = ",")
+  }
+}
+
+# write region names
+#write.table(region_names, file = paste0(atlas_dir, "atlas_damselfly/region_names.txt"), quote = F, row.names = F, sep = ",")
+```
+
+## Recode distribution data
+
+Next, we recoded the biome-region states into symbols for the .nex file to be used in the biome-shift analysis (see Extended Methods).
+
+```{r biomes-to symbols, echo=TRUE, eval=FALSE, message=FALSE}
+# read biome data
+dat <- read.csv("../data/processed/biome_shift/biome_dat.csv", header = T, sep = ",")
+
+# concatenate regions and biomes
+dat$state <- paste0(dat$Region_1, dat$Region_2, dat$Region_3, dat$Region_4, dat$Biome_1, dat$Biome_2, dat$Biome_3 )
+
+#unique(dat$state)
+dat$code <- dat$state
+
+# one region 1-3 biomes
+dat$code[dat$state == "AfrT"] <- "F" 
+dat$code[dat$state == "AfrW"] <- "O"
+dat$code[dat$state == "AfrTW"] <- "(F O)"
+
+dat$code[dat$state == "AusT"] <- "A" 
+dat$code[dat$state == "AusW"] <- "J"
+dat$code[dat$state == "AusTW"] <- "(A J)" 
+
+dat$code[dat$state == "C_AmT"] <- "H"
+dat$code[dat$state == "C_AmW"] <- "Q"
+
+dat$code[dat$state == "E_AsW"] <- "L"
+dat$code[dat$state == "E_AsC"] <- "U"
+dat$code[dat$state == "E_AsWC"] <- "(L U)"
+
+dat$code[dat$state == "EurW"] <- "M"
+dat$code[dat$state == "EurC"] <- "V"
+dat$code[dat$state == "EurWC"] <- "(M V)"
+
+dat$code[dat$state == "IndT"] <- "E"
+dat$code[dat$state == "IndTW"] <- "(E N)"
+
+dat$code[dat$state == "N_AmW"] <- "P"
+dat$code[dat$state == "N_AmC"] <- "Y"
+dat$code[dat$state == "N_AmWC"] <- "(P Y)"
+
+dat$code[dat$state == "S_AmT"] <- "I"
+dat$code[dat$state == "S_AmW"] <- "Q"
+dat$code[dat$state == "S_AmTW"] <- "(I Q)"
+
+dat$code[dat$state == "SE_AsT"] <- "B"
+dat$code[dat$state == "SE_AsW"] <- "K"
+dat$code[dat$state == "SE_AsTW"] <- "(B K)"
+
+# two regions 1 -3 biomes
+dat$code[dat$state == "AfrEurW"] <- "(M O)"
+dat$code[dat$state == "AusSE_AsT"] <- "(A B)"
+dat$code[dat$state == "C_AmS_AmT"] <- "(H I)"
+dat$code[dat$state == "E_AsEurC"] <- "(U V)"
+dat$code[dat$state == "E_AsSE_AsW"] <- "(K L)"
+dat$code[dat$state == "IndSE_AsT"] <- "(B E)"
+
+dat$code[dat$state == "AfrEurWC"] <- "(M O V)"
+dat$code[dat$state == "IndSE_AsTW"] <- "(B E K N)"
+dat$code[dat$state == "C_AmN_AmTW"] <- "(H P)"
+dat$code[dat$state == "C_AmS_AmTW"] <- "(H I)"
+dat$code[dat$state == "E_AsEurWC"] <- "(M U V)"
+dat$code[dat$state == "E_AsSE_AsTW"] <- "(B K L)"
+
+dat$code[dat$state == "C_AmN_AmTWC"] <- "(H P Y)"
+
+# Three regions 1-3 biomes
+dat$code[dat$state == "E_AsIndSE_AsW"] <- "(K L N)"
+
+dat$code[dat$state == "C_AmN_AmS_AmTW"] <- "(H I P)"
+dat$code[dat$state == "E_AsEurAfrWC"] <- "(L M O V)"
+
+dat$code[dat$state == "AusIndSE_AsTW"] <- "(A B E J K N)"
+dat$code[dat$state == "C_AmN_AmS_AmTWC"] <- "(H I P Y)"
+dat$code[dat$state == "E_AsEurIndSE_AWC"] <- "(K L M N U V)"
+dat$code[dat$state == "E_AsIndSE_AsTWC"] <- "(B E K L U)"
+
+# Four regions 2 biomes
+dat$code[dat$state == "AusE_AsIndSE_ATW"] <- "(A B E J K L N)"
+dat$code[dat$state == "AfrE_AsIndSE_ATW"] <- "(B F E K L N O)"
+
+dat$code[dat$state == ""] <- "?"
+
+#write.table(
+#  dat[, c(1, 10)],
+#  "../data/processed/biome_shift/coen_biome.nex",
+#  quote = F,
+#  row.names = F,
+#  col.names = F,
+#  sep = "\t"
+#)
+```
+
+## Running the biome-shift and dispersal model
+
+We ran this analysis using the strongly-informed MAP tree of our previous dating analysis. The model was run on UPPMAX, on two indepent chains each for 30,000 iterations.
+
+```{bash biome-shift-model, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+module load bioinfo-tools
+module load pgi/18.3
+module load openmpi/3.1.3
+module load RevBayes/1.1.1
+
+date
+
+# run biome shift analysis on strongly informed tree
+rb_command="source(\"./biome_shift/run_inf.Rev\");"
+echo $rb_command | rb
+
+date
+```
+
+We then summarise ancestral states and stochastic histories.
+
+```{bash summ-biome-shift, echo=TRUE, eval=FALSE}
+#!/bin/bash
+
+# load RevBayes
+source ~/Applications/spack/share/spack/setup-env.sh
+spack load revbayes
+ 
+# summarise tree annotations
+rb_command="source(\"./biome_shift/Annot_tree.Rev\");"
+echo $rb_command | rb
+```
+
+## Plot ancestral states
+
+We plot ancestral sate reconstructions based on the biome-shift and dispersal model. The code was adapted from Landis et al. [-@landis2021modeling], with very minor modifications.
+
+First, we run the biome_shift_util script in Landis et al. [-@landis2021modeling], which creates functions for all plots.
+
+```{r biome-util, echo=TRUE, eval=TRUE, message=FALSE}
+
+source("./biome_shift/biome_shift_util.R")
+
+```
+
+Now we can plot the ancestral states.
+
+```{r plot-biome-ase, echo=TRUE, eval=TRUE, message=FALSE}
+# path objects
+fp = "../"
+plot_fp = paste0(fp, "output/biome_shift/plot/")
+col_fn = paste0(fp, "scripts/biome_shift/biome_region_colors.txt")
+out_fp = paste(fp, "output/biome_shift/", sep="")
+base_fn = c("run2.paleo")
+
+# manage colors and state labels
+dat_col = read.csv(col_fn)
+st_lbl = c("Trop+Aus","Trop+SEAs","Trop+EAs","Trop+Eur", "Trop+Ind", "Trop+Afr", "Trop+NAm","Trop+CAm","Trop+SAm",
+           "Warm+Aus","Warm+SEAs","Warm+EAs","Warm+Eur","Warm+Ind", "Warm+Afr","Warm+NAm","Warm+CAm","Warm+SAm",
+           "Cold+Aus","Cold+SEAs","Cold+EAs","Cold+Eur","Cold+Ind","Cold+Afr","Cold+NAm","Cold+CAm","Cold+SAm")
+
+names(st_lbl) = c( as.vector(dat_col$state) ) #, "--")
+st_colors = c( as.vector(dat_col$color), "white" )
+names(st_colors) = st_lbl
+
+# generate pie-state plots
+    fn = base_fn
+    phy_fn = paste(fn, ".ase.tre",  sep="")
+    stree_fn = paste(out_fp, phy_fn, sep="")
+  
+ tre <- processAncStates(stree_fn, 
+                         state_labels = c("A" = "Trop+Aus",
+                                          "B" = "Trop+SEAs",
+                                          "C" = "Trop+EAs",
+                                          "D" = "Trop+Eur",
+                                          "E" = "Trop+Ind",
+                                          "F" = "Trop+Afr",
+                                          "G" = "Trop+NAm",
+                                          "H" = "Trop+CAm",
+                                          "I" = "Trop+SAm",
+                                          "J" = "Warm+Aus",
+                                          "K" = "Warm+SEAs",
+                                          "L" = "Warm+EAs",
+                                          "M" = "Warm+Eur",
+                                          "N" = "Warm+Ind",
+                                          "O" = "Warm+Afr",
+                                          "P" = "Warm+NAm",
+                                          "Q" = "Warm+Cam",
+                                          "R" = "Warm+SAm",
+                                          "S" = "Cold+Aus",
+                                          "T" = "Cold+SEAs",
+                                          "U" = "Cold+EAs",
+                                          "V" = "Cold+Eur",
+                                          "W" = "Cold+Ind",
+                                          "X" = "Cold+Afr",
+                                          "Y" = "Cold+NAm",
+                                          "0" = "Cold+CAm",
+                                          "Z" = "Cold+SAm")) 
+ zz=plotAncStatesPie(t=tre,
+                          pie_colors=st_colors,
+                          node_labels_size=0,
+                          node_pie_size = 0.5,
+                          #node_pie_nudge=0.5,
+                          tip_pie_size=0.3,
+                          tip_pie_nudge_x = 0,
+                          node_pie_nudge_x = 0.5,
+                          tip_labels_size=0,
+                          tip_labels_offset=0.5,
+                          xlim=c(0,106),
+                          state_transparency = 0.75,
+                          linewidth = 0.3)
+    
+
+# get number of nodes to set ylim
+n_node = sum(!is.na(zz$data$label))
+
+# generate plots for the three analysis types
+plot_fn = paste0( plot_fp, "fig_anc_", c("paleo1"), ".pdf")
+
+
+    # get simple RevGadgets plot
+    p2 = zz
+    
+    # tweak coordinate system
+    x_height = max(p2$data$x)
+    x_new_root = 108
+    x_offset = x_new_root - x_height
+    x_extra = 20
+    x_lbl = 0
+    dy = 4
+    
+    # add ggplot features
+    p2 = p2 + theme_tree2()
+    p2 = p2 + coord_cartesian(xlim = c(-(x_offset+x_extra), x_height+x_lbl), ylim=c(-30,n_node+1), expand=TRUE)
+    p2 = p2 + scale_x_continuous(breaks = seq(0,x_new_root,10)-x_offset+x_new_root%%10, labels = rev(seq(0,x_new_root,10)))
+    p2 = p2 + labs(x="Age (Ma)")
+    p2 = p2 + theme(legend.position=c(0.12, 0.85), axis.line = element_line(colour = "black"), legend.text = element_text(size =7), legend.key.size = unit(2, "mm"))
+    p2 = p2 + scale_colour_manual( name="Biome+Region",
+                                   drop=F,
+                                   values=st_colors,
+                                   breaks=names(st_colors),
+                                   limits=names(st_colors))
+    
+    
+    # add timescale
+    p2 = fig5_add_epoch_times(p2, x_new_root,  dy_bars=-30, dy_text=-15)
+
+    p2
+# save figure to file
+#ggsave(plot_fn, p2, height=220, width=180, onefile = TRUE, units = "mm", device = "pdf", dpi = 600)
+```
+
+## Plot lineage states through time
+
+Prepare scales for plot.
+
+```{r prep-lstt-plot, eval=TRUE, echo=TRUE, warning=FALSE}
+# path objects
+fp = "../"
+plot_fp = paste(fp, "output/biome_shift/plot", sep="")
+col_fn = paste(fp, "scripts/biome_shift/biome_region_colors.txt",sep="")
+atlas_fp = paste(fp, "data/processed/biome_shift/atlas_damselfly/", sep="")
+atlas_fn = c("tropical", "warm", "cold")
+times_fn = paste(atlas_fp, "epoch_names.txt", sep="")
+
+# MCMC processing
+f_burn = 0 # how many iterations to discard
+thinby = 1 # sampling frequency (e.g. thinby=10 is 1 sample every 10 iterations)
+
+# get colors and names for biome+region states
+dat_col = read.csv(col_fn, stringsAsFactors=F) # color data
+n_states = nrow(dat_col)
+st_lbl = c("Trop+Aus","Trop+SEAs","Trop+EAs","Trop+Eur", "Trop+Ind", "Trop+Afr", "Trop+NAm","Trop+CAm","Trop+SAm",
+           "Warm+Aus","Warm+SEAs","Warm+EAs","Warm+Eur","Warm+Ind", "Warm+Afr","Warm+NAm","Warm+CAm","Warm+SAm",
+           "Cold+Aus","Cold+SEAs","Cold+EAs","Cold+Eur","Cold+Ind","Cold+Afr","Cold+NAm","Cold+CAm","Cold+SAm")
+st_colors = as.vector(dat_col$color)
+names(st_colors) = st_lbl
+match_cols = c(mismatch="#BBBBBB",match="#444444")
+
+# get epoch times
+epoch_times = read.csv(times_fn, sep=",", header=T)
+epoch_times[,c("start_age","end_age")] = round(epoch_times[,c("start_age","end_age")]) 
+epoch_times$index = epoch_times$index + 1 # base-1 indexing
+
+# get all biome graphs
+n_atlas = length(atlas_fn)
+atlas_list = list()
+for (i in 1:n_atlas) {
+    atlas_list[[i]] = list()
+    afn = paste0(atlas_fp, atlas_fn[i])
+    atlas_files = list.files(afn, full.names = T )
+    for (j in 1:length(atlas_files)) {
+        gij = read.csv( atlas_files[[j]], sep=",", header=F)
+        atlas_list[[i]][[j]] = gij
+    }
+}
+```
+
+Plot lineage states trough time.
+
+```{r plot-lstt, eval=TRUE, echo=TRUE, warning=FALSE}
+
+d_state = list()
+d_match = list()
+pp_state = list()
+pp_match = list()
+
+    # filename
+    fn = paste0(fp, "output/biome_shift/", base_fn, ".history.tsv")
+    
+    # gather state LSTT and biome-match LSTT data, this is slow
+    d_state[[i]] = make_lstt_dat(fn, n_states, f_burn, thinby)
+    d_match[[i]] = make_match_bins( d_state[[i]], epoch_times, atlas_list)
+    
+    # biome+region LSTT plot
+    p1s = ggplot(data = d_state[[i]], aes(fill=State, x=age2, y=prop))
+    p1s = p1s + geom_bar(stat="identity", position="fill", colour = "grey95", lwd = 0.3)
+    p1s = p1s + ylab("Lineage states\n(proportions)")
+    p1s = p1s + scale_x_continuous(trans="reverse", limits=c(106,0), breaks=seq(0,106,10) )
+    p1s = p1s + coord_cartesian(ylim=c(-0.15,1))
+    p1s = p1s + scale_fill_manual(values=st_colors, na.value = "white")
+    p1s = p1s + theme_classic(base_size = 7)
+    p1s = p1s + theme(legend.position="top",
+                    legend.justification="center",
+                    #legend.text = element_text(size=8),
+                    legend.key.size = unit(0.1, "cm"),
+                    )
+    p1s = fig6_add_epoch_times(p1s, max_age = 106)
+    p1s = p1s + guides( fill=guide_legend(title="Biome+Region",
+                                    title.position="top",
+                                    title.hjust=0.5, nrow=3, ncol=9, byrow =T,
+                                    override.aes = list(size=3)) )
+    
+    p1s = p1s + xlab("Age (Ma)")
+
+    p1s
+ggsave("../output/biome_shift/plot/fig_lstt_states.pdf", p1s, height=120, width=160, units = "mm", device = "pdf", dpi = 600)
+```
+
+Plot lineage-state matching available biomes trough time.
+
+```{r plot lstt-matchig, eval=TRUE, echo=TRUE, warning=FALSE}
+    p1m = ggplot(data = d_match[[i]], aes(fill=match, x=age2, y=prop))
+    p1m = p1m + geom_bar(stat="identity", position="fill")
+    p1m = p1m + xlab("")
+    p1m = p1m + ylab("Lineage biome matches\n(proportions)")
+    p1m = p1m + scale_x_continuous(trans="reverse", limits=c(106,0), breaks=seq(0,106,10) )
+    p1m = p1m + coord_cartesian(ylim=c(-0.15,1))
+    p1m = p1m + scale_fill_manual(values=match_cols, guide=FALSE, labels=c("lineage's region lacks biome", "lineage's region contains biome"))
+    p1m = p1m + theme_classic(base_size = 7)
+    p1m = p1m + theme(legend.position="top",
+                legend.justification ="center",
+                #legend.text = element_text(size=7),
+                legend.key.size = unit(0.1, "cm"))
+    p1m = fig6_add_epoch_times(p1m, max_age = 106)
+    p1m = p1m + guides( fill=guide_legend(title="Lineage state match?",
+                                    title.position="top",
+                                    title.hjust=0, nrow=3, byrow=T,
+                                    override.aes = list(size=3)) )
+    p1m = p1m + xlab("Age (Ma)")
+
+    p1m
+
+#ggsave("../output/biome_shift/plot/fig_lstt_match.pdf", p1m, height=120, width=160, units = "mm", device = "pdf", dpi = 600)
+```
+
+## Plot biome-shift rates
+
+Next, we plot the tree-wide relative biome-shift rates.
+
+```{r plot-biome-rates, eval=TRUE, echo=TRUE, warning=FALSE}
+# read model log
+biome_model <- read.table("../output/biome_shift/run2.paleo.model.log", header = T)
+
+# wide to long format
+biome_rates <- biome_model[100:499,c(1,10:13)] %>% pivot_longer(cols = c(2:5), names_to = "transition", values_to = "rate")
+
+# rename factor levels
+biome_rates$transition <- factor(biome_rates$transition, levels = c("br_WC", "br_CW", "br_TW", "br_WT"), ordered = T )
+
+# plot histograms with posterior distributions
+pbr <- ggplot(data = biome_rates, aes(x = rate, fill = transition)) +
+  geom_histogram(bins = 30, position = "identity",  alpha = 0.7, colour = "grey95") +
+  theme_classic(base_size = 7) +
+  labs(x = "Transition rate", y = "Posterior frequency", fill = "Biome shift" ) + 
+  theme(panel.grid = element_blank(), legend.key.size = unit(0.5, "cm"), 
+        legend.position = "top") +
+  scale_fill_manual(values = c("#8E24AA" ,"#1E88E5","#FDD835","#FB8C00"),
+                    labels = c( "warm to cold", "cold to warm", "tropical to warm", "warm to tropical")) +
+  guides(fill=guide_legend(nrow=2,byrow=TRUE))
+
+pbr
+
+#ggsave("../output/biome_shift/plot/fig_biome_rates.pdf", pbr, height=80, width=80, units = "mm", device = "pdf", dpi = 600)
+```
+
+## Plot event series
+
+Finally, we plot biome-shift events and event series.
+
+```{r prep-event-plot, eval=TRUE, echo=TRUE, warning=FALSE}
+# filesystem
+fp       = "../"
+plot_fp  = paste0(fp, "output/biome_shift/plot/")
+out_fp   = paste0(fp, "output/biome_shift/")
+atlas_fp = paste0(fp, "data/processed/biome_shift/atlas_damselfly/")
+atlas_fn = paste0(atlas_fp, "epoch_names.txt")
+col_fn   = paste0(fp, "scripts/biome_shift/biome_region_colors.txt")
+plot_fn  = paste0(plot_fp, "fig_event_epochs.pdf")
+base_fn  = c("run2.paleo")
+
+# get colors and names for biome+region states
+dat_col = read.csv(col_fn, stringsAsFactors=F)
+n_states = nrow(dat_col)
+st_lbl = dat_col$str
+st_colors = as.vector(dat_col$color)
+names(st_colors) = st_lbl
+
+# get graphs
+graphs = make_graphs( atlas_fp, atlas_fn )
+
+# get datasets
+f_burn = 0
+thinby = 1
+
+# epochs as time bins
+epoch_times = c(65, 56, 48, 34, 23, 16, 5.3, 0.0)
+
+trip_lbl = c("Biome First", "Biome Flight", "Biome Reversal", "Region First", "Region Flight", "Region Reversal")
+
+# plotting settings
+linewidth = c(upper=0.5, mean=1, lower=0.5)
+linetype = c(upper=6, mean=1, lower=6)
+linealpha = c(upper=0.5, mean=1, lower=0.5)
+
+# plot coord offset for event/triplet types
+dx_event = (0:7-3.5)*0.1
+dx_trip = (0:5-2.5)*0.1
+
+# plot legends
+my_guide_legend_1 = guide_legend(title="New World biome shifts",
+                                 title.position="top", title.hjust=0.5,
+                                 nrow=4, byrow = T)
+my_guide1 = guides( color=my_guide_legend_1)
+
+my_guide_legend_2 = guide_legend(title="Old World (north) biome shifts",
+                                 title.position="top", title.hjust=0.5,
+                                 nrow=4, byrow = T)
+my_guide2 = guides( color=my_guide_legend_2)
+
+my_guide_legend_3 = guide_legend(title="Old World (south) biome shift",
+                                 title.position="top", title.hjust=0.5,
+                                 nrow=4, byrow = T)
+my_guide3 = guides( color=my_guide_legend_3)
+
+my_guide_legend_4 = guide_legend(title="Event series type",
+                                 title.position="top", title.hjust=0.5,
+                                 nrow=2, ncol=3, byrow =T)
+my_guide4 = guides( color=my_guide_legend_4)
+
+# labels and colours
+new_biome_lbl = c("Trop+SAm to Warm+SAm", "Warm+SAm to Trop+SAm", 
+              "Trop+CAm to Warm+CAm", "Warm+CAm to Trop+CAm",
+              "Trop+NAm to Warm+NAm", "Warm+NAm to Trop+NAm",
+              "Warm+NAm to Cold+NAm", "Cold+NAm to Warm+NAm")
+
+new_biome_line_colors = c("#8BC34A", "#33691E", "#26A69A", "#00695C", 
+                "#2196F3", "#0D47A1", "#BBDEFB", "#64B5F6")
+
+old_north_biome_lbl = c("Trop+Eur to Warm+Eur", "Warm+Eur to Trop+Eur", 
+                        "Trop+EAs to Warm+EAs", "Warm+EAs to Trop+EAs",
+                        "Warm+Eur to Cold+Eur", "Cold+Eur to Warm+Eur",
+                        "Warm+EAs to Cold+EAs", "Cold+EAs to Warm+EAs")
+
+old_north_biome_line_colors = c("#FFA726", "#FF6F00", "#EF5350", "#B71C1C", 
+                                "#FFE0B2", "#FFB74D", "#EF9A9A", "#E57373")
+
+old_south_biome_lbl = c("Trop+Afr to Warm+Afr", "Warm+Afr to Trop+Afr",
+                        "Trop+Ind to Warm+Ind", "Warm+Ind to Trop+Ind", 
+                        "Trop+SEAs to Warm+SEAs", "Warm+SEAs to Trop+SEAs",
+                        "Trop+Aus to Warm+Aus", "Warm+Aus to Trop+Aus")
+
+old_south_biome_line_colors = c("#FFCA28", "#F9A825", "#BDBDBD", "#212121",
+                                "#EC407A", "#AD1457", "#BA68C8", "#6A1B9A")
+
+history_fn = paste0(out_fp, base_fn[i],".history.tsv")
+model_fn  = paste0(out_fp, base_fn[i], ".model.log")
+```
+
+Read and process event data
+```{r prep-event-data, eval=TRUE, echo=TRUE, warning=FALSE}
+# process data
+d_raw = list()
+d_param = list()
+d_trip = list()
+d_state_ep = list()
+
+d_state_ep_new_biome = list()
+d_state_ep_old_north_biome = list()
+
+d_trip_ep = list()
+p_event = list()
+p_trip = list()
+
+# read triplet data
+d_raw = make_dat_triplet_raw(history_fn, n_states, f_burn, thinby )
+    
+# read parameters
+d_param = read.table(model_fn, sep="\t", header=T)
+    
+    # generate triplet table with simulated subroot states
+    d_trip = make_triplet_df(d_raw, d_param, graphs[[1]], subroot=T)
+    # build LSTT table for states + epochs
+    d_state_ep_new_biome = make_state_lstt_epoch( d_trip, epoch_times, new_biome_lbl )
+    d_state_ep_old_north_biome = make_state_lstt_epoch( d_trip, epoch_times, old_north_biome_lbl )
+    d_state_ep_old_south_biome = make_state_lstt_epoch( d_trip, epoch_times, old_south_biome_lbl )
+    # build LSTT table for triplets + epochs
+    d_trip_ep = make_triplet_lstt_epoch( d_trip, epoch_times, trip_lbl )
+    # adjust x for event/trip types
+    d_state_ep_new_biome$x = d_state_ep_new_biome$Var1 + dx_event[d_state_ep_new_biome$Var2] - 1
+    d_state_ep_old_north_biome$x = d_state_ep_old_north_biome$Var1 + dx_event[d_state_ep_old_north_biome$Var2] - 1 
+    d_state_ep_old_south_biome$x = d_state_ep_old_south_biome$Var1 + dx_event[d_state_ep_old_south_biome$Var2] - 1 
+    d_trip_ep$x  = d_trip_ep$Var1 + dx_trip[d_trip_ep$Var2] - 1
+```
+
+Plot events.
+
+```{r plot-events, eval=TRUE, echo=TRUE, warning=FALSE}
+# make plots for events/triplets
+    p_New_biome = make_event_plot(d_state_ep_new_biome, new_biome_lbl, new_biome_line_colors, my_guide1, 0.3)
+    p_Old_north_biome = make_event_plot(d_state_ep_old_north_biome, old_north_biome_lbl, old_north_biome_line_colors, my_guide2, 0.15)
+    p_Old_south_biome = make_event_plot(d_state_ep_old_south_biome, old_south_biome_lbl, old_south_biome_line_colors, my_guide3, 0.25)
+    p_trip  = make_trip_plot(d_trip_ep, my_guide4)
+
+pspg = plot_grid(p_New_biome, p_Old_north_biome, p_Old_south_biome, p_trip,
+                 ncol=2, nrow=2, rel_heights = c(1,1,1,1),
+                 #hjust=0, vjust=rep(-0.5, 8),
+                 labels=c("(A)","(B)","(C)", "(D)"), scale=0.95, label_size = 8)
+pspg
+#ggsave(plot_fn, pspg, height=180, width=180, units = "mm", device = "pdf", dpi = 600)
+```
+
+
+# Repeat ancestral state estimation for weakly informed tree prior
+
+Here we process the posterior sample of ancestral states for Figure S27-S33. We don't use the **ancestralStateTree** function in RevBayes, even though it's so convenient, because it only shows the three states with highest posterior probabilities, and we want to show all possible states per node. 
+
+## Prepare the data
+
+Read posterior trees and obtain a sample of 1000.
+
+```{r read-trees-w, echo=TRUE, eval=FALSE, message=FALSE}
+# read tree posterior
+allT <- read.tree(paste0(output.folder, "Coen.g1.beta.calib.354635.trees"), keep.multi = T)
+
+# burn-in 20%
+burnin <- floor(length(allT)*0.20)
+
+# sample 1000 trees
+rsample <- sample(seq(from = burnin+1, to = length(allT)), size = 1000, replace = F)
+tres <- allT[rsample] 
+
+# force ultrametric (this is an annoying problem with rounding branch lengths)
+for (i in 1:length(tres)) {
+  temp <- nnls.tree(cophenetic(tres[[i]]), tres[[i]], rooted = TRUE)
+  tres[[i]] <- temp
+}
+
+# save these trees for later
+#write.tree(phy = tres, file = "../data/processed/biogeo/G1.weak.1000.trees")
+```
+
+Read in the tree posterior.
+
+```{r read-map-w, echo=TRUE, eval=TRUE}
+tres <- read.tree(file = "../data/processed/biogeo/G1.weak.1000.trees", keep.multi = T)
+```
+
+Get index data.
+```{r get-index-w, echo=TRUE, eval=FALSE}
+# create a data frame with index information for each posterior tree and arrange the data frames into a list
+dat = list()
+for (i in 1:length(tres)) {
+  assign(paste("gstats", i, sep = ""), Map_weak@data)
+  temp = eval(parse(text = paste("gstats", i, sep = "")))
+  dat[[i]] <-  temp
+}
+
+# clean workspace
+rm(list=ls(pattern="gstats*"))
+
+# just checking it's a list of data frames
+class(dat[[2]]) 
+```
+
+Get node ages for each tree.
+
+```{r node-ages-w, echo=TRUE, eval=FALSE}
+# age for each internal node (end of a branch)
+for (i in 1:length(tres)) {
+  
+  # get the tree height here
+  rootAge <- nodeheight(tres[[i]], 1)
+  temp <- list()
+  for (j in 1:Nnodes) {
+    temp2 = eval(parse(text = paste("tres[[", i, "]]", sep = "")))
+    temp[j] <- rootAge - nodeheight(temp2, j)
+  }
+  assign(paste("Ages.T", i, sep = ""), temp)
+}
+
+# make a list of node ages across all trees (and unlist within each tree to get vectors of ages per tree)
+Age = list()
+for (i in 1:length(tres)){
+  temp = eval(parse(text=paste("Ages.T", i,sep = "")))
+  Age[[i]] <-  unlist(temp)
+} 
+
+Age[[1]][Intnode1] # for example age the root in the first tree
+
+# clean workspace
+rm(list=ls(pattern="Ages.T*"))
+```
+
+Make data frame with data (age and node number).
+
+```{r make-df-w, echo=TRUE, eval=FALSE}
+# pre-allocate space
+ddf <- data.frame(
+  tree = numeric(length(tres) * Nnodes),
+  node = numeric(length(tres) * Nnodes),
+  age = numeric(length(tres) * Nnodes),
+  stringsAsFactors = TRUE
+)
+
+# populate data frame with each row being one node of one tree
+k=1
+for (i in 1:length(tres)) {
+  for (j in k:(k + Nnodes - 1)) {
+   
+     # make and index for nodes within each tree 
+    m <- j - Nnodes * (i - 1)
+    ddf$tree[j] <- i
+    ddf$node[j] <- m
+    ddf$age[j] <- Age[[i]][m]
+  }
+  k = i * Nnodes + 1
+}
+
+# check the root row for the second tree
+ddf[Intnode1+Nnodes,] 
+```
+
+Make data frame with RevBayes index for each node.
+
+```{r make-rb-df-w, echo=TRUE, eval=FALSE}
+sdf <- data.frame(
+  tree = numeric(length(tres) * Nnodes),
+  node = numeric(length(tres) * Nnodes),
+  index = numeric(length(tres) * Nnodes),
+  stringsAsFactors = TRUE
+)
+
+k = 1
+for (i in 1:length(tres)) {
+  for (j in k:(k + Nnodes - 1)) {
+    # make and index for nodes within each tree
+    m <- j - Nnodes * (i - 1)
+    sdf$tree[j] <- i
+    sdf$node[j] <- dat[[i]]$node[m]
+    sdf$index[j] <- dat[[i]]$index[m]
+    
+  }
+  k = i * Nnodes + 1
+}
+```
+
+Match node labels and RevBayes indices.
+
+```{r merge-dfs-w, echo=TRUE, eval=FALSE}
+# join into one data frame with age and index for each node in each tree
+DF <- join(ddf, sdf)
+
+# check root for sanity
+# tree 1
+DF[Intnode1,]
+
+# tree2
+DF[Intnode1+Nnodes,]
+
+# save this data frame for later
+#write.table(DF, file = "../data/processed/biogeo/Descendant_data_weak.txt", quote = F, row.names = F)
+```
+
+Read in posterior ancestral states into data frame.
+```{r read-states-w, echo=TRUE, eval=FALSE}
+DF <- read.table(file = "../data/processed/biogeo/Descendant_data_weak.txt", header = T)
+
+# get the posterior sample of states that matches the random sample of trees
+StatesWide <-
+  read.table(
+    paste0(
+      output.folder,
+      "Coen.g1.beta.calib.354635.states.txt"
+    ),
+    sep = "\t",
+    header = T
+  )[c(rsample), ]
+
+# take a look
+head(StatesWide)[,c(1:10)]
+
+# create data frame with the starting states of each branch and each tree
+# select columns with starting states from the full wide data frame
+AnaStart <- StatesWide[, seq(from = 2, to = Nnodes * 2, by = 2)]
+
+# Africa East (F) will be interpreted as false, change F to f
+AnaStart <- data.frame(lapply(AnaStart, function(x) {
+                   gsub("F", "f", x)
+                }))
+
+# melt to long data frame
+AnaStart <- melt(AnaStart, measure.vars = colnames(AnaStart))
+
+# make index variable for trees
+AnaStart$tree <- rep(seq(1:length(tres)), Nnodes)
+
+# make index variable for nodes
+AnaStart$index <- sort(rep(seq(1:Nnodes), length(tres)))
+
+# rename starting state variable
+colnames(AnaStart)[2]<-"start"
+
+# fix East Africa back to "F"
+AnaStart$start<-revalue(AnaStart$start, c("f" = "F", "fALSE" = "F")) 
+
+# double check state names
+levels(as.factor(AnaStart$start))
+
+# create data frame with the ending states of each branch and each tree
+# select columns with ending states from the full wide data frame
+AnaEnd <- StatesWide[, seq(from = 3, to = Nnodes * 2 + 1, by = 2)]
+
+# Africa East (F) will be interpreted as false, change F to f
+AnaEnd <- data.frame(lapply(AnaEnd, function(x) {
+  gsub("F", "f", x)
+}))
+
+# melt to long data frame
+AnaEnd <- melt(AnaEnd, measure.vars = colnames(AnaEnd))
+
+# rename ending state variable
+colnames(AnaEnd)[2]<-"end"
+
+AnaEnd$end <-
+  revalue(AnaEnd$end, c("f" = "F",
+                        "fALSE" = "F"))
+
+# cbind to AnaStart
+AnaStart$end <- AnaEnd$end
+
+#Join ancestral state data frame to node information data frame
+DF<-join(DF,AnaStart[,c(-1)])
+# head(DF)
+
+ check ancestral states for root node
+summary(as.factor(DF$end[which(DF$node == 670)]))
+
+# save this data frame for later
+write.table(DF, file = "../data/processed/biogeo/Biogeo_data_weak.txt", quote = F, row.names = F)
+```
+
+### Ancestral states
+
+#### Most ancestral nodes
+
+For the inset of Fig. 1 we want to know the posterior distribution of ancestral states in the MRCA of Coenagrionoidea (Coenagrionidae + Platycnemididae), Platynemididae, the "Ridge-face" clade of Coenagrionidae and the "Core" clade of Coenagionidae. Here we draw the same figure for the Supporting Material Extended Results.
+
+```{r plot-old-w, message=FALSE, warning=F}
+# get posterior distributions of ancestral states for the key ancestral nodes  
+DF <- read.table(file = "../data/processed/biogeo/Biogeo_data_weak.txt", header = T)
+N <- nrow(DF)
+
+old_nodes <- rbind(cbind(count = summary(as.factor(DF$end[which(DF$node == 670)])), node = 4), # root
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 671)])), node = 5), # Coenagrionidae
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 672)])), node = 2), # Core
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 961)])), node = 1), # Ridge
+                  cbind(count = summary(as.factor(DF$end[which(DF$node == 1226)])), node = 3)) # Feather
+
+# make a column for the names of the biogeographic areas
+old_nodes <- data.frame(states = rownames(old_nodes), old_nodes)
+
+# transform long to wide
+pie_data <- pivot_wider(old_nodes, id_cols = "node", names_from = "states", values_from = "count")  
+
+# missing states have 0 posterior frequency
+pie_data[is.na(pie_data)] <- 0
+
+# combine all the rare states into "others"
+pie_data <- pie_data %>% mutate(others= `1` + `7` + `8`+  A, + E + G, +H + J + L+ N + `2`)
+
+# drop rare states from data frame
+pie_data <- pie_data[, c("node","0","B","D","I","others")]
+
+# use same colours as in Fig. 2
+area_col_old <-c("palegreen", #SamN
+            "deeppink", #AsSe
+            "orange1", #AfrW
+            "purple", #AusE
+            "white" #others
+)
+
+# create pies for each node
+pies <- nodepie(pie_data, cols=c(2:6), alpha=1, color = area_col_old)
+
+# read in simplified backbone cladogram
+bb <- read.tree("../data/processed/biogeo/backbone.tre")
+
+# plot annotated backbone phylogeny
+ggtree (bb) + geom_inset(pies, width = 0.25, height = 0.25) 
+  
+```
+
+Calculate posterior probability for each of the older nodes.
+
+```{r nodes-pp-w}
+Node_pp <- cbind (Clade = c("root", "Coenagrionidae", "Core", "Ridge-face", "Featherleg"), pie_data[,-1]/1000)
+
+Node_pp %>%
+kbl(booktabs =T, linesep="") %>%
+kable_styling(latex_options ="striped")
+
+# PP root in either S America (N) or Africa W
+#sum(c(Node_pp[1, "0"], Node_pp[1, "D"]))
+```
+
+
+### Across the entire phylogeny
+For Figs. S28-S33  we want to know the posterior distribution of ancestral states in every node of the tree.
+
+```{r plot-all-w, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+DF_anc <- DF[which(DF$node > 669),]
+
+Node_states <- as.data.frame(cbind(node =unique(DF_anc$node), aggregate(as.factor(DF_anc$end), by = list(DF_anc$node), FUN=summary)$x))
+
+# use same colours as in Fig 2 but reordered
+area_col_sorted <- c(
+  "palegreen",  #SamN
+  "chartreuse3",  #SamE
+  "olivedrab2",  #SamS
+  "dodgerblue3",  #NamNW
+  "deepskyblue2", #NamNE
+  "cyan1",  #NamSE
+  "turquoise",  #NamSW
+  "peachpuff1", #Grn
+  "sandybrown",  #Eur
+  "sienna1",  #AsC
+  "brown2",  #AsNE
+  "deeppink",  #AsSe
+  "tomato1",  #AsE
+  "orange1",  #AfrW
+  "gold1",  #AfrS
+  "lightgoldenrod1",   # AfrE
+  "lightgoldenrodyellow", #AfrN
+  "mediumorchid3",  #AusW
+  "purple",  #AusE
+  "bisque2",  #Ind
+  "goldenrod1",  #Mdg
+  "white", #AntW
+  "white", #AntE
+  "plum3",  #Mly
+  "mediumpurple"  #NZ
+ )
+
+# create pies for each node
+all_pies <- nodepie(Node_states, cols=c(2:26), alpha=1, color = area_col_sorted)
+
+# plot annotated backbone phylogeny
+p2 <- ggtree(Map_weak, size = 0.5) + geom_inset(all_pies, width = 0.1, height = 0.1) 
+g2<-gheatmap(p2, dd, offset = 0, width=0.4, colnames=F, hjust=0)+
+  labs(title = "(b)") + 
+  theme(plot.title = element_text(face = "bold")) +
+  theme(text = element_text(size = 10)) +
+  scale_fill_manual(values = area_col, breaks = area_breaks,
+                    labels = areas, name="Biogeographic areas",
+                    na.value="transparent") +
+  #guides(fill = F)
+  guides(fill = (guide_legend(ncol=2,byrow=F)))
+ 
+g2
+```
+
+For supplementary figures we want to split the plot by the main clades and include the tiplabels.
+
+Create plot with tip labels.
+```{r plot-by-clade-w,  eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+p3 <-
+  ggtree(Map_weak, size = 0.5) + geom_inset(all_pies, width = 0.18, height = 0.18)
+g3 <-
+  gheatmap(
+    p3,
+    dd,
+    offset = 40,
+    width = 0.4,
+    font.size = 3,
+    colnames = F,
+    hjust = 0
+  ) +
+  geom_tiplab(size = 1.2, offset = 2) +
+  theme(plot.title = element_text(face = "bold"),
+        legend.text = element_text(size = 6)) +
+  scale_fill_manual(
+    values = area_col,
+    breaks = area_breaks,
+    labels = areas,
+    name = "Biogeographic areas",
+    na.value = "transparent"
+  ) +
+  #guides(fill = F)
+  guides(fill = (guide_legend(ncol = 2, byrow = F))) + labs(title = "(a)")
+```
+
+Plot Featherleg clade.
+```{r plot-featherlegs-w, fig.width=7, fig.height=5.5}
+gfeather <-
+  viewClade(g3, getMRCA(Map_weak@phylo, tip = c(
+    "Arabicnemis_caerulea", "Elattoneura_caesia"
+  )))
+
+gfeather
+```
+
+Plot Ridge-face clade.
+```{r plot-ridge-w, fig.width=7, fig.height=5.5}
+gridge <-
+  viewClade(g3, getMRCA(Map_weak@phylo, tip = c("Phasmoneura_exigua", "Argia_euphorbia")))
+
+gridge
+```
+
+Plot Core clade.
+```{r plot-core-w, fig.width=7, fig.height=5.5}
+gcore <-
+  viewClade(g3, getMRCA(Map_weak@phylo, tip = c(
+    "Coenagrion_scitulum", "Acanthagrion_gracile"
+  )))
+
+gcore
+```
+
+# References

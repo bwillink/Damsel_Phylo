@@ -47,8 +47,8 @@ output/EBED/*
 
 !output/HiSSE
 output/HiSSE/*
-!output/HiSSE/*model_run_1.log
-!output/HiSSE/*model_run_2.log
+!output/HiSSE/*.log
+!output/HiSSE/*.tre
 
 !output/node_dating
 output/node_dating/*
@@ -59,6 +59,14 @@ output/node_dating/*
 output/topology/*
 !output/topology/*MAP*
 
+!output/biome_shift
+output/biome_shift/*
+!output/biome_shift/*.log
+!output/biome_shift/*.tre
+!output/biome_shift/*rf.tsv
+
+
+scripts/COENPhylo_R1_files/
 scripts/history.txt
 scripts/spellcheck.sh
 
