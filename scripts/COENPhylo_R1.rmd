@@ -178,7 +178,7 @@ perl ./perl/selectSite.pl -s '2-105,321-476,667-750' ../data/processed/mol/PMTR_
 
 We visually assessed third codon saturation for the three coding loci, using correlation between corrected and uncorrected genetic distances between taxa (see Extended Methods).
 
-```{r codon-saturation, echo=TRUE, eval=TRUE}
+```{r codon-saturation, echo=TRUE, eval=TRUE, fig.width=8, fig.height=4}
 # Input data: a FASTA-format object 
 COI <- read.FASTA(file="../data/processed/mol/COI_spp.fst")
 H3 <- read.FASTA(file="../data/processed/mol/H3_spp.fst")
@@ -381,7 +381,7 @@ echo $rb_command | rb
 
 First plot the MAP tree with node supports (posterior probabilities). We split this figure into three subtrees to improve visibility.
 
-```{r plot-map-support, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+```{r plot-map-support, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE, fig.width=8, fig.height=12}
 # Read MAP tree
 Top <- read.beast("../output/topology/M3.Uniform.MAP.tree")
 
@@ -451,7 +451,7 @@ ns
 
 Next, we contrast how relationships among main clades inferred here compare to previous studies.
 
-```{r clade-compare, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+```{r clade-compare, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE, fig.width=8, fig.height=6}
 # read trees
 Plat <-  read.beast("../data/processed/compare_tree/Platynemididae.tre")
 Coen <- read.beast("../data/processed/compare_tree/Coenagrionidae.tre")
@@ -1413,7 +1413,7 @@ area_col <- c(
 )
 ```
 
-```{r plot-extant, echo=TRUE, eval=TRUE, message=FALSE}
+```{r plot-extant, echo=TRUE, eval=TRUE, message=FALSE, fig.width=8, fig.height=8}
 # plot phylogeny
 p <- ggtree(Map_strong, layout = "circular", size=0.3) 
 
@@ -1746,7 +1746,7 @@ kable_styling(latex_options ="striped")
 
 For Fig. 1 we want to know the posterior distribution of ancestral states in every node of the tree.
 
-```{r plot-all, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+```{r plot-all, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide', fig.width=8, fig.height=12}
 DF_anc <- DF[which(DF$node > 669),]
 
 Node_states <- as.data.frame(cbind(node =unique(DF_anc$node), aggregate(as.factor(DF_anc$end), by = list(DF_anc$node), FUN=summary)$x))
@@ -1802,9 +1802,11 @@ For supplementary figures we want to split the plot by the main clades and inclu
 
 Create plot with tip labels.
 
-```{r plot-by-clade,  eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+```{r plot-by-clade,  eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide', fig.width=8, fig.height=12}
 p3 <-
-  ggtree(Map_strong, size = 0.5) + geom_inset(all_pies, width = 0.18, height = 0.18)
+  ggtree(Map_strong, size = 0.5) + 
+  #geom_inset(all_pies, width = 0.18, height = 0.18) +
+  geom_inset(all_pies, width = 0.06, height = 0.06)
 g3 <-
   gheatmap(
     p3,
@@ -1842,7 +1844,7 @@ gfeather
 
 Plot Ridge-face clade.
 
-```{r plot-ridge, fig.width=7, fig.height=5.5}
+```{r plot-ridge, fig.width=8, fig.height=12}
 gridge <-
   viewClade(g3, getMRCA(Map_strong@phylo, tip = c("Phasmoneura_exigua", "Argia_euphorbia")))
 
@@ -1850,7 +1852,7 @@ gridge
 ```
 
 Plot Core clade.
-```{r plot-core, fig.width=7, fig.height=5.5}
+```{r plot-core, fig.width=8, fig.height=12}
 gcore <-
   viewClade(g3, getMRCA(Map_strong@phylo, tip = c(
     "Coenagrion_scitulum", "Acanthagrion_gracile"
@@ -1917,7 +1919,7 @@ p
 
 We used a EBD model under the horseshoe prior [@magee2020locally] with 20 time intervals (epochs) which allows for good resolution of the timing of diversification shifts (see Extended Methods).
 
-```{bash run-EBED, echo=TRUE, eval=FALSE, fig.width=4, fig.height=12}
+```{bash run-EBED, echo=TRUE, eval=FALSE}
 #!/bin/bash
 
 # load RevBayes
@@ -2027,7 +2029,7 @@ echo $rb_command | rb
 
 Plot the results.
 
-```{r plot-HiSSE, message=FALSE, warning=FALSE,  fig.width=8, fig.height=12}
+```{r plot-HiSSE, message=FALSE, warning=FALSE,  fig.width=8, fig.height=8}
 # create data frame for combined posterior
 H_out <- read.table("../output/HiSSE/BiomeHiSSE_strong_r2model.log", header = T)
 # coding as ambiguous
@@ -2159,7 +2161,7 @@ Summarise HiSSE results.
 
 Speciation
 
-```{r biome-spe-summ, echo=TRUE, eval=TRUE}
+```{r biome-spe-summ, echo=TRUE, eval=TRUE, message=FALSE}
 spe_wide <- H_out %>%
   mutate(diff_TrpvsWrm_0 = speciation.1. - speciation.2.) %>% 
   mutate(diff_TrpvsCld_0 = speciation.1. - speciation.3.) %>% 
@@ -2187,7 +2189,7 @@ spe_test
 
 Extinction
 
-```{r biome-ext-summ, echo=TRUE, eval=TRUE}
+```{r biome-ext-summ, echo=TRUE, eval=TRUE, message=FALSE}
 ext_wide <- H_out %>%
   mutate(diff_TrpvsWrm_0 = extinction.1. - extinction.2.) %>% 
   mutate(diff_TrpvsCld_0 = extinction.1. - extinction.3.) %>% 
@@ -2214,7 +2216,7 @@ ext_test
 ```
 Diversification
 
-```{r biome-div-summ, echo=TRUE, eval=TRUE}
+```{r biome-div-summ, echo=TRUE, eval=TRUE, message=FALSE}
 div_wide <- H_out %>%
   mutate(diff_TrpvsWrm_0 = (speciation.1. - extinction.1.) - (speciation.2. - extinction.2.)) %>% 
   mutate(diff_TrpvsCld_0 = (speciation.1. - extinction.1.) - (speciation.3. - extinction.3.)) %>% 
@@ -2241,7 +2243,7 @@ div_test
 ```
 Turnover
 
-```{r biome-trn-summ, echo=TRUE, eval=TRUE}
+```{r biome-trn-summ, echo=TRUE, eval=TRUE, message=FALSE}
 trn_wide <- H_out %>%
   mutate(diff_TrpvsWrm_0 = (extinction.1. / speciation.1.) - (extinction.2. / speciation.2.)) %>% 
   mutate(diff_TrpvsCld_0 = (extinction.1. / speciation.1.) - (extinction.3. / speciation.3.)) %>% 
@@ -2288,9 +2290,10 @@ Div_main
 ```
 
 Plot ancestral biomes and hidden states on phylogeny to look at background heterogeneity.
-```{r plot-ancestral-biome}
+
+```{r plot-ancestral-biome, echo=TRUE, eval=TRUE, message=FALSE, fig.width=8, fig.height=8}
 # process ancestral states, here we focus on the hidden trait only
-stree_fn = "../output/HiSSE/BiomeHiSSE_strong_r1.ase.tre"
+stree_fn = "../output/HiSSE/BiomeHiSSE_strong_r2.ase.tre"
 #stree_fn = "../output/HiSSE/BiomeHiSSE_strong_amb_r1.ase.tre"
 #stree_fn = "../output/HiSSE/BiomeHiSSE_weak.ase.tre"
 
@@ -2350,7 +2353,7 @@ echo $rb_command | rb
 
 Plot the results.
 
-```{r plot-HiSSE-prior, message=FALSE, warning=FALSE,  fig.width=8, fig.height=12}
+```{r plot-HiSSE-prior, message=FALSE, warning=FALSE, fig.width=8, fig.height=8}
 # create data frame for combined posterior
 H_out <- read.table("../output/HiSSE/BiomeHiSSE_strong_prior_r1model_combined.log", header = T)
 
@@ -2996,7 +2999,7 @@ null_7[null_7 == 0] <- 2
 
 Create plots for all adjacency matrices.
 
-```{r create-adjacency-plots, echo=TRUE, eval=TRUE, message=FALSE}
+```{r create-adjacency-plots, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
 # a list for each feature
 tropical_mtx <- list()
 warm_mtx <- list()
@@ -3166,7 +3169,7 @@ for(i in 1:nrow(epoch_names)){
 ```
 
 Plot the adjacency matrices.
-```{r plot-adjacency-matrices, echo=TRUE, eval=TRUE, message=FALSE}
+```{r plot-adjacency-matrices, echo=TRUE, eval=TRUE, message=FALSE, results='hide', fig.width=10, fig.height=8}
 # Late Cretaceous to Late Eocene
 #CairoPDF(file=paste(plot_fp, "adj_mtx_1.pdf", sep=""), width=18, height=14)
 print(grid.arrange(null_mtx[[1]], land_mtx[[1]], tropical_mtx[[1]], warm_mtx[[1]],  cold_mtx[[1]],null_mtx[[2]], land_mtx[[2]], tropical_mtx[[2]], warm_mtx[[2]], cold_mtx[[2]], null_mtx[[3]], land_mtx[[3]], tropical_mtx[[3]],  warm_mtx[[3]], cold_mtx[[3]], null_mtx[[4]], land_mtx[[4]], tropical_mtx[[4]], warm_mtx[[4]],  cold_mtx[[4]], ncol = 5))
@@ -3336,7 +3339,7 @@ source("./biome_shift/biome_shift_util.R")
 
 Now we can plot the ancestral states.
 
-```{r plot-biome-ase, echo=TRUE, eval=TRUE, message=FALSE}
+```{r plot-biome-ase, echo=TRUE, eval=TRUE, message=FALSE, fig.width=8, fig.height=12}
 # path objects
 fp = "../"
 plot_fp = paste0(fp, "output/biome_shift/plot/")
@@ -3445,7 +3448,7 @@ plot_fn = paste0( plot_fp, "fig_anc_", c("paleo1"), ".pdf")
 
 Prepare scales for plot.
 
-```{r prep-lstt-plot, eval=TRUE, echo=TRUE, warning=FALSE}
+```{r prep-lstt-plot, eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 # path objects
 fp = "../"
 plot_fp = paste(fp, "output/biome_shift/plot", sep="")
@@ -3489,7 +3492,7 @@ for (i in 1:n_atlas) {
 
 Plot lineage states trough time.
 
-```{r plot-lstt, eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+```{r plot-lstt, eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, results='hide', fig.width=12, fig.height=8}
 
 d_state = list()
 d_match = list()
@@ -3525,12 +3528,12 @@ pp_match = list()
     p1s = p1s + xlab("Age (Ma)")
 
     p1s
-ggsave("../output/biome_shift/plot/fig_lstt_states.pdf", p1s, height=120, width=160, units = "mm", device = "pdf", dpi = 600)
+#ggsave("../output/biome_shift/plot/fig_lstt_states.pdf", p1s, height=120, width=160, units = "mm", device = "pdf", dpi = 600)
 ```
 
 Plot lineage-state matching available biomes trough time.
 
-```{r plot lstt-matchig, eval=TRUE, echo=TRUE, warning=FALSE}
+```{r plot lstt-matchig, eval=TRUE, echo=TRUE, warning=FALSE, fig.width=12, fig.height=8}
     p1m = ggplot(data = d_match[[i]], aes(fill=match, x=age2, y=prop))
     p1m = p1m + geom_bar(stat="identity", position="fill")
     p1m = p1m + xlab("")
@@ -3679,7 +3682,7 @@ model_fn  = paste0(out_fp, base_fn, ".model.log")
 ```
 
 Read and process event data
-```{r prep-event-data, eval=TRUE, echo=TRUE, warning=FALSE}
+```{r prep-event-data, eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE,results='hide'}
 # process data
 d_raw = list()
 d_param = list()
@@ -3716,7 +3719,7 @@ d_param = read.table(model_fn, sep="\t", header=T)
 
 Plot events.
 
-```{r plot-events, eval=TRUE, echo=TRUE, warning=FALSE}
+```{r plot-events, eval=TRUE, echo=TRUE, warning=FALSE, fig.width=12, fig.height=12}
 # make plots for events/triplets
     p_New_biome = make_event_plot(d_state_ep_new_biome, new_biome_lbl, new_biome_line_colors, my_guide1, 0.3)
     p_Old_north_biome = make_event_plot(d_state_ep_old_north_biome, old_north_biome_lbl, old_north_biome_line_colors, my_guide2, 0.15)
@@ -3967,7 +3970,7 @@ write.table(DF, file = "../data/processed/biogeo/Biogeo_data_weak.txt", quote = 
 
 For the inset of Fig. 1 we want to know the posterior distribution of ancestral states in the MRCA of Coenagrionoidea (Coenagrionidae + Platycnemididae), Platynemididae, the "Ridge-face" clade of Coenagrionidae and the "Core" clade of Coenagionidae. Here we draw the same figure for the Supporting Material Extended Results.
 
-```{r plot-old-w, message=FALSE, warning=F}
+```{r plot-old-w, message=FALSE, warning=FALSE}
 # get posterior distributions of ancestral states for the key ancestral nodes  
 DF <- read.table(file = "../data/processed/biogeo/Biogeo_data_weak.txt", header = T)
 N <- nrow(DF)
@@ -3988,7 +3991,7 @@ pie_data <- pivot_wider(old_nodes, id_cols = "node", names_from = "states", valu
 pie_data[is.na(pie_data)] <- 0
 
 # combine all the rare states into "others"
-pie_data <- pie_data %>% mutate(others= `1` + `7` + `8`+  A, + E + G, +H + J + L+ N + `2`)
+pie_data <- pie_data %>% mutate(others= `1` + `7` + `8`+  A + E  + N + `2`)
 
 # drop rare states from data frame
 pie_data <- pie_data[, c("node","0","B","D","I","others")]
@@ -4029,7 +4032,7 @@ kable_styling(latex_options ="striped")
 ### Across the entire phylogeny
 For Figs. S28-S33  we want to know the posterior distribution of ancestral states in every node of the tree.
 
-```{r plot-all-w, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+```{r plot-all-w, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide', fig.width=8, fig.height=12}
 DF_anc <- DF[which(DF$node > 669),]
 
 Node_states <- as.data.frame(cbind(node =unique(DF_anc$node), aggregate(as.factor(DF_anc$end), by = list(DF_anc$node), FUN=summary)$x))
@@ -4084,9 +4087,11 @@ g2
 For supplementary figures we want to split the plot by the main clades and include the tiplabels.
 
 Create plot with tip labels.
-```{r plot-by-clade-w,  eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide'}
+```{r plot-by-clade-w,  eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE,results='hide', fig.width=8, fig.height=8}
 p3 <-
-  ggtree(Map_weak, size = 0.5) + geom_inset(all_pies, width = 0.18, height = 0.18)
+  ggtree(Map_weak, size = 0.5) +
+  #geom_inset(all_pies, width = 0.18, height = 0.18) +
+  geom_inset(all_pies, width = 0.06, height = 0.06)
 g3 <-
   gheatmap(
     p3,
@@ -4112,7 +4117,7 @@ g3 <-
 ```
 
 Plot Featherleg clade.
-```{r plot-featherlegs-w, fig.width=7, fig.height=5.5}
+```{r plot-featherlegs-w, fig.width=8, fig.height=12}
 gfeather <-
   viewClade(g3, getMRCA(Map_weak@phylo, tip = c(
     "Arabicnemis_caerulea", "Elattoneura_caesia"
@@ -4122,7 +4127,7 @@ gfeather
 ```
 
 Plot Ridge-face clade.
-```{r plot-ridge-w, fig.width=7, fig.height=5.5}
+```{r plot-ridge-w, fig.width=8, fig.height=12}
 gridge <-
   viewClade(g3, getMRCA(Map_weak@phylo, tip = c("Phasmoneura_exigua", "Argia_euphorbia")))
 
@@ -4130,7 +4135,7 @@ gridge
 ```
 
 Plot Core clade.
-```{r plot-core-w, fig.width=7, fig.height=5.5}
+```{r plot-core-w, fig.width=8, fig.height=12}
 gcore <-
   viewClade(g3, getMRCA(Map_weak@phylo, tip = c(
     "Coenagrion_scitulum", "Acanthagrion_gracile"
