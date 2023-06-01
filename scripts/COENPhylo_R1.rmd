@@ -2088,7 +2088,7 @@ dat_trn$hidden <- paste0("hidden state ", substr(dat_trn$Type, 4, 4))
 
 p1 <- ggplot(dat_spec, aes(x = dens, color = Lat, fill = Lat)) + 
    theme_bw(base_size = 7)+
-  labs(title = "(A) Speciation", x="Rate", y="Posterior frequency") + 
+  labs(title = "(A) Speciation", x="Rate", y="Posterior density") + 
   facet_wrap(~hidden, ncol =2)+
   #geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
   geom_density(colour = "white", alpha = 0.5, size = 0) +
@@ -2103,7 +2103,7 @@ p1 <- ggplot(dat_spec, aes(x = dens, color = Lat, fill = Lat)) +
   
 p2 <- ggplot(dat_ext, aes(x = dens, color = Lat, fill = Lat)) +  
    theme_bw(base_size = 7)+
-    labs(title = "(B) Extinction", x="Rate", y="Posterior frequency") + 
+    labs(title = "(B) Extinction", x="Rate", y="Posterior density") + 
   facet_wrap(~hidden, ncol =2,)+
   #geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
   geom_density(colour = "white", alpha = 0.5, size = 0) +
@@ -2119,7 +2119,7 @@ p2 <- ggplot(dat_ext, aes(x = dens, color = Lat, fill = Lat)) +
   
 p3 <- ggplot(dat_div, aes(x = dens, color = Lat, fill = Lat)) +
   theme_bw(base_size = 7)+
-  labs(title = "(C) Diversification", x="Rate", y="Posterior frequency") + 
+  labs(title = "(C) Diversification", x="Rate", y="Posterior density") + 
   #xlim(-0.01,0.15)+
   xlim(-0.01,0.20) +
   facet_wrap(~hidden, ncol =2)+
@@ -2135,7 +2135,7 @@ p3 <- ggplot(dat_div, aes(x = dens, color = Lat, fill = Lat)) +
 
 p4 <- ggplot(dat_trn, aes(x = dens, color = Lat, fill = Lat)) +
   theme_bw(base_size = 7)+
-  labs(title = "(D) Turnover", x="Rate", y="Posterior frequency") + 
+  labs(title = "(D) Turnover", x="Rate", y="Posterior density") + 
   xlim(0,1)+
   facet_wrap(~hidden, ncol =2)+
   #geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
@@ -2407,7 +2407,7 @@ dat_trn$hidden <- paste0("hidden state ", substr(dat_trn$Type, 4, 4))
 
 p1 <- ggplot(dat_spec, aes(x = dens, color = Lat, fill = Lat)) + 
    theme_bw(base_size = 7)+
-  labs(title = "(A) Speciation", x="Rate", y="Posterior frequency") + 
+  labs(title = "(A) Speciation", x="Rate", y="Posterior density") + 
   facet_wrap(~hidden, ncol =2)+
  # geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
   geom_density(colour = "white", alpha = 0.5, size = 0) +
@@ -2422,7 +2422,7 @@ p1 <- ggplot(dat_spec, aes(x = dens, color = Lat, fill = Lat)) +
   
 p2 <- ggplot(dat_ext, aes(x = dens, color = Lat, fill = Lat)) +  
    theme_bw(base_size = 7)+
-    labs(title = "(B) Extinction", x="Rate", y="Posterior frequency") + 
+    labs(title = "(B) Extinction", x="Rate", y="Posterior density") + 
   facet_wrap(~hidden, ncol =2,)+
   #geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +
   geom_density(colour = "white", alpha = 0.5, size = 0) +
@@ -2438,7 +2438,7 @@ p2 <- ggplot(dat_ext, aes(x = dens, color = Lat, fill = Lat)) +
   
 p3 <- ggplot(dat_div, aes(x = dens, color = Lat, fill = Lat)) +
   theme_bw(base_size = 7)+
-  labs(title = "(C) Diversification", x="Rate", y="Posterior frequency") + 
+  labs(title = "(C) Diversification", x="Rate", y="Posterior density") + 
   xlim(-0.01,0.15)+
   #xlim(-0.06,0.12) +
   facet_wrap(~hidden, ncol =2)+
@@ -2454,7 +2454,7 @@ p3 <- ggplot(dat_div, aes(x = dens, color = Lat, fill = Lat)) +
 
 p4 <- ggplot(dat_trn, aes(x = dens, color = Lat, fill = Lat)) +
   theme_bw(base_size = 7)+
-  labs(title = "(D) Turnover", x="Rate", y="Posterior frequency") + 
+  labs(title = "(D) Turnover", x="Rate", y="Posterior density") + 
   xlim(0,1)+
   facet_wrap(~hidden, ncol =2)+
   #geom_histogram(alpha = 0.5, position = "identity", bins = 50, colour = "white", size = 0.05) +

@@ -8,7 +8,7 @@ mymodel = model(rate_matrix)
 
 ### set up the monitors that will output parameter values to file and screen 
 monitors.append(mnModel(filename= out_fp + out_str + "model.log", printgen=10))
-#monitors.append(mnJointConditionalAncestralState(tree=timetree, cdbdp=timetree, type="NaturalNumbers", printgen=10, withTips=true, withStartStates=false, filename=out_fp + out_str + "anc_states_HiSSE.log"))
+#monitors.append(mnJointConditionalAncestralState(tree=timetree, cdbdp=timetree, type="Standard", printgen=10, withTips=true, withStartStates=false, filename=out_fp + out_str + "anc_states_HiSSE.log"))
 #monitors.append(mnStochasticCharacterMap(cdbdp=timetree, printgen=10, filename= out_fp + out_str + "stoch_char_map_HiSSE.log", include_simmap=true))
 #monitors.append(mnScreen(printgen=10, speciation, extinction))
 
