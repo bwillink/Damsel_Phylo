@@ -265,7 +265,6 @@ Coenagrionidae,Coryphagrion_grandis,"KEN,TZA",,AfrE,Afr,Clausnitzer (2018)
 Coenagrionidae,Cyanallagma_bonariense,"ARG,URU",,SAmS,S_Am,"Heckman (2008), von Ellenrieder (2009g)"
 Coenagrionidae,Cyanallagma_interruptum,"ARG,BRA,CHL,URU",Sao Paulo,SAmS,S_Am,"Heckman (2008), von Ellenrieder (2009h)"
 Platycnemididae,Cyanocnemis_aureofrons,IDN,Indonesia-Papua,AusE,Aus,Richards (2019a)
-Coenagrionidae,Diceratobasis_melanogaster,DOM,,GA,C_Am,von Ellenrieder & Paulson (2006a)
 Coenagrionidae,Dolonagrion_fulvellum,"BRA,PER,SUR","Amazonas,Para","SAmN,SAmE",S_Am,Garrison & von Ellenrieder (2008)
 Coenagrionidae,Drepanoneura_muzoni,"ECU,PER",,SAmN,S_Am,Hoffmann et al. (2016h)
 Coenagrionidae,Drepanoneura_tennesseni,ECU,,SAmN,S_Am,Tennessen et al. (2016)
@@ -274,7 +273,7 @@ Platycnemididae,Elattoneura_analis,MYS,"Malaysia-Archipelago,Malaysia-Peninsular
 Platycnemididae,Elattoneura_aurantiaca,MYS,"Malaysia-Archipelago,Malaysia-Peninsular","AsSE,Mly",SE_As,Dow (2016)
 Platycnemididae,Elattoneura_aurifex,"COD,GAB",,AfrW,Afr,Dijkstra (2017)
 Platycnemididae,Elattoneura_balli,"BEN,CIV,CMR,GHA,GIN,GNQ,LBR,NGA,SLE,TGO",,AfrW,Afr,Dijkstra (2017)
-Platycnemididae,Elattoneura_caesia,LKA,,Ind,Ind,Bedjani?ç (2009)
+Platycnemididae,Elattoneura_caesia,LKA,,Ind,Ind,Bedjani?ÔøΩ (2009)
 Platycnemididae,Elattoneura_cellularis,"AGO,BWA,COD,COG,MOZ,MWI,NAM,TZA,ZMB,ZWE",,"AfrS,AfrE",Afr,"Dijkstra (2017), Clausnitzer & Suhling (2010)"
 Platycnemididae,Elattoneura_centrafricana,"CAF,COD",,AfrW,Afr,Dijkstra (2017)
 Platycnemididae,Elattoneura_coomansi,"IDN,MYS","Indonesia-Archipelago,Malaysia-Archipelago",Mly,SE_As,Dow (2016)
@@ -393,7 +392,6 @@ Coenagrionidae,Leptagrion_macrurum,BRA,"Espirito Santo,Rio de Janeiro,Santa Cata
 Coenagrionidae,Leptagrion_perlongum,BRA,"Bahia,Espirito Santo,Minas Gerais,Parana,Rio de Janeiro,Santa Catarina,Sao Paulo","SamE,SamS",S_Am,Heckman (2008)
 Coenagrionidae,Leptobasis_lucifer,USA,FL,NAmSE,N_Am,"Paulson (2018), Paulson (2011)"
 Coenagrionidae,Leptobasis_vacillans,"BLZ,BRA,COL,CRI,CUB,CYM,DOM,ECU,ESA,GUA,GUF,GUY,HON,HTI,MEX,NIC,PAN,SUR,VEN",Espirito Santo,"SAmN,SAmE","C_Am,S_Am","FSCA, Paulson & von Ellenrieder (2018)"
-Coenagrionidae,Leptocnemis_cyanops,SYC,,Mdg,Afr,Sch??tte (2017a)
 Platycnemididae,Lieftinckia_lairdi,SLB,,AusE,Aus,Kalkman (2020c)
 Platycnemididae,Lochmaeocnemis_malacodora,IDN,Indonesia-Papua,AusE,Aus,Kalkman & Orr (2013)
 Platycnemididae,Matticnemis_doi,VNM,,AsSE,SE_As,H??m??l??inen (2012)
@@ -659,7 +657,6 @@ Coenagrionidae,Telebasis_simulata,"DMA,GUF,GUY,SUR,TTO,VEN",,SAmE,S_Am,"Garrison
 Coenagrionidae,Telebasis_theodori,"ARG,BRA",Rio Grande do Sul,SAmS,S_Am,"Garrison (2009), Heckman (2008)"
 Coenagrionidae,Telebasis_vulnerata,"DOM,HTI,PRI",,GA,C_Am,Garrison (2009)
 Coenagrionidae,Telebasis_willinki,"ARG,BOL,BRA,PRY,URU","Rio Grande do Sul,Sao Paulo","SAmS,SAmC",S_Am,"Garrison (2009), Heckman (2008), von Ellenrieder (2009w)"
-Coenagrionidae,Tepuibasis_spn,--,,--,,--
 Coenagrionidae,Thaumatagrion_funereum,IDN,Indonesia-Papua,Mly,SE_As,Richards (2019b)
 Coenagrionidae,Tigriagrion_aurantinigrum,"ARG,BOL,BRA","Mato Grosso,Mato Grosso do Sul,Minas Gerais,Sao Paulo","SAmE,SAmS,SAmC",S_Am,"Heckman (2008), Rodrigues & Roque (2017)"
 Platycnemididae,Torrenticnemis_filicornis,"IDN,PNG",Indonesia-Papua,AusE,Aus,Kalkman & Orr (2013)

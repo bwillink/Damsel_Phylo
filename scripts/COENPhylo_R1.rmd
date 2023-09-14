@@ -15,8 +15,7 @@ bibliography: Phylo_supporting.bib
 citation-style: sysbio.csl
 link-citations: true
 ---
-This documents describes the analyses conducted by Willink *et al.* to infer and date the phylogeny of pond damselflies and featherlegs (Coenagrionoidea), and to explore how diversification and biome-shift dynamics have contributed to the current latitudinal diversity gradient in this group of insects.
-
+This documents describes the analyses conducted by Willink *et al.* to infer and date the phylogeny of pond damselflies and featherlegs (Coenagrionoidea), and to explore how diversification and biome-shift dynamics have contributed to the current latitudinal diversity gradient in this group of insects. 
 Load packages.
 
 ```{r load-packages, message=FALSE, results='hide', warning=FALSE}
@@ -268,7 +267,7 @@ perl ./perl/convertfasta2nex.pl ../data/processed/mol/D7_spp_sorted.fst > ../dat
 python2.7 ./py/Concatenate.py
 
 # Update taxon names
-cat ../data/processed/mol/Coen.mol.nex | sed -E 's/Elattoneura_tropicalis/Elattoneura_cellularis/' | \
+cat ../data/processed/mol/Coen.mol.namecheck.nex | sed -E 's/Elattoneura_tropicalis/Elattoneura_cellularis/' | \
                                          sed -E 's/Prodasineura_humeralis/Prodasineura_verticalis/' | \
                                          sed -E 's/Copera_tokyoensis/Pseudocopera_rubripes/' | \
                                          sed -E 's/Copera_annulata/Pseudocopera_annulata/' | \
@@ -1705,7 +1704,7 @@ pie_data <- pivot_wider(old_nodes, id_cols = "node", names_from = "states", valu
 pie_data[is.na(pie_data)] <- 0
 
 # combine all the rare states into "others"
-pie_data <- pie_data %>% mutate(others= `1` + `8`+  A + E + G + N + `2`)
+pie_data <- pie_data %>% mutate(others= `1` + `8`+ E + G + N)
 
 # drop rare states from data frame
 pie_data <- pie_data[, c("node","0","B","D","I","others")]
@@ -3745,7 +3744,7 @@ Read posterior trees and obtain a sample of 1000.
 
 ```{r read-trees-w, echo=TRUE, eval=FALSE, message=FALSE}
 # read tree posterior
-allT <- read.tree(paste0(output.folder, "Coen.g1.beta.calib.354635.trees"), keep.multi = T)
+allT <- read.tree(paste0(output.folder, "Coen.g1.beta.calib.weak.354635.trees"), keep.multi = T)
 
 # burn-in 20%
 burnin <- floor(length(allT)*0.20)
@@ -3883,19 +3882,19 @@ DF[Intnode1,]
 DF[Intnode1+Nnodes,]
 
 # save this data frame for later
-#write.table(DF, file = "../data/processed/biogeo/Descendant_data_weak.txt", quote = F, row.names = F)
+#write.table(DF, file = "../data/processed/biogeo/Node_data_weak.txt", quote = F, row.names = F)
 ```
 
 Read in posterior ancestral states into data frame.
 ```{r read-states-w, echo=TRUE, eval=FALSE}
-DF <- read.table(file = "../data/processed/biogeo/Descendant_data_weak.txt", header = T)
+DF <- read.table(file = "../data/processed/biogeo/Node_data_weak.txt", header = T)
 
 # get the posterior sample of states that matches the random sample of trees
 StatesWide <-
   read.table(
     paste0(
       output.folder,
-      "Coen.g1.beta.calib.354635.states.txt"
+      "Coen.g1.beta.calib.weak.354635.states.txt"
     ),
     sep = "\t",
     header = T
@@ -3914,7 +3913,7 @@ AnaStart <- data.frame(lapply(AnaStart, function(x) {
                 }))
 
 # melt to long data frame
-AnaStart <- melt(AnaStart, measure.vars = colnames(AnaStart))
+AnaStart <- reshape2::melt(AnaStart, measure.vars = colnames(AnaStart))
 
 # make index variable for trees
 AnaStart$tree <- rep(seq(1:length(tres)), Nnodes)
@@ -3941,7 +3940,7 @@ AnaEnd <- data.frame(lapply(AnaEnd, function(x) {
 }))
 
 # melt to long data frame
-AnaEnd <- melt(AnaEnd, measure.vars = colnames(AnaEnd))
+AnaEnd <- reshape2::melt(AnaEnd, measure.vars = colnames(AnaEnd))
 
 # rename ending state variable
 colnames(AnaEnd)[2]<-"end"
@@ -3955,13 +3954,13 @@ AnaStart$end <- AnaEnd$end
 
 #Join ancestral state data frame to node information data frame
 DF<-join(DF,AnaStart[,c(-1)])
-# head(DF)
+#head(DF)
 
- check ancestral states for root node
+# check ancestral states for root node
 summary(as.factor(DF$end[which(DF$node == 670)]))
 
 # save this data frame for later
-write.table(DF, file = "../data/processed/biogeo/Biogeo_data_weak.txt", quote = F, row.names = F)
+#write.table(DF, file = "../data/processed/biogeo/Biogeo_data_weak.txt", quote = F, row.names = F)
 ```
 
 ### Ancestral states
@@ -3991,7 +3990,7 @@ pie_data <- pivot_wider(old_nodes, id_cols = "node", names_from = "states", valu
 pie_data[is.na(pie_data)] <- 0
 
 # combine all the rare states into "others"
-pie_data <- pie_data %>% mutate(others= `1` + `7` + `8`+  A + E  + N + `2`)
+pie_data <- pie_data %>% mutate(others= `1` + `8`+  A + E  + N)
 
 # drop rare states from data frame
 pie_data <- pie_data[, c("node","0","B","D","I","others")]
